@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linux Command Reference</title>
+    <link rel="stylesheet" href="style.css?v=3" />
+  </head>
+  <body>
+    <a class="skip-link" href="#results">Skip to commands</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div>
+          <p class="eyebrow">Offline · SQLite</p>
+          <h1>Linux command reference</h1>
+          <p class="lede">
+            Common commands, stored in a local SQLite database. Search or pick a
+            category. Works without the internet after you open this file.
+          </p>
+        </div>
+        <label class="search-wrap">
+          <span class="visually-hidden">Search commands</span>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search: ls, grep, chmod…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
+      </div>
+      <div class="toolbar">
+        <nav id="categories" class="chips" aria-label="Categories"></nav>
+        <p class="status" id="status">Loading SQLite…</p>
+      </div>
+    </header>
+
+    <main id="results" class="results" aria-live="polite"></main>
+
+    <p class="empty" id="empty" hidden>No commands match that search.</p>
+
+    <footer class="site-footer">
+      <p>
+        Open this file in a browser. Queries run in SQLite (sql.js) on your
+        machine. Manual pages on man7.org and linux.die.net need a network
+        connection.
+      </p>
+    </footer>
+
+    <script src="vendor/sql-wasm.js"></script>
+    <script src="vendor/sql-wasm-binary.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
