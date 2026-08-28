@@ -2,6 +2,7 @@ window.LINUX_DATA = {
   categories: [
     { slug: "file-directory", name_en: "File & Directory", name_zh: "文件与目录" },
     { slug: "text", name_en: "Text Viewing & Searching", name_zh: "查看与搜索文本" },
+    { slug: "editor", name_en: "Editors", name_zh: "编辑器" },
     { slug: "system", name_en: "System Info & Process", name_zh: "系统信息与进程" },
     { slug: "permissions", name_en: "Permissions & Users", name_zh: "权限与用户" },
     { slug: "network", name_en: "Network (basic)", name_zh: "网络（基础）" },
@@ -550,7 +551,7 @@ window.LINUX_DATA = {
     },
     {
       name: "nano",
-      category: "text",
+      category: "editor",
       summary_en: "A simple full-screen text editor. Ctrl+O saves, Ctrl+X exits.",
       summary_zh: "简单的全屏编辑器。Ctrl+O 保存，Ctrl+X 退出。",
       example: "nano notes.txt",
@@ -1473,7 +1474,7 @@ window.LINUX_DATA = {
     },
     {
       name: "vi",
-      category: "text",
+      category: "editor",
       summary_en: "Classic terminal text editor. Shotts teaches vi; many Unix systems have it.",
       summary_zh: "经典终端编辑器。很多 Unix 系统都有。",
       example: "vi notes.txt",
@@ -1502,7 +1503,7 @@ window.LINUX_DATA = {
     },
     {
       name: "vim",
-      category: "text",
+      category: "editor",
       summary_en: "Improved vi editor. Same basic keys as vi, with extra features.",
       summary_zh: "增强版 vi，基本按键相同，功能更多。",
       example: "vim notes.txt",

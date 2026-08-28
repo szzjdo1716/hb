@@ -12,6 +12,7 @@
   --accent-hot: #7dd3fc;
   --file: #38bdf8;
   --textcat: #a78bfa;
+  --editor: #22d3ee;
   --system: #34d399;
   --perm: #fbbf24;
   --net: #f472b6;
@@ -242,6 +243,7 @@ a:focus-visible {
 
 .cmd[data-slug="file-directory"] { border-top-color: var(--file); }
 .cmd[data-slug="text"] { border-top-color: var(--textcat); }
+.cmd[data-slug="editor"] { border-top-color: var(--editor); }
 .cmd[data-slug="system"] { border-top-color: var(--system); }
 .cmd[data-slug="permissions"] { border-top-color: var(--perm); }
 .cmd[data-slug="network"] { border-top-color: var(--net); }
