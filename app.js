@@ -16,6 +16,7 @@ const I18N = {
     status: (n, total) => `${n} / ${total} 条命令 · SQLite`,
     empty: "没有匹配的命令。",
     example: "示例",
+    keys: "按键",
     options: "常用选项",
     flag: "参数",
     meaning: "说明",
@@ -49,6 +50,7 @@ const I18N = {
     status: (n, total) => `${n} of ${total} commands · SQLite`,
     empty: "No commands match that search.",
     example: "Example",
+    keys: "Keys",
     options: "Common options",
     flag: "Flag",
     meaning: "What it does",
@@ -163,7 +165,8 @@ function seed(db) {
       summary_zh TEXT NOT NULL,
       example TEXT NOT NULL,
       options_json TEXT NOT NULL,
-      links_json TEXT NOT NULL
+      links_json TEXT NOT NULL,
+      shortcuts_json TEXT NOT NULL
     );
     CREATE INDEX idx_commands_name ON commands(name);
     CREATE INDEX idx_commands_cat ON commands(category_slug);
@@ -184,8 +187,8 @@ function seed(db) {
 
   const insertCmd = db.prepare(
     `INSERT INTO commands
-      (name, category_slug, summary_en, summary_zh, example, options_json, links_json)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`
+      (name, category_slug, summary_en, summary_zh, example, options_json, links_json, shortcuts_json)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
   );
   LINUX_DATA.commands.forEach((cmd) => {
     insertCmd.run([
@@ -196,6 +199,7 @@ function seed(db) {
       cmd.example,
       JSON.stringify(cmd.options),
       JSON.stringify(cmd.links),
+      JSON.stringify(cmd.shortcuts || []),
     ]);
   });
   insertCmd.free();
@@ -231,7 +235,7 @@ function queryCommands() {
   const first = tokens[0] || "";
 
   let sql = `
-    SELECT c.name, c.summary_en, c.summary_zh, c.example, c.options_json, c.links_json,
+    SELECT c.name, c.summary_en, c.summary_zh, c.example, c.options_json, c.links_json, c.shortcuts_json,
            cat.name_en AS category_name_en, cat.name_zh AS category_name_zh,
            cat.slug AS category_slug
     FROM commands c
@@ -357,6 +361,32 @@ function optionRows(json) {
     .join("");
 }
 
+function shortcutRows(json) {
+  let shortcuts = [];
+  try {
+    shortcuts = JSON.parse(json || "[]");
+  } catch {
+    shortcuts = [];
+  }
+  if (!shortcuts.length) return "";
+  const ui = t();
+  const rows = shortcuts
+    .map((item) => {
+      const meaning =
+        state.lang === "zh"
+          ? item.meaning_zh || item.meaning_en || ""
+          : item.meaning_en || item.meaning_zh || "";
+      return `<tr><td><code>${esc(item.key)}</code></td><td>${esc(meaning)}</td></tr>`;
+    })
+    .join("");
+  return `
+            <h3>${esc(ui.keys)}</h3>
+            <table class="options">
+              <thead><tr><th>${esc(ui.keys)}</th><th>${esc(ui.meaning)}</th></tr></thead>
+              <tbody>${rows}</tbody>
+            </table>`;
+}
+
 function linkList(json) {
   let links = [];
   try {
@@ -408,6 +438,7 @@ function render() {
               <pre><code>${esc(row.example)}</code></pre>
               <button type="button" class="copy-btn" data-copy="${esc(row.example)}">${esc(ui.copy)}</button>
             </div>
+            ${shortcutRows(row.shortcuts_json)}
             <h3>${esc(ui.options)}</h3>
             <table class="options">
               <thead><tr><th>${esc(ui.flag)}</th><th>${esc(ui.meaning)}</th></tr></thead>
