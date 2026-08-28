@@ -1,8 +1,70 @@
+const LANG_KEY = "hello-web-lang";
+const CMD_TOKEN = /^[A-Za-z0-9._+-]+$/;
+
+const I18N = {
+  zh: {
+    htmlLang: "zh-CN",
+    title: "Linux 命令手册",
+    skip: "跳到命令列表",
+    eyebrow: "离线 · SQLite",
+    lede: "常用 Linux 命令，保存在本地 SQLite 中。搜索或点分类即可查阅。打开本文件后无需联网（手册链接除外）。",
+    searchLabel: "搜索命令",
+    searchPh: "输入命令名，例如 ls 或 grep",
+    searchHint: "只输入命令名时，只显示这一条，不会混入相关命令。",
+    catsLabel: "分类",
+    all: "全部",
+    loading: "正在加载 SQLite…",
+    status: (n, total) => `${n} / ${total} 条命令 · SQLite`,
+    empty: "没有匹配的命令。",
+    example: "示例",
+    options: "常用选项",
+    flag: "参数",
+    meaning: "说明",
+    manuals: "手册页",
+    copy: "复制",
+    copied: "已复制",
+    exact: "精确匹配",
+    footer:
+      "用浏览器直接打开本文件即可。查询在你的电脑上用 SQLite（sql.js）完成。man7.org 和 linux.die.net 的手册链接需要联网。",
+    sqliteFail: "SQLite 未能加载。请把 vendor 文件夹和 index.html 放在一起。",
+    sqliteFailStatus: "SQLite 加载失败",
+  },
+  en: {
+    htmlLang: "en",
+    title: "Linux Command Reference",
+    skip: "Skip to commands",
+    eyebrow: "Offline · SQLite",
+    lede: "Common commands, stored in a local SQLite database. Search or pick a category. Works without the internet after you open this file.",
+    searchLabel: "Search commands",
+    searchPh: "Type a command name, e.g. ls or grep",
+    searchHint: "A command name shows that command only — not related names.",
+    catsLabel: "Categories",
+    all: "All",
+    loading: "Loading SQLite…",
+    status: (n, total) => `${n} of ${total} commands · SQLite`,
+    empty: "No commands match that search.",
+    example: "Example",
+    options: "Common options",
+    flag: "Flag",
+    meaning: "What it does",
+    manuals: "Manual pages",
+    copy: "Copy",
+    copied: "Copied",
+    exact: "Exact match",
+    footer:
+      "Open this file in a browser. Queries run in SQLite (sql.js) on your machine. Manual pages on man7.org and linux.die.net need a network connection.",
+    sqliteFail: "SQLite files did not load. Keep the vendor folder next to index.html.",
+    sqliteFailStatus: "SQLite failed to load",
+  },
+};
+
 const state = {
   db: null,
   category: "",
   query: "",
+  lang: readLang(),
   open: new Set(),
+  exactHit: false,
 };
 
 const searchInput = document.getElementById("search");
@@ -10,6 +72,46 @@ const categoryNav = document.getElementById("categories");
 const resultsEl = document.getElementById("results");
 const emptyEl = document.getElementById("empty");
 const statusEl = document.getElementById("status");
+const langToggle = document.getElementById("lang-toggle");
+
+function t() {
+  return I18N[state.lang] || I18N.zh;
+}
+
+function readLang() {
+  try {
+    const saved = localStorage.getItem(LANG_KEY);
+    if (saved === "en" || saved === "zh") return saved;
+  } catch {
+    /* ignore */
+  }
+  return "zh";
+}
+
+function saveLang(lang) {
+  try {
+    localStorage.setItem(LANG_KEY, lang);
+  } catch {
+    /* ignore */
+  }
+}
+
+function pickText(row, enKey, zhKey) {
+  if (state.lang === "zh") return row[zhKey] || row[enKey] || "";
+  return row[enKey] || row[zhKey] || "";
+}
+
+function optionMeaning(opt) {
+  if (opt.meaning_zh || opt.meaning_en) {
+    return state.lang === "zh"
+      ? opt.meaning_zh || opt.meaning_en || ""
+      : opt.meaning_en || opt.meaning_zh || "";
+  }
+  if (opt.meaning && typeof opt.meaning === "object") {
+    return opt.meaning[state.lang] || opt.meaning.en || opt.meaning.zh || "";
+  }
+  return opt.meaning || "";
+}
 
 function esc(value) {
   return String(value)
@@ -19,8 +121,8 @@ function esc(value) {
     .replace(/"/g, "&quot;");
 }
 
-function likeNeedle(raw) {
-  return `%${String(raw).replace(/[%_]/g, "")}%`;
+function prefixNeedle(raw) {
+  return `${String(raw).replace(/[%_]/g, "")}%`;
 }
 
 function rowsFrom(stmt) {
@@ -35,14 +137,16 @@ function seed(db) {
     CREATE TABLE categories (
       id INTEGER PRIMARY KEY,
       slug TEXT UNIQUE NOT NULL,
-      name TEXT NOT NULL,
+      name_en TEXT NOT NULL,
+      name_zh TEXT NOT NULL,
       sort_order INTEGER NOT NULL
     );
     CREATE TABLE commands (
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
       category_slug TEXT NOT NULL,
-      summary TEXT NOT NULL,
+      summary_en TEXT NOT NULL,
+      summary_zh TEXT NOT NULL,
       example TEXT NOT NULL,
       options_json TEXT NOT NULL,
       links_json TEXT NOT NULL
@@ -52,23 +156,29 @@ function seed(db) {
   `);
 
   const insertCat = db.prepare(
-    "INSERT INTO categories (slug, name, sort_order) VALUES (?, ?, ?)"
+    "INSERT INTO categories (slug, name_en, name_zh, sort_order) VALUES (?, ?, ?, ?)"
   );
   LINUX_DATA.categories.forEach((cat, index) => {
-    insertCat.run([cat.slug, cat.name, index + 1]);
+    insertCat.run([
+      cat.slug,
+      cat.name_en || cat.name || "",
+      cat.name_zh || cat.name || "",
+      index + 1,
+    ]);
   });
   insertCat.free();
 
   const insertCmd = db.prepare(
     `INSERT INTO commands
-      (name, category_slug, summary, example, options_json, links_json)
-     VALUES (?, ?, ?, ?, ?, ?)`
+      (name, category_slug, summary_en, summary_zh, example, options_json, links_json)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`
   );
   LINUX_DATA.commands.forEach((cmd) => {
     insertCmd.run([
       cmd.name,
       cmd.category,
-      cmd.summary,
+      cmd.summary_en || cmd.summary || "",
+      cmd.summary_zh || cmd.summary || "",
       cmd.example,
       JSON.stringify(cmd.options),
       JSON.stringify(cmd.links),
@@ -85,10 +195,31 @@ function countAll() {
   return n;
 }
 
+function knownNames() {
+  const stmt = state.db.prepare("SELECT name FROM commands");
+  const names = new Set();
+  while (stmt.step()) names.add(stmt.getAsObject().name.toLowerCase());
+  stmt.free();
+  return names;
+}
+
+function parseQuery(raw) {
+  let q = String(raw || "").trim();
+  if (q.startsWith("$")) q = q.slice(1).trim();
+  return q;
+}
+
 function queryCommands() {
+  state.exactHit = false;
+  const q = parseQuery(state.query);
+  const names = knownNames();
+  const tokens = q ? q.split(/\s+/).filter(Boolean) : [];
+  const first = tokens[0] || "";
+
   let sql = `
-    SELECT c.name, c.summary, c.example, c.options_json, c.links_json,
-           cat.name AS category_name, cat.slug AS category_slug
+    SELECT c.name, c.summary_en, c.summary_zh, c.example, c.options_json, c.links_json,
+           cat.name_en AS category_name_en, cat.name_zh AS category_name_zh,
+           cat.slug AS category_slug
     FROM commands c
     JOIN categories cat ON cat.slug = c.category_slug
     WHERE 1=1
@@ -98,30 +229,82 @@ function queryCommands() {
     sql += " AND cat.slug = ?";
     params.push(state.category);
   }
-  if (state.query) {
-    sql += ` AND (
-      c.name LIKE ? COLLATE NOCASE
-      OR c.summary LIKE ? COLLATE NOCASE
-      OR c.options_json LIKE ? COLLATE NOCASE
-    )`;
-    const like = likeNeedle(state.query);
-    params.push(like, like, like);
+
+  if (q) {
+    if (names.has(first.toLowerCase())) {
+      sql += " AND c.name = ? COLLATE NOCASE";
+      params.push(first);
+      state.exactHit = true;
+    } else if (tokens.length === 1 && CMD_TOKEN.test(q)) {
+      sql += " AND c.name LIKE ? COLLATE NOCASE";
+      params.push(prefixNeedle(q));
+    }
   }
+
   sql += " ORDER BY c.name COLLATE NOCASE";
   const stmt = state.db.prepare(sql);
   stmt.bind(params);
-  return rowsFrom(stmt);
+  let rows = rowsFrom(stmt);
+
+  if (q && !names.has(first.toLowerCase()) && !(tokens.length === 1 && CMD_TOKEN.test(q))) {
+    const needle = q.toLowerCase();
+    rows = rows.filter((row) => {
+      const summary = pickText(row, "summary_en", "summary_zh").toLowerCase();
+      let options = [];
+      try {
+        options = JSON.parse(row.options_json);
+      } catch {
+        options = [];
+      }
+      const optText = options.map(optionMeaning).join(" ").toLowerCase();
+      return summary.includes(needle) || optText.includes(needle);
+    });
+  }
+
+  state.exactHit =
+    Boolean(q) &&
+    rows.length === 1 &&
+    names.has(first.toLowerCase()) &&
+    rows[0].name.toLowerCase() === first.toLowerCase();
+  return rows;
+}
+
+function applyChrome() {
+  const ui = t();
+  document.documentElement.lang = ui.htmlLang;
+  document.title = ui.title;
+  const skip = document.querySelector(".skip-link");
+  if (skip) skip.textContent = ui.skip;
+  const eyebrow = document.querySelector(".eyebrow");
+  if (eyebrow) eyebrow.textContent = ui.eyebrow;
+  const h1 = document.querySelector("h1");
+  if (h1) h1.textContent = ui.title;
+  const lede = document.querySelector(".lede");
+  if (lede) lede.textContent = ui.lede;
+  const searchLabel = document.querySelector(".search-wrap .visually-hidden");
+  if (searchLabel) searchLabel.textContent = ui.searchLabel;
+  searchInput.placeholder = ui.searchPh;
+  const hint = document.getElementById("search-hint");
+  if (hint) hint.textContent = ui.searchHint;
+  categoryNav.setAttribute("aria-label", ui.catsLabel);
+  const empty = document.getElementById("empty");
+  if (empty) empty.textContent = ui.empty;
+  const footer = document.querySelector(".site-footer p");
+  if (footer) footer.textContent = ui.footer;
+  if (langToggle) {
+    langToggle.querySelectorAll("[data-lang]").forEach((btn) => {
+      btn.setAttribute("aria-pressed", btn.dataset.lang === state.lang ? "true" : "false");
+    });
+  }
 }
 
 function renderCategories() {
+  const nameCol = state.lang === "zh" ? "name_zh" : "name_en";
   const stmt = state.db.prepare(
-    "SELECT slug, name FROM categories ORDER BY sort_order"
+    `SELECT slug, ${nameCol} AS name FROM categories ORDER BY sort_order`
   );
   const cats = rowsFrom(stmt);
-  const buttons = [
-    { slug: "", name: "All" },
-    ...cats,
-  ]
+  const buttons = [{ slug: "", name: t().all }, ...cats]
     .map(
       (cat) =>
         `<button type="button" class="chip" data-slug="${esc(cat.slug)}" aria-pressed="${
@@ -142,7 +325,7 @@ function optionRows(json) {
   return options
     .map(
       (opt) =>
-        `<tr><td><code>${esc(opt.flag)}</code></td><td>${esc(opt.meaning)}</td></tr>`
+        `<tr><td><code>${esc(opt.flag)}</code></td><td>${esc(optionMeaning(opt))}</td></tr>`
     )
     .join("");
 }
@@ -165,36 +348,45 @@ function linkList(json) {
 }
 
 function render() {
+  applyChrome();
+  renderCategories();
+  const ui = t();
   const rows = queryCommands();
   const total = countAll();
-  statusEl.textContent = `${rows.length} of ${total} commands · SQLite`;
+  statusEl.textContent = ui.status(rows.length, total);
   emptyEl.hidden = rows.length !== 0;
+  emptyEl.textContent = ui.empty;
 
   if (rows.length === 1) state.open.add(rows[0].name);
 
   resultsEl.innerHTML = rows
     .map((row) => {
       const open = state.open.has(row.name);
+      const summary = pickText(row, "summary_en", "summary_zh");
+      const catName = pickText(row, "category_name_en", "category_name_zh");
+      const badge = state.exactHit
+        ? `<span class="exact-badge">${esc(ui.exact)}</span>`
+        : "";
       return `
         <article class="cmd" data-name="${esc(row.name)}" data-slug="${esc(row.category_slug)}">
           <button class="cmd-head" type="button" aria-expanded="${open}">
             <code>${esc(row.name)}</code>
-            <span class="badge">${esc(row.category_name)}</span>
+            <span class="badge">${esc(catName)}${badge}</span>
             <span class="chev">${open ? "▾" : "▸"}</span>
-            <p class="sum">${esc(row.summary)}</p>
+            <p class="sum">${esc(summary)}</p>
           </button>
           <div class="cmd-body" ${open ? "" : "hidden"}>
-            <h3>Example</h3>
+            <h3>${esc(ui.example)}</h3>
             <div class="code-block">
               <pre><code>${esc(row.example)}</code></pre>
-              <button type="button" class="copy-btn" data-copy="${esc(row.example)}">Copy</button>
+              <button type="button" class="copy-btn" data-copy="${esc(row.example)}">${esc(ui.copy)}</button>
             </div>
-            <h3>Common options</h3>
+            <h3>${esc(ui.options)}</h3>
             <table class="options">
-              <thead><tr><th>Flag</th><th>What it does</th></tr></thead>
+              <thead><tr><th>${esc(ui.flag)}</th><th>${esc(ui.meaning)}</th></tr></thead>
               <tbody>${optionRows(row.options_json)}</tbody>
             </table>
-            <h3>Manual pages</h3>
+            <h3>${esc(ui.manuals)}</h3>
             <ul class="links">${linkList(row.links_json)}</ul>
           </div>
         </article>
@@ -213,9 +405,19 @@ function bind() {
     const button = event.target.closest("[data-slug]");
     if (!button) return;
     state.category = button.dataset.slug || "";
-    renderCategories();
     render();
   });
+
+  if (langToggle) {
+    langToggle.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-lang]");
+      if (!button) return;
+      const next = button.dataset.lang === "en" ? "en" : "zh";
+      state.lang = next;
+      saveLang(next);
+      render();
+    });
+  }
 
   resultsEl.addEventListener("click", async (event) => {
     const copy = event.target.closest(".copy-btn");
@@ -231,10 +433,10 @@ function bind() {
         document.execCommand("copy");
         area.remove();
       }
-      copy.textContent = "Copied";
+      copy.textContent = t().copied;
       copy.classList.add("copied");
       setTimeout(() => {
-        copy.textContent = "Copy";
+        copy.textContent = t().copy;
         copy.classList.remove("copied");
       }, 1200);
       return;
@@ -268,9 +470,11 @@ function bind() {
 }
 
 async function init() {
+  applyChrome();
+  statusEl.textContent = t().loading;
   try {
     if (typeof initSqlJs !== "function" || !window.SQL_WASM_BASE64) {
-      throw new Error("SQLite files did not load. Keep the vendor folder next to index.html.");
+      throw new Error(t().sqliteFail);
     }
     const wasmBinary = Uint8Array.from(atob(window.SQL_WASM_BASE64), (ch) =>
       ch.charCodeAt(0)
@@ -284,11 +488,10 @@ async function init() {
       state.query = searchInput.value.trim();
     }
     if (params.has("cat")) state.category = params.get("cat") || "";
-    renderCategories();
     bind();
     render();
   } catch (err) {
-    statusEl.textContent = "SQLite failed to load";
+    statusEl.textContent = t().sqliteFailStatus;
     const box = document.createElement("p");
     box.className = "fatal";
     box.textContent = err.message || String(err);

@@ -1,23 +1,24 @@
 window.LINUX_DATA = {
   categories: [
-    { slug: "file-directory", name: "File & Directory" },
-    { slug: "text", name: "Text Viewing & Searching" },
-    { slug: "system", name: "System Info & Process" },
-    { slug: "permissions", name: "Permissions & Users" },
-    { slug: "network", name: "Network (basic)" },
-    { slug: "packages", name: "Package Management (basic)" },
+    { slug: "file-directory", name_en: "File & Directory", name_zh: "文件与目录" },
+    { slug: "text", name_en: "Text Viewing & Searching", name_zh: "查看与搜索文本" },
+    { slug: "system", name_en: "System Info & Process", name_zh: "系统信息与进程" },
+    { slug: "permissions", name_en: "Permissions & Users", name_zh: "权限与用户" },
+    { slug: "network", name_en: "Network (basic)", name_zh: "网络（基础）" },
+    { slug: "packages", name_en: "Package Management (basic)", name_zh: "软件包管理（基础）" },
   ],
   commands: [
     {
       name: "ls",
       category: "file-directory",
-      summary: "Lists files and folders in the current directory.",
+      summary_en: "Lists files and folders in the current directory.",
+      summary_zh: "列出当前目录里的文件和文件夹。",
       example: "ls -lh",
       options: [
-        { flag: "-l", meaning: "Long list: permissions, size, date" },
-        { flag: "-a", meaning: "Show hidden files (names starting with .)" },
-        { flag: "-h", meaning: "Human-readable sizes (with -l)" },
-        { flag: "-R", meaning: "List subfolders too" },
+        { flag: "-l", meaning_en: "Long list: permissions, size, date", meaning_zh: "长格式：权限、大小、日期" },
+        { flag: "-a", meaning_en: "Show hidden files (names starting with .)", meaning_zh: "显示隐藏文件（以 . 开头）" },
+        { flag: "-h", meaning_en: "Human-readable sizes (with -l)", meaning_zh: "配合 -l，用易读单位显示大小" },
+        { flag: "-R", meaning_en: "List subfolders too", meaning_zh: "连子文件夹一起列出" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/ls.1.html" },
@@ -27,13 +28,14 @@ window.LINUX_DATA = {
     {
       name: "cd",
       category: "file-directory",
-      summary: "Changes the current directory (moves you into another folder).",
+      summary_en: "Changes the current directory (moves you into another folder).",
+      summary_zh: "切换到另一个目录（换到别的文件夹）。",
       example: "cd /var/log",
       options: [
-        { flag: "cd DIR", meaning: "Go into DIR" },
-        { flag: "cd ..", meaning: "Go up one folder" },
-        { flag: "cd", meaning: "Go to your home folder" },
-        { flag: "cd -", meaning: "Go back to the previous folder" },
+        { flag: "cd DIR", meaning_en: "Go into DIR", meaning_zh: "进入 DIR" },
+        { flag: "cd ..", meaning_en: "Go up one folder", meaning_zh: "回到上一级文件夹" },
+        { flag: "cd", meaning_en: "Go to your home folder", meaning_zh: "回到家目录" },
+        { flag: "cd -", meaning_en: "Go back to the previous folder", meaning_zh: "回到上一次所在的文件夹" },
       ],
       links: [
         { label: "man7.org (POSIX)", url: "https://man7.org/linux/man-pages/man1/cd.1p.html" },
@@ -43,11 +45,12 @@ window.LINUX_DATA = {
     {
       name: "pwd",
       category: "file-directory",
-      summary: "Prints the folder you are in right now.",
+      summary_en: "Prints the folder you are in right now.",
+      summary_zh: "打印你现在所在的目录路径。",
       example: "pwd",
       options: [
-        { flag: "-P", meaning: "Show the real path (resolve symbolic links)" },
-        { flag: "-L", meaning: "Show the logical path (default)" },
+        { flag: "-P", meaning_en: "Show the real path (resolve symbolic links)", meaning_zh: "显示真实路径（解开符号链接）" },
+        { flag: "-L", meaning_en: "Show the logical path (default)", meaning_zh: "显示逻辑路径（默认）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/pwd.1.html" },
@@ -57,12 +60,13 @@ window.LINUX_DATA = {
     {
       name: "mkdir",
       category: "file-directory",
-      summary: "Creates a new folder.",
+      summary_en: "Creates a new folder.",
+      summary_zh: "新建一个文件夹。",
       example: "mkdir -p notes/linux",
       options: [
-        { flag: "-p", meaning: "Create parent folders if they do not exist" },
-        { flag: "-v", meaning: "Print each folder that is created" },
-        { flag: "-m MODE", meaning: "Set permissions (example: -m 755)" },
+        { flag: "-p", meaning_en: "Create parent folders if they do not exist", meaning_zh: "上级目录不存在时一并创建" },
+        { flag: "-v", meaning_en: "Print each folder that is created", meaning_zh: "每创建一个文件夹就打印一次" },
+        { flag: "-m MODE", meaning_en: "Set permissions (example: -m 755)", meaning_zh: "设置权限（例如 -m 755）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/mkdir.1.html" },
@@ -72,11 +76,12 @@ window.LINUX_DATA = {
     {
       name: "rmdir",
       category: "file-directory",
-      summary: "Removes an empty folder. Use rm -r to delete a folder that has files.",
+      summary_en: "Removes an empty folder. Use rm -r to delete a folder that has files.",
+      summary_zh: "删除空文件夹。文件夹里有文件时请用 rm -r。",
       example: "rmdir old-folder",
       options: [
-        { flag: "-p", meaning: "Also remove empty parent folders" },
-        { flag: "-v", meaning: "Print each folder that is removed" },
+        { flag: "-p", meaning_en: "Also remove empty parent folders", meaning_zh: "同时删掉空的上级文件夹" },
+        { flag: "-v", meaning_en: "Print each folder that is removed", meaning_zh: "每删除一个文件夹就打印一次" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/rmdir.1.html" },
@@ -86,12 +91,13 @@ window.LINUX_DATA = {
     {
       name: "touch",
       category: "file-directory",
-      summary: "Creates an empty file, or updates a file’s timestamp if it already exists.",
+      summary_en: "Creates an empty file, or updates a fileâs timestamp if it already exists.",
+      summary_zh: "新建空文件；若文件已存在，只更新时间戳。",
       example: "touch notes.txt",
       options: [
-        { flag: "-c", meaning: "Do not create the file if it is missing" },
-        { flag: "-a", meaning: "Change access time only" },
-        { flag: "-m", meaning: "Change modification time only" },
+        { flag: "-c", meaning_en: "Do not create the file if it is missing", meaning_zh: "文件不存在时不要新建" },
+        { flag: "-a", meaning_en: "Change access time only", meaning_zh: "只改访问时间" },
+        { flag: "-m", meaning_en: "Change modification time only", meaning_zh: "只改修改时间" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/touch.1.html" },
@@ -101,13 +107,14 @@ window.LINUX_DATA = {
     {
       name: "cp",
       category: "file-directory",
-      summary: "Copies files or folders. The original stays; a second copy is created.",
+      summary_en: "Copies files or folders. The original stays; a second copy is created.",
+      summary_zh: "复制文件或文件夹。原文件还在，会多出一个副本。",
       example: "cp notes.txt notes-copy.txt",
       options: [
-        { flag: "-r", meaning: "Copy a folder and everything inside it" },
-        { flag: "-i", meaning: "Ask before overwriting" },
-        { flag: "-v", meaning: "Show each file as it is copied" },
-        { flag: "-p", meaning: "Keep timestamps and permissions" },
+        { flag: "-r", meaning_en: "Copy a folder and everything inside it", meaning_zh: "复制文件夹及其全部内容" },
+        { flag: "-i", meaning_en: "Ask before overwriting", meaning_zh: "覆盖前询问" },
+        { flag: "-v", meaning_en: "Show each file as it is copied", meaning_zh: "复制时显示每个文件" },
+        { flag: "-p", meaning_en: "Keep timestamps and permissions", meaning_zh: "保留时间戳和权限" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/cp.1.html" },
@@ -117,12 +124,13 @@ window.LINUX_DATA = {
     {
       name: "mv",
       category: "file-directory",
-      summary: "Renames a file, or moves it to another folder. There is no extra copy.",
+      summary_en: "Renames a file, or moves it to another folder. There is no extra copy.",
+      summary_zh: "改名，或把文件移到别的文件夹。不会留下副本。",
       example: "mv notes-copy.txt memo.txt",
       options: [
-        { flag: "-i", meaning: "Ask before overwriting" },
-        { flag: "-n", meaning: "Do not overwrite an existing file" },
-        { flag: "-v", meaning: "Show each file as it is moved" },
+        { flag: "-i", meaning_en: "Ask before overwriting", meaning_zh: "覆盖前询问" },
+        { flag: "-n", meaning_en: "Do not overwrite an existing file", meaning_zh: "不覆盖已有文件" },
+        { flag: "-v", meaning_en: "Show each file as it is moved", meaning_zh: "移动时显示每个文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/mv.1.html" },
@@ -132,13 +140,14 @@ window.LINUX_DATA = {
     {
       name: "rm",
       category: "file-directory",
-      summary: "Deletes files. This does not go to Trash, and there is no undo.",
+      summary_en: "Deletes files. This does not go to Trash, and there is no undo.",
+      summary_zh: "删除文件。不会进回收站，也无法撤销。",
       example: "rm memo.txt",
       options: [
-        { flag: "-i", meaning: "Ask before each delete" },
-        { flag: "-r", meaning: "Delete a folder and its contents" },
-        { flag: "-f", meaning: "Do not ask; ignore missing files" },
-        { flag: "-v", meaning: "Show each file as it is deleted" },
+        { flag: "-i", meaning_en: "Ask before each delete", meaning_zh: "每次删除前询问" },
+        { flag: "-r", meaning_en: "Delete a folder and its contents", meaning_zh: "删除文件夹及其内容" },
+        { flag: "-f", meaning_en: "Do not ask; ignore missing files", meaning_zh: "不问确认，忽略不存在的文件" },
+        { flag: "-v", meaning_en: "Show each file as it is deleted", meaning_zh: "删除时显示每个文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/rm.1.html" },
@@ -148,12 +157,13 @@ window.LINUX_DATA = {
     {
       name: "ln",
       category: "file-directory",
-      summary: "Creates a link to a file. -s makes a shortcut (symbolic link).",
+      summary_en: "Creates a link to a file. -s makes a shortcut (symbolic link).",
+      summary_zh: "给文件创建链接。-s 表示快捷方式（符号链接）。",
       example: "ln -s /etc/hosts hosts-link",
       options: [
-        { flag: "-s", meaning: "Create a symbolic link (shortcut)" },
-        { flag: "-f", meaning: "Replace an existing link" },
-        { flag: "-v", meaning: "Show what was created" },
+        { flag: "-s", meaning_en: "Create a symbolic link (shortcut)", meaning_zh: "创建符号链接（快捷方式）" },
+        { flag: "-f", meaning_en: "Replace an existing link", meaning_zh: "替换已有链接" },
+        { flag: "-v", meaning_en: "Show what was created", meaning_zh: "显示创建了什么" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/ln.1.html" },
@@ -163,13 +173,14 @@ window.LINUX_DATA = {
     {
       name: "find",
       category: "file-directory",
-      summary: "Searches for files and folders by name, type, or other details.",
+      summary_en: "Searches for files and folders by name, type, or other details.",
+      summary_zh: "按名字、类型等条件查找文件和文件夹。",
       example: "find . -name \"*.txt\"",
       options: [
-        { flag: "-name PATTERN", meaning: "Match a file name (use quotes)" },
-        { flag: "-type f", meaning: "Only files (d = folders)" },
-        { flag: "-mtime -7", meaning: "Changed in the last 7 days" },
-        { flag: "-delete", meaning: "Delete matches (be careful)" },
+        { flag: "-name PATTERN", meaning_en: "Match a file name (use quotes)", meaning_zh: "匹配文件名（建议加引号）" },
+        { flag: "-type f", meaning_en: "Only files (d = folders)", meaning_zh: "只要文件（d 表示文件夹）" },
+        { flag: "-mtime -7", meaning_en: "Changed in the last 7 days", meaning_zh: "最近 7 天改过" },
+        { flag: "-delete", meaning_en: "Delete matches (be careful)", meaning_zh: "删除匹配项（请小心）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/find.1.html" },
@@ -179,11 +190,12 @@ window.LINUX_DATA = {
     {
       name: "file",
       category: "file-directory",
-      summary: "Tells you what kind of file something is (text, image, binary, and so on).",
+      summary_en: "Tells you what kind of file something is (text, image, binary, and so on).",
+      summary_zh: "判断文件类型，例如文本、图片或二进制。",
       example: "file notes.txt",
       options: [
-        { flag: "-b", meaning: "Brief: type only, no file name" },
-        { flag: "-i", meaning: "Show MIME type" },
+        { flag: "-b", meaning_en: "Brief: type only, no file name", meaning_zh: "只显示类型，不显示文件名" },
+        { flag: "-i", meaning_en: "Show MIME type", meaning_zh: "显示 MIME 类型" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/file.1.html" },
@@ -193,12 +205,13 @@ window.LINUX_DATA = {
     {
       name: "stat",
       category: "file-directory",
-      summary: "Shows detailed information about a file: size, dates, permissions, inode.",
+      summary_en: "Shows detailed information about a file: size, dates, permissions, inode.",
+      summary_zh: "显示文件的详细信息：大小、时间、权限等。",
       example: "stat notes.txt",
       options: [
-        { flag: "-c FORMAT", meaning: "Custom output (example: -c %s for size)" },
-        { flag: "-t", meaning: "Terse output" },
-        { flag: "-L", meaning: "Follow symbolic links" },
+        { flag: "-c FORMAT", meaning_en: "Custom output (example: -c %s for size)", meaning_zh: "自定义输出（如 -c %s 表示大小）" },
+        { flag: "-t", meaning_en: "Terse output", meaning_zh: "简洁输出" },
+        { flag: "-L", meaning_en: "Follow symbolic links", meaning_zh: "跟随符号链接" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/stat.1.html" },
@@ -208,13 +221,14 @@ window.LINUX_DATA = {
     {
       name: "du",
       category: "file-directory",
-      summary: "Shows how much disk space files and folders use.",
+      summary_en: "Shows how much disk space files and folders use.",
+      summary_zh: "查看文件和文件夹占用了多少磁盘空间。",
       example: "du -sh *",
       options: [
-        { flag: "-h", meaning: "Human-readable sizes (K, M, G)" },
-        { flag: "-s", meaning: "Total only (summary)" },
-        { flag: "-a", meaning: "Show files as well as folders" },
-        { flag: "-d N", meaning: "Limit depth to N levels" },
+        { flag: "-h", meaning_en: "Human-readable sizes (K, M, G)", meaning_zh: "用 K/M/G 显示大小" },
+        { flag: "-s", meaning_en: "Total only (summary)", meaning_zh: "只显示合计" },
+        { flag: "-a", meaning_en: "Show files as well as folders", meaning_zh: "文件和文件夹都显示" },
+        { flag: "-d N", meaning_en: "Limit depth to N levels", meaning_zh: "最多深入 N 层" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/du.1.html" },
@@ -224,12 +238,13 @@ window.LINUX_DATA = {
     {
       name: "df",
       category: "file-directory",
-      summary: "Shows free and used space on disks and partitions.",
+      summary_en: "Shows free and used space on disks and partitions.",
+      summary_zh: "查看磁盘分区还剩多少空间。",
       example: "df -h",
       options: [
-        { flag: "-h", meaning: "Human-readable sizes" },
-        { flag: "-T", meaning: "Show file system type" },
-        { flag: "-i", meaning: "Show inode usage" },
+        { flag: "-h", meaning_en: "Human-readable sizes", meaning_zh: "用易读单位显示大小" },
+        { flag: "-T", meaning_en: "Show file system type", meaning_zh: "显示文件系统类型" },
+        { flag: "-i", meaning_en: "Show inode usage", meaning_zh: "显示 inode 使用情况" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/df.1.html" },
@@ -239,14 +254,15 @@ window.LINUX_DATA = {
     {
       name: "tar",
       category: "file-directory",
-      summary: "Creates or extracts archive files (.tar, .tar.gz).",
+      summary_en: "Creates or extracts archive files (.tar, .tar.gz).",
+      summary_zh: "打包或解开 .tar、.tar.gz 这类归档文件。",
       example: "tar -czvf backup.tar.gz notes/",
       options: [
-        { flag: "-c", meaning: "Create an archive" },
-        { flag: "-x", meaning: "Extract an archive" },
-        { flag: "-z", meaning: "Use gzip (.tar.gz)" },
-        { flag: "-v", meaning: "List files as they are processed" },
-        { flag: "-f FILE", meaning: "Archive file name (put last)" },
+        { flag: "-c", meaning_en: "Create an archive", meaning_zh: "创建归档" },
+        { flag: "-x", meaning_en: "Extract an archive", meaning_zh: "解开归档" },
+        { flag: "-z", meaning_en: "Use gzip (.tar.gz)", meaning_zh: "用 gzip（.tar.gz）" },
+        { flag: "-v", meaning_en: "List files as they are processed", meaning_zh: "处理时列出文件名" },
+        { flag: "-f FILE", meaning_en: "Archive file name (put last)", meaning_zh: "归档文件名（放在最后）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/tar.1.html" },
@@ -256,13 +272,14 @@ window.LINUX_DATA = {
     {
       name: "gzip",
       category: "file-directory",
-      summary: "Compresses a file. The original is replaced by file.gz. Use gunzip to undo.",
+      summary_en: "Compresses a file. The original is replaced by file.gz. Use gunzip to undo.",
+      summary_zh: "把文件压成 .gz。原文件会被替换，解开用 gunzip。",
       example: "gzip big.log",
       options: [
-        { flag: "-k", meaning: "Keep the original file" },
-        { flag: "-d", meaning: "Decompress (same as gunzip)" },
-        { flag: "-v", meaning: "Show compression ratio" },
-        { flag: "-1 .. -9", meaning: "Faster (1) or smaller (9)" },
+        { flag: "-k", meaning_en: "Keep the original file", meaning_zh: "保留原文件" },
+        { flag: "-d", meaning_en: "Decompress (same as gunzip)", meaning_zh: "解压（和 gunzip 一样）" },
+        { flag: "-v", meaning_en: "Show compression ratio", meaning_zh: "显示压缩比" },
+        { flag: "-1 .. -9", meaning_en: "Faster (1) or smaller (9)", meaning_zh: "1 更快，9 更小" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/gzip.1.html" },
@@ -272,13 +289,14 @@ window.LINUX_DATA = {
     {
       name: "unzip",
       category: "file-directory",
-      summary: "Extracts files from a .zip archive.",
+      summary_en: "Extracts files from a .zip archive.",
+      summary_zh: "解开 .zip 压缩包。",
       example: "unzip archive.zip",
       options: [
-        { flag: "-l", meaning: "List contents without extracting" },
-        { flag: "-d DIR", meaning: "Extract into DIR" },
-        { flag: "-o", meaning: "Overwrite files without asking" },
-        { flag: "-q", meaning: "Quiet" },
+        { flag: "-l", meaning_en: "List contents without extracting", meaning_zh: "只列出内容，不解压" },
+        { flag: "-d DIR", meaning_en: "Extract into DIR", meaning_zh: "解压到 DIR" },
+        { flag: "-o", meaning_en: "Overwrite files without asking", meaning_zh: "覆盖文件且不问" },
+        { flag: "-q", meaning_en: "Quiet", meaning_zh: "安静模式" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/unzip.1.html" },
@@ -288,12 +306,13 @@ window.LINUX_DATA = {
     {
       name: "cat",
       category: "text",
-      summary: "Prints the whole file to the screen. Best for short files.",
+      summary_en: "Prints the whole file to the screen. Best for short files.",
+      summary_zh: "把整个文件打印到屏幕。适合短文件。",
       example: "cat notes.txt",
       options: [
-        { flag: "-n", meaning: "Number all lines" },
-        { flag: "-A", meaning: "Show tabs and line endings" },
-        { flag: "file1 file2", meaning: "Join files and print them" },
+        { flag: "-n", meaning_en: "Number all lines", meaning_zh: "给所有行编号" },
+        { flag: "-A", meaning_en: "Show tabs and line endings", meaning_zh: "显示制表符和行尾" },
+        { flag: "file1 file2", meaning_en: "Join files and print them", meaning_zh: "把多个文件接起来打印" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/cat.1.html" },
@@ -303,13 +322,14 @@ window.LINUX_DATA = {
     {
       name: "less",
       category: "text",
-      summary: "Opens a file one screen at a time. Press q to quit, / to search.",
+      summary_en: "Opens a file one screen at a time. Press q to quit, / to search.",
+      summary_zh: "一屏一屏地看文件。按 q 退出，按 / 搜索。",
       example: "less /var/log/syslog",
       options: [
-        { flag: "-N", meaning: "Show line numbers" },
-        { flag: "-S", meaning: "Do not wrap long lines" },
-        { flag: "+G", meaning: "Start at the end of the file" },
-        { flag: "q", meaning: "Quit (inside less)" },
+        { flag: "-N", meaning_en: "Show line numbers", meaning_zh: "显示行号" },
+        { flag: "-S", meaning_en: "Do not wrap long lines", meaning_zh: "长行不折行" },
+        { flag: "+G", meaning_en: "Start at the end of the file", meaning_zh: "从文件末尾开始看" },
+        { flag: "q", meaning_en: "Quit (inside less)", meaning_zh: "退出（在 less 里）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/less.1.html" },
@@ -319,11 +339,12 @@ window.LINUX_DATA = {
     {
       name: "head",
       category: "text",
-      summary: "Shows the first lines of a file (10 by default).",
+      summary_en: "Shows the first lines of a file (10 by default).",
+      summary_zh: "显示文件开头几行（默认 10 行）。",
       example: "head -n 20 notes.txt",
       options: [
-        { flag: "-n N", meaning: "Show the first N lines" },
-        { flag: "-c N", meaning: "Show the first N bytes" },
+        { flag: "-n N", meaning_en: "Show the first N lines", meaning_zh: "显示前 N 行" },
+        { flag: "-c N", meaning_en: "Show the first N bytes", meaning_zh: "显示前 N 个字节" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/head.1.html" },
@@ -333,12 +354,13 @@ window.LINUX_DATA = {
     {
       name: "tail",
       category: "text",
-      summary: "Shows the last lines of a file. -f follows a log as it grows.",
+      summary_en: "Shows the last lines of a file. -f follows a log as it grows.",
+      summary_zh: "显示文件末尾几行。-f 可持续跟踪日志。",
       example: "tail -f /var/log/syslog",
       options: [
-        { flag: "-n N", meaning: "Show the last N lines" },
-        { flag: "-f", meaning: "Follow: keep showing new lines" },
-        { flag: "-c N", meaning: "Show the last N bytes" },
+        { flag: "-n N", meaning_en: "Show the last N lines", meaning_zh: "显示最后 N 行" },
+        { flag: "-f", meaning_en: "Follow: keep showing new lines", meaning_zh: "持续显示新追加的行" },
+        { flag: "-c N", meaning_en: "Show the last N bytes", meaning_zh: "显示最后 N 个字节" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/tail.1.html" },
@@ -348,13 +370,14 @@ window.LINUX_DATA = {
     {
       name: "grep",
       category: "text",
-      summary: "Searches for a text pattern in files and prints matching lines.",
+      summary_en: "Searches for a text pattern in files and prints matching lines.",
+      summary_zh: "在文件里查找一段文字，并打印匹配的行。",
       example: "grep -n \"error\" app.log",
       options: [
-        { flag: "-i", meaning: "Ignore upper/lower case" },
-        { flag: "-n", meaning: "Show line numbers" },
-        { flag: "-r", meaning: "Search folders recursively" },
-        { flag: "-v", meaning: "Show lines that do not match" },
+        { flag: "-i", meaning_en: "Ignore upper/lower case", meaning_zh: "忽略大小写" },
+        { flag: "-n", meaning_en: "Show line numbers", meaning_zh: "显示行号" },
+        { flag: "-r", meaning_en: "Search folders recursively", meaning_zh: "递归搜索文件夹" },
+        { flag: "-v", meaning_en: "Show lines that do not match", meaning_zh: "显示不匹配的行" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/grep.1.html" },
@@ -364,13 +387,14 @@ window.LINUX_DATA = {
     {
       name: "sed",
       category: "text",
-      summary: "Edits text as a stream. Often used to replace one string with another.",
+      summary_en: "Edits text as a stream. Often used to replace one string with another.",
+      summary_zh: "按流处理文本，常用来把一段文字替换成另一段。",
       example: "sed 's/old/new/g' notes.txt",
       options: [
-        { flag: "s/A/B/g", meaning: "Replace A with B on each line" },
-        { flag: "-i", meaning: "Edit the file in place" },
-        { flag: "-n", meaning: "Do not print every line" },
-        { flag: "p", meaning: "Print (often with -n)" },
+        { flag: "s/A/B/g", meaning_en: "Replace A with B on each line", meaning_zh: "每一行把 A 换成 B" },
+        { flag: "-i", meaning_en: "Edit the file in place", meaning_zh: "直接改原文件" },
+        { flag: "-n", meaning_en: "Do not print every line", meaning_zh: "不要打印每一行" },
+        { flag: "p", meaning_en: "Print (often with -n)", meaning_zh: "打印（常和 -n 一起用）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/sed.1.html" },
@@ -380,12 +404,13 @@ window.LINUX_DATA = {
     {
       name: "awk",
       category: "text",
-      summary: "Reads a file line by line and can print or calculate columns. Default split is spaces.",
+      summary_en: "Reads a file line by line and can print or calculate columns. Default split is spaces.",
+      summary_zh: "逐行读文件，可打印或计算某一列。默认按空格分列。",
       example: "awk '{print $1}' data.txt",
       options: [
-        { flag: "'{print $1}'", meaning: "Print the first column" },
-        { flag: "-F:", meaning: "Use : as the column separator" },
-        { flag: "NR==1", meaning: "Only the first line" },
+        { flag: "'{print $1}'", meaning_en: "Print the first column", meaning_zh: "打印第一列" },
+        { flag: "-F:", meaning_en: "Use : as the column separator", meaning_zh: "用冒号作为列分隔符" },
+        { flag: "NR==1", meaning_en: "Only the first line", meaning_zh: "只要第一行" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/awk.1p.html" },
@@ -395,12 +420,13 @@ window.LINUX_DATA = {
     {
       name: "cut",
       category: "text",
-      summary: "Cuts out columns from each line, using a delimiter such as a comma or colon.",
+      summary_en: "Cuts out columns from each line, using a delimiter such as a comma or colon.",
+      summary_zh: "按分隔符取出每一行的某些列。",
       example: "cut -d: -f1 /etc/passwd",
       options: [
-        { flag: "-d CHAR", meaning: "Field delimiter (default is tab)" },
-        { flag: "-f N", meaning: "Which fields to keep (example: 1,3)" },
-        { flag: "-c N", meaning: "Cut by character positions" },
+        { flag: "-d CHAR", meaning_en: "Field delimiter (default is tab)", meaning_zh: "字段分隔符（默认是制表符）" },
+        { flag: "-f N", meaning_en: "Which fields to keep (example: 1,3)", meaning_zh: "保留哪些列（例如 1,3）" },
+        { flag: "-c N", meaning_en: "Cut by character positions", meaning_zh: "按字符位置截取" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/cut.1.html" },
@@ -410,13 +436,14 @@ window.LINUX_DATA = {
     {
       name: "sort",
       category: "text",
-      summary: "Sorts lines of text. Can sort numbers and unique values too.",
+      summary_en: "Sorts lines of text. Can sort numbers and unique values too.",
+      summary_zh: "给文本行排序，也可按数字排、去重。",
       example: "sort names.txt",
       options: [
-        { flag: "-n", meaning: "Sort as numbers" },
-        { flag: "-r", meaning: "Reverse order" },
-        { flag: "-u", meaning: "Unique lines only" },
-        { flag: "-k N", meaning: "Sort by column N" },
+        { flag: "-n", meaning_en: "Sort as numbers", meaning_zh: "按数字排序" },
+        { flag: "-r", meaning_en: "Reverse order", meaning_zh: "倒序" },
+        { flag: "-u", meaning_en: "Unique lines only", meaning_zh: "只保留不重复的行" },
+        { flag: "-k N", meaning_en: "Sort by column N", meaning_zh: "按第 N 列排序" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/sort.1.html" },
@@ -426,12 +453,13 @@ window.LINUX_DATA = {
     {
       name: "uniq",
       category: "text",
-      summary: "Hides repeated lines. The file must already be sorted for this to work well.",
+      summary_en: "Hides repeated lines. The file must already be sorted for this to work well.",
+      summary_zh: "去掉连续重复的行。通常要先 sort。",
       example: "sort names.txt | uniq",
       options: [
-        { flag: "-c", meaning: "Count how many times each line appears" },
-        { flag: "-d", meaning: "Show only duplicated lines" },
-        { flag: "-u", meaning: "Show only lines that appear once" },
+        { flag: "-c", meaning_en: "Count how many times each line appears", meaning_zh: "统计每行出现次数" },
+        { flag: "-d", meaning_en: "Show only duplicated lines", meaning_zh: "只显示重复的行" },
+        { flag: "-u", meaning_en: "Show only lines that appear once", meaning_zh: "只显示只出现一次的行" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/uniq.1.html" },
@@ -441,13 +469,14 @@ window.LINUX_DATA = {
     {
       name: "wc",
       category: "text",
-      summary: "Counts lines, words, and bytes in a file.",
+      summary_en: "Counts lines, words, and bytes in a file.",
+      summary_zh: "统计文件的行数、词数和字节数。",
       example: "wc -l notes.txt",
       options: [
-        { flag: "-l", meaning: "Line count" },
-        { flag: "-w", meaning: "Word count" },
-        { flag: "-c", meaning: "Byte count" },
-        { flag: "-m", meaning: "Character count" },
+        { flag: "-l", meaning_en: "Line count", meaning_zh: "统计行数" },
+        { flag: "-w", meaning_en: "Word count", meaning_zh: "统计词数" },
+        { flag: "-c", meaning_en: "Byte count", meaning_zh: "统计字节数" },
+        { flag: "-m", meaning_en: "Character count", meaning_zh: "统计字符数" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/wc.1.html" },
@@ -457,12 +486,13 @@ window.LINUX_DATA = {
     {
       name: "tr",
       category: "text",
-      summary: "Translates or deletes characters from standard input (often used in a pipe).",
+      summary_en: "Translates or deletes characters from standard input (often used in a pipe).",
+      summary_zh: "替换或删除字符，常放在管道里用。",
       example: "echo Hello | tr 'A-Z' 'a-z'",
       options: [
-        { flag: "SET1 SET2", meaning: "Replace characters in SET1 with SET2" },
-        { flag: "-d SET", meaning: "Delete characters in SET" },
-        { flag: "-s SET", meaning: "Squeeze repeated characters" },
+        { flag: "SET1 SET2", meaning_en: "Replace characters in SET1 with SET2", meaning_zh: "把 SET1 里的字符换成 SET2" },
+        { flag: "-d SET", meaning_en: "Delete characters in SET", meaning_zh: "删除 SET 里的字符" },
+        { flag: "-s SET", meaning_en: "Squeeze repeated characters", meaning_zh: "把连续重复的字符压成一个" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/tr.1.html" },
@@ -472,13 +502,14 @@ window.LINUX_DATA = {
     {
       name: "diff",
       category: "text",
-      summary: "Compares two files and shows the lines that differ.",
+      summary_en: "Compares two files and shows the lines that differ.",
+      summary_zh: "比较两个文件，显示不同的行。",
       example: "diff old.txt new.txt",
       options: [
-        { flag: "-u", meaning: "Unified format (easy to read)" },
-        { flag: "-i", meaning: "Ignore case" },
-        { flag: "-r", meaning: "Compare folders recursively" },
-        { flag: "-q", meaning: "Only say if files differ" },
+        { flag: "-u", meaning_en: "Unified format (easy to read)", meaning_zh: "统一格式（更好读）" },
+        { flag: "-i", meaning_en: "Ignore case", meaning_zh: "忽略大小写" },
+        { flag: "-r", meaning_en: "Compare folders recursively", meaning_zh: "递归比较文件夹" },
+        { flag: "-q", meaning_en: "Only say if files differ", meaning_zh: "只说明文件是否不同" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/diff.1.html" },
@@ -488,13 +519,14 @@ window.LINUX_DATA = {
     {
       name: "echo",
       category: "text",
-      summary: "Prints text. Often used to write a short line into a file.",
+      summary_en: "Prints text. Often used to write a short line into a file.",
+      summary_zh: "打印一段文字，也常用来写入文件。",
       example: "echo \"hello linux\" > notes.txt",
       options: [
-        { flag: "-n", meaning: "Do not add a newline" },
-        { flag: "-e", meaning: "Allow backslash codes like \\n" },
-        { flag: "> file", meaning: "Overwrite file with the text" },
-        { flag: ">> file", meaning: "Append the text to the file" },
+        { flag: "-n", meaning_en: "Do not add a newline", meaning_zh: "不自动换行" },
+        { flag: "-e", meaning_en: "Allow backslash codes like \\\\n", meaning_zh: "允许 \\n 这类转义" },
+        { flag: "> file", meaning_en: "Overwrite file with the text", meaning_zh: "用这段文字覆盖文件" },
+        { flag: ">> file", meaning_en: "Append the text to the file", meaning_zh: "把文字追加到文件末尾" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/echo.1.html" },
@@ -504,11 +536,12 @@ window.LINUX_DATA = {
     {
       name: "tee",
       category: "text",
-      summary: "Copies input both to the screen and to a file. Useful in the middle of a pipe.",
+      summary_en: "Copies input both to the screen and to a file. Useful in the middle of a pipe.",
+      summary_zh: "一边显示在屏幕上，一边写入文件，适合放在管道中间。",
       example: "ls | tee listing.txt",
       options: [
-        { flag: "-a", meaning: "Append to the file instead of overwriting" },
-        { flag: "-i", meaning: "Ignore interrupt signals" },
+        { flag: "-a", meaning_en: "Append to the file instead of overwriting", meaning_zh: "追加写入，不覆盖" },
+        { flag: "-i", meaning_en: "Ignore interrupt signals", meaning_zh: "忽略中断信号" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/tee.1.html" },
@@ -518,12 +551,13 @@ window.LINUX_DATA = {
     {
       name: "nano",
       category: "text",
-      summary: "A simple full-screen text editor. Ctrl+O saves, Ctrl+X exits.",
+      summary_en: "A simple full-screen text editor. Ctrl+O saves, Ctrl+X exits.",
+      summary_zh: "简单的全屏编辑器。Ctrl+O 保存，Ctrl+X 退出。",
       example: "nano notes.txt",
       options: [
-        { flag: "+N", meaning: "Open at line N" },
-        { flag: "-w", meaning: "Do not wrap long lines" },
-        { flag: "-v", meaning: "View only (read-only)" },
+        { flag: "+N", meaning_en: "Open at line N", meaning_zh: "从第 N 行打开" },
+        { flag: "-w", meaning_en: "Do not wrap long lines", meaning_zh: "长行不折行" },
+        { flag: "-v", meaning_en: "View only (read-only)", meaning_zh: "只读查看" },
       ],
       links: [
         { label: "linux.die.net", url: "https://linux.die.net/man/1/nano" },
@@ -533,13 +567,14 @@ window.LINUX_DATA = {
     {
       name: "uname",
       category: "system",
-      summary: "Prints the system name and kernel information.",
+      summary_en: "Prints the system name and kernel information.",
+      summary_zh: "显示系统名称和内核信息。",
       example: "uname -a",
       options: [
-        { flag: "-a", meaning: "All information" },
-        { flag: "-r", meaning: "Kernel release" },
-        { flag: "-s", meaning: "Kernel name" },
-        { flag: "-m", meaning: "Machine architecture" },
+        { flag: "-a", meaning_en: "All information", meaning_zh: "显示全部信息" },
+        { flag: "-r", meaning_en: "Kernel release", meaning_zh: "内核版本" },
+        { flag: "-s", meaning_en: "Kernel name", meaning_zh: "内核名称" },
+        { flag: "-m", meaning_en: "Machine architecture", meaning_zh: "机器架构" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/uname.1.html" },
@@ -549,12 +584,13 @@ window.LINUX_DATA = {
     {
       name: "hostname",
       category: "system",
-      summary: "Shows (or sets) the computer’s name on the network.",
+      summary_en: "Shows (or sets) the computerâs name on the network.",
+      summary_zh: "查看（或设置）这台电脑在网络上的名字。",
       example: "hostname",
       options: [
-        { flag: "-I", meaning: "Show IP addresses" },
-        { flag: "-f", meaning: "Show the full (FQDN) name" },
-        { flag: "NAME", meaning: "Set the hostname (needs root)" },
+        { flag: "-I", meaning_en: "Show IP addresses", meaning_zh: "显示 IP 地址" },
+        { flag: "-f", meaning_en: "Show the full (FQDN) name", meaning_zh: "显示完整主机名（FQDN）" },
+        { flag: "NAME", meaning_en: "Set the hostname (needs root)", meaning_zh: "设置主机名（需 root）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/hostname.1.html" },
@@ -564,10 +600,11 @@ window.LINUX_DATA = {
     {
       name: "whoami",
       category: "system",
-      summary: "Prints the user name you are logged in as.",
+      summary_en: "Prints the user name you are logged in as.",
+      summary_zh: "打印当前登录的用户名。",
       example: "whoami",
       options: [
-        { flag: "(none)", meaning: "No common options; just run it" },
+        { flag: "(none)", meaning_en: "No common options; just run it", meaning_zh: "没有常用选项，直接运行即可" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/whoami.1.html" },
@@ -577,13 +614,14 @@ window.LINUX_DATA = {
     {
       name: "id",
       category: "system",
-      summary: "Shows your user ID, group ID, and group memberships.",
+      summary_en: "Shows your user ID, group ID, and group memberships.",
+      summary_zh: "显示你的用户 ID、组 ID 以及所属的组。",
       example: "id",
       options: [
-        { flag: "-u", meaning: "User ID only" },
-        { flag: "-g", meaning: "Primary group ID only" },
-        { flag: "-n", meaning: "Show names instead of numbers" },
-        { flag: "USER", meaning: "Show IDs for another user" },
+        { flag: "-u", meaning_en: "User ID only", meaning_zh: "只要用户 ID" },
+        { flag: "-g", meaning_en: "Primary group ID only", meaning_zh: "只要主组 ID" },
+        { flag: "-n", meaning_en: "Show names instead of numbers", meaning_zh: "显示名称而不是数字" },
+        { flag: "USER", meaning_en: "Show IDs for another user", meaning_zh: "显示另一个用户的 ID" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/id.1.html" },
@@ -593,11 +631,12 @@ window.LINUX_DATA = {
     {
       name: "uptime",
       category: "system",
-      summary: "Shows how long the system has been running, plus load averages.",
+      summary_en: "Shows how long the system has been running, plus load averages.",
+      summary_zh: "显示系统已运行多久，以及负载。",
       example: "uptime",
       options: [
-        { flag: "-p", meaning: "Pretty: “up 2 days, 3 hours”" },
-        { flag: "-s", meaning: "Show the time the system started" },
+        { flag: "-p", meaning_en: "Pretty: “up 2 days, 3 hours”", meaning_zh: "更易读：例如“已运行 2 天 3 小时”" },
+        { flag: "-s", meaning_en: "Show the time the system started", meaning_zh: "显示系统启动时间" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/uptime.1.html" },
@@ -607,12 +646,13 @@ window.LINUX_DATA = {
     {
       name: "date",
       category: "system",
-      summary: "Prints the current date and time. Can also format the output.",
+      summary_en: "Prints the current date and time. Can also format the output.",
+      summary_zh: "显示当前日期和时间，也可自定义格式。",
       example: "date \"+%Y-%m-%d %H:%M\"",
       options: [
-        { flag: "+FORMAT", meaning: "Custom format (%Y year, %m month, %d day)" },
-        { flag: "-u", meaning: "UTC time" },
-        { flag: "-d STRING", meaning: "Parse a date string" },
+        { flag: "+FORMAT", meaning_en: "Custom format (%Y year, %m month, %d day)", meaning_zh: "自定义格式（%Y 年 %m 月 %d 日）" },
+        { flag: "-u", meaning_en: "UTC time", meaning_zh: "UTC 时间" },
+        { flag: "-d STRING", meaning_en: "Parse a date string", meaning_zh: "解析一段日期文字" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/date.1.html" },
@@ -622,12 +662,13 @@ window.LINUX_DATA = {
     {
       name: "free",
       category: "system",
-      summary: "Shows used and free memory (RAM and swap).",
+      summary_en: "Shows used and free memory (RAM and swap).",
+      summary_zh: "显示内存（RAM 和交换分区）的使用情况。",
       example: "free -h",
       options: [
-        { flag: "-h", meaning: "Human-readable sizes" },
-        { flag: "-s N", meaning: "Repeat every N seconds" },
-        { flag: "-w", meaning: "Wide output with extra columns" },
+        { flag: "-h", meaning_en: "Human-readable sizes", meaning_zh: "用易读单位显示大小" },
+        { flag: "-s N", meaning_en: "Repeat every N seconds", meaning_zh: "每 N 秒重复一次" },
+        { flag: "-w", meaning_en: "Wide output with extra columns", meaning_zh: "更宽的输出，多几列" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/free.1.html" },
@@ -637,13 +678,14 @@ window.LINUX_DATA = {
     {
       name: "top",
       category: "system",
-      summary: "Live view of running processes and CPU/memory use. Press q to quit.",
+      summary_en: "Live view of running processes and CPU/memory use. Press q to quit.",
+      summary_zh: "实时查看进程和 CPU/内存占用。按 q 退出。",
       example: "top",
       options: [
-        { flag: "-u USER", meaning: "Only this user’s processes" },
-        { flag: "-d N", meaning: "Refresh every N seconds" },
-        { flag: "-n N", meaning: "Exit after N refreshes" },
-        { flag: "P / M", meaning: "Inside top: sort by CPU / memory" },
+        { flag: "-u USER", meaning_en: "Only this user’s processes", meaning_zh: "只要这个用户的进程" },
+        { flag: "-d N", meaning_en: "Refresh every N seconds", meaning_zh: "每 N 秒刷新一次" },
+        { flag: "-n N", meaning_en: "Exit after N refreshes", meaning_zh: "刷新 N 次后退出" },
+        { flag: "P / M", meaning_en: "Inside top: sort by CPU / memory", meaning_zh: "在 top 里按 CPU/内存排序" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/top.1.html" },
@@ -653,13 +695,14 @@ window.LINUX_DATA = {
     {
       name: "ps",
       category: "system",
-      summary: "Lists running processes. A snapshot, unlike top.",
+      summary_en: "Lists running processes. A snapshot, unlike top.",
+      summary_zh: "列出正在运行的进程，是快照，不像 top 会刷新。",
       example: "ps aux",
       options: [
-        { flag: "aux", meaning: "All processes, with user and CPU/RAM" },
-        { flag: "-ef", meaning: "Full list (System V style)" },
-        { flag: "-u USER", meaning: "Only this user’s processes" },
-        { flag: "-p PID", meaning: "Only this process ID" },
+        { flag: "aux", meaning_en: "All processes, with user and CPU/RAM", meaning_zh: "全部进程，含用户和 CPU/内存" },
+        { flag: "-ef", meaning_en: "Full list (System V style)", meaning_zh: "完整列表（System V 风格）" },
+        { flag: "-u USER", meaning_en: "Only this user’s processes", meaning_zh: "只要这个用户的进程" },
+        { flag: "-p PID", meaning_en: "Only this process ID", meaning_zh: "只要这个进程 ID" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/ps.1.html" },
@@ -669,13 +712,14 @@ window.LINUX_DATA = {
     {
       name: "kill",
       category: "system",
-      summary: "Sends a signal to a process, usually to stop it. You need the PID (from ps or top).",
+      summary_en: "Sends a signal to a process, usually to stop it. You need the PID (from ps or top).",
+      summary_zh: "向进程发信号，通常用来结束它。需要 PID。",
       example: "kill 1234",
       options: [
-        { flag: "-l", meaning: "List signal names" },
-        { flag: "-9", meaning: "Force quit (SIGKILL). Last resort." },
-        { flag: "-15", meaning: "Polite quit (SIGTERM, default)" },
-        { flag: "PID", meaning: "Process ID to signal" },
+        { flag: "-l", meaning_en: "List signal names", meaning_zh: "列出信号名称" },
+        { flag: "-9", meaning_en: "Force quit (SIGKILL). Last resort.", meaning_zh: "强制结束（SIGKILL），最后手段" },
+        { flag: "-15", meaning_en: "Polite quit (SIGTERM, default)", meaning_zh: "正常结束（SIGTERM，默认）" },
+        { flag: "PID", meaning_en: "Process ID to signal", meaning_zh: "要发信号的进程 ID" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/kill.1.html" },
@@ -685,13 +729,14 @@ window.LINUX_DATA = {
     {
       name: "killall",
       category: "system",
-      summary: "Stops processes by name instead of PID.",
+      summary_en: "Stops processes by name instead of PID.",
+      summary_zh: "按进程名结束进程，不用记 PID。",
       example: "killall firefox",
       options: [
-        { flag: "-i", meaning: "Ask before each kill" },
-        { flag: "-9", meaning: "Force quit" },
-        { flag: "-u USER", meaning: "Only this user’s processes" },
-        { flag: "-l", meaning: "List signal names" },
+        { flag: "-i", meaning_en: "Ask before each kill", meaning_zh: "每次结束进程前询问" },
+        { flag: "-9", meaning_en: "Force quit", meaning_zh: "强制结束" },
+        { flag: "-u USER", meaning_en: "Only this user’s processes", meaning_zh: "只要这个用户的进程" },
+        { flag: "-l", meaning_en: "List signal names", meaning_zh: "列出信号名称" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/killall.1.html" },
@@ -701,12 +746,13 @@ window.LINUX_DATA = {
     {
       name: "env",
       category: "system",
-      summary: "Prints environment variables, or runs a command with a modified environment.",
+      summary_en: "Prints environment variables, or runs a command with a modified environment.",
+      summary_zh: "打印环境变量，或用改过的环境运行一条命令。",
       example: "env | grep PATH",
       options: [
-        { flag: "-i", meaning: "Start with an empty environment" },
-        { flag: "-u NAME", meaning: "Remove variable NAME" },
-        { flag: "NAME=value CMD", meaning: "Set a variable for one command" },
+        { flag: "-i", meaning_en: "Start with an empty environment", meaning_zh: "从空环境开始" },
+        { flag: "-u NAME", meaning_en: "Remove variable NAME", meaning_zh: "去掉变量 NAME" },
+        { flag: "NAME=value CMD", meaning_en: "Set a variable for one command", meaning_zh: "只为这一条命令设置变量" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/env.1.html" },
@@ -716,12 +762,13 @@ window.LINUX_DATA = {
     {
       name: "history",
       category: "system",
-      summary: "Shows commands you ran earlier in this shell. A shell builtin.",
+      summary_en: "Shows commands you ran earlier in this shell. A shell builtin.",
+      summary_zh: "显示本终端里最近用过的命令（shell 内建）。",
       example: "history | tail",
       options: [
-        { flag: "history N", meaning: "Show the last N commands" },
-        { flag: "!N", meaning: "Re-run command number N" },
-        { flag: "!!", meaning: "Re-run the last command" },
+        { flag: "history N", meaning_en: "Show the last N commands", meaning_zh: "显示最近 N 条命令" },
+        { flag: "!N", meaning_en: "Re-run command number N", meaning_zh: "重新运行第 N 条历史命令" },
+        { flag: "!!", meaning_en: "Re-run the last command", meaning_zh: "重新运行上一条命令" },
       ],
       links: [
         { label: "man7.org (POSIX)", url: "https://man7.org/linux/man-pages/man1/fc.1p.html" },
@@ -731,10 +778,11 @@ window.LINUX_DATA = {
     {
       name: "which",
       category: "system",
-      summary: "Shows the full path of a command that would run.",
+      summary_en: "Shows the full path of a command that would run.",
+      summary_zh: "显示将要运行的那条命令的完整路径。",
       example: "which python3",
       options: [
-        { flag: "-a", meaning: "Show all matches on PATH, not just the first" },
+        { flag: "-a", meaning_en: "Show all matches on PATH, not just the first", meaning_zh: "显示 PATH 上全部匹配，不只第一个" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/which.1.html" },
@@ -744,11 +792,12 @@ window.LINUX_DATA = {
     {
       name: "type",
       category: "system",
-      summary: "Tells you if a name is a command, alias, builtin, or function.",
+      summary_en: "Tells you if a name is a command, alias, builtin, or function.",
+      summary_zh: "判断一个名字是命令、别名、内建还是函数。",
       example: "type cd",
       options: [
-        { flag: "-a", meaning: "Show all locations" },
-        { flag: "-t", meaning: "Print a short type: file, alias, builtin" },
+        { flag: "-a", meaning_en: "Show all locations", meaning_zh: "显示全部位置" },
+        { flag: "-t", meaning_en: "Print a short type: file, alias, builtin", meaning_zh: "打印简短类型：file、alias、builtin" },
       ],
       links: [
         { label: "man7.org (POSIX)", url: "https://man7.org/linux/man-pages/man1/type.1p.html" },
@@ -758,10 +807,11 @@ window.LINUX_DATA = {
     {
       name: "clear",
       category: "system",
-      summary: "Clears the terminal screen. It does not delete any files.",
+      summary_en: "Clears the terminal screen. It does not delete any files.",
+      summary_zh: "清空终端屏幕，不会删除任何文件。",
       example: "clear",
       options: [
-        { flag: "(none)", meaning: "No common options; just run it" },
+        { flag: "(none)", meaning_en: "No common options; just run it", meaning_zh: "没有常用选项，直接运行即可" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/clear.1.html" },
@@ -771,13 +821,14 @@ window.LINUX_DATA = {
     {
       name: "man",
       category: "system",
-      summary: "Opens the manual page for a command. Press q to quit, / to search.",
+      summary_en: "Opens the manual page for a command. Press q to quit, / to search.",
+      summary_zh: "打开命令的手册页。按 q 退出，按 / 搜索。",
       example: "man ls",
       options: [
-        { flag: "1 NAME", meaning: "User commands (section 1)" },
-        { flag: "8 NAME", meaning: "Admin commands (section 8)" },
-        { flag: "-k WORD", meaning: "Search man page descriptions" },
-        { flag: "-f NAME", meaning: "Short description (same as whatis)" },
+        { flag: "1 NAME", meaning_en: "User commands (section 1)", meaning_zh: "用户命令（第 1 章）" },
+        { flag: "8 NAME", meaning_en: "Admin commands (section 8)", meaning_zh: "管理员命令（第 8 章）" },
+        { flag: "-k WORD", meaning_en: "Search man page descriptions", meaning_zh: "搜索手册简介" },
+        { flag: "-f NAME", meaning_en: "Short description (same as whatis)", meaning_zh: "一句话说明（和 whatis 一样）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/man.1.html" },
@@ -787,12 +838,13 @@ window.LINUX_DATA = {
     {
       name: "sleep",
       category: "system",
-      summary: "Pauses for a number of seconds. Useful in scripts.",
+      summary_en: "Pauses for a number of seconds. Useful in scripts.",
+      summary_zh: "暂停若干秒，脚本里常用。",
       example: "sleep 5",
       options: [
-        { flag: "N", meaning: "Wait N seconds" },
-        { flag: "N m", meaning: "Wait N minutes (GNU sleep)" },
-        { flag: "N h", meaning: "Wait N hours (GNU sleep)" },
+        { flag: "N", meaning_en: "Wait N seconds", meaning_zh: "等待 N 秒" },
+        { flag: "N m", meaning_en: "Wait N minutes (GNU sleep)", meaning_zh: "等待 N 分钟（GNU sleep）" },
+        { flag: "N h", meaning_en: "Wait N hours (GNU sleep)", meaning_zh: "等待 N 小时（GNU sleep）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/sleep.1.html" },
@@ -802,13 +854,14 @@ window.LINUX_DATA = {
     {
       name: "chmod",
       category: "permissions",
-      summary: "Changes file permissions (who can read, write, or run a file).",
+      summary_en: "Changes file permissions (who can read, write, or run a file).",
+      summary_zh: "修改文件权限：谁可以读、写或执行。",
       example: "chmod 644 notes.txt",
       options: [
-        { flag: "u+x", meaning: "Add execute for the owner" },
-        { flag: "go-w", meaning: "Remove write for group and others" },
-        { flag: "755", meaning: "Owner rwx; group and others rx" },
-        { flag: "-R", meaning: "Apply to a folder and its contents" },
+        { flag: "u+x", meaning_en: "Add execute for the owner", meaning_zh: "给所有者加上执行权限" },
+        { flag: "go-w", meaning_en: "Remove write for group and others", meaning_zh: "去掉组和其他人的写权限" },
+        { flag: "755", meaning_en: "Owner rwx; group and others rx", meaning_zh: "所有者 rwx，组和其他人 rx" },
+        { flag: "-R", meaning_en: "Apply to a folder and its contents", meaning_zh: "应用到文件夹及其内容" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/chmod.1.html" },
@@ -818,13 +871,14 @@ window.LINUX_DATA = {
     {
       name: "chown",
       category: "permissions",
-      summary: "Changes the owner (and optionally the group) of a file. Usually needs sudo.",
+      summary_en: "Changes the owner (and optionally the group) of a file. Usually needs sudo.",
+      summary_zh: "修改文件的所有者（也可改组）。通常需要 sudo。",
       example: "sudo chown alice:alice notes.txt",
       options: [
-        { flag: "USER FILE", meaning: "Set the owner" },
-        { flag: "USER:GROUP FILE", meaning: "Set owner and group" },
-        { flag: "-R", meaning: "Apply to a folder and its contents" },
-        { flag: "-v", meaning: "Show files that changed" },
+        { flag: "USER FILE", meaning_en: "Set the owner", meaning_zh: "设置所有者" },
+        { flag: "USER:GROUP FILE", meaning_en: "Set owner and group", meaning_zh: "同时设置所有者和组" },
+        { flag: "-R", meaning_en: "Apply to a folder and its contents", meaning_zh: "应用到文件夹及其内容" },
+        { flag: "-v", meaning_en: "Show files that changed", meaning_zh: "显示被改过的文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/chown.1.html" },
@@ -834,13 +888,14 @@ window.LINUX_DATA = {
     {
       name: "sudo",
       category: "permissions",
-      summary: "Runs one command as root (or another user), after you enter your password.",
+      summary_en: "Runs one command as root (or another user), after you enter your password.",
+      summary_zh: "输入密码后，以 root（或其他用户）运行一条命令。",
       example: "sudo apt update",
       options: [
-        { flag: "-u USER", meaning: "Run as USER instead of root" },
-        { flag: "-i", meaning: "Login shell as root" },
-        { flag: "-l", meaning: "List what you are allowed to run" },
-        { flag: "-k", meaning: "Forget cached password" },
+        { flag: "-u USER", meaning_en: "Run as USER instead of root", meaning_zh: "以 USER 而不是 root 运行" },
+        { flag: "-i", meaning_en: "Login shell as root", meaning_zh: "以 root 打开登录 shell" },
+        { flag: "-l", meaning_en: "List what you are allowed to run", meaning_zh: "列出你被允许运行的命令" },
+        { flag: "-k", meaning_en: "Forget cached password", meaning_zh: "忘掉已缓存的密码" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/sudo.8.html" },
@@ -850,12 +905,13 @@ window.LINUX_DATA = {
     {
       name: "su",
       category: "permissions",
-      summary: "Switches to another user account. su - starts a login shell.",
+      summary_en: "Switches to another user account. su - starts a login shell.",
+      summary_zh: "切换到另一个用户。su - 会打开登录 shell。",
       example: "su -",
       options: [
-        { flag: "-", meaning: "Login shell (loads that user’s environment)" },
-        { flag: "USER", meaning: "Switch to USER (default is root)" },
-        { flag: "-c CMD", meaning: "Run one command as that user" },
+        { flag: "-", meaning_en: "Login shell (loads that user’s environment)", meaning_zh: "登录 shell（加载该用户环境）" },
+        { flag: "USER", meaning_en: "Switch to USER (default is root)", meaning_zh: "切换到 USER（默认 root）" },
+        { flag: "-c CMD", meaning_en: "Run one command as that user", meaning_zh: "以该用户运行一条命令" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/su.1.html" },
@@ -865,13 +921,14 @@ window.LINUX_DATA = {
     {
       name: "passwd",
       category: "permissions",
-      summary: "Changes a user password. With no name, it changes yours.",
+      summary_en: "Changes a user password. With no name, it changes yours.",
+      summary_zh: "修改用户密码。不写名字就改你自己的。",
       example: "passwd",
       options: [
-        { flag: "USER", meaning: "Change USER’s password (root only)" },
-        { flag: "-d", meaning: "Delete a password (root; insecure)" },
-        { flag: "-S", meaning: "Show password status" },
-        { flag: "-l", meaning: "Lock the account (root)" },
+        { flag: "USER", meaning_en: "Change USER’s password (root only)", meaning_zh: "修改 USER 的密码（需 root）" },
+        { flag: "-d", meaning_en: "Delete a password (root; insecure)", meaning_zh: "删除密码（root；不安全）" },
+        { flag: "-S", meaning_en: "Show password status", meaning_zh: "显示密码状态" },
+        { flag: "-l", meaning_en: "Lock the account (root)", meaning_zh: "锁定账号（root）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/passwd.1.html" },
@@ -881,10 +938,11 @@ window.LINUX_DATA = {
     {
       name: "groups",
       category: "permissions",
-      summary: "Lists the groups a user belongs to.",
+      summary_en: "Lists the groups a user belongs to.",
+      summary_zh: "列出某个用户属于哪些组。",
       example: "groups",
       options: [
-        { flag: "USER", meaning: "Show groups for USER" },
+        { flag: "USER", meaning_en: "Show groups for USER", meaning_zh: "显示 USER 所属的组" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/groups.1.html" },
@@ -894,12 +952,13 @@ window.LINUX_DATA = {
     {
       name: "who",
       category: "permissions",
-      summary: "Shows who is logged in right now.",
+      summary_en: "Shows who is logged in right now.",
+      summary_zh: "显示现在谁登录了这台机器。",
       example: "who",
       options: [
-        { flag: "-a", meaning: "All information" },
-        { flag: "-b", meaning: "Time of last boot" },
-        { flag: "-q", meaning: "Login names and count only" },
+        { flag: "-a", meaning_en: "All information", meaning_zh: "显示全部信息" },
+        { flag: "-b", meaning_en: "Time of last boot", meaning_zh: "上次启动时间" },
+        { flag: "-q", meaning_en: "Login names and count only", meaning_zh: "只显示登录名和人数" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/who.1.html" },
@@ -909,11 +968,12 @@ window.LINUX_DATA = {
     {
       name: "umask",
       category: "permissions",
-      summary: "Sets the default permission bits that are turned off on new files. A shell builtin.",
+      summary_en: "Sets the default permission bits that are turned off on new files. A shell builtin.",
+      summary_zh: "设置新建文件时默认关掉哪些权限位（shell 内建）。",
       example: "umask 022",
       options: [
-        { flag: "022", meaning: "Common default: files 644, folders 755" },
-        { flag: "-S", meaning: "Show symbolic form (u=rwx,g=rx,o=rx)" },
+        { flag: "022", meaning_en: "Common default: files 644, folders 755", meaning_zh: "常见默认：文件 644，目录 755" },
+        { flag: "-S", meaning_en: "Show symbolic form (u=rwx,g=rx,o=rx)", meaning_zh: "用符号形式显示（u=rwx,g=rx,o=rx）" },
       ],
       links: [
         { label: "man7.org (POSIX)", url: "https://man7.org/linux/man-pages/man1/umask.1p.html" },
@@ -923,12 +983,13 @@ window.LINUX_DATA = {
     {
       name: "ping",
       category: "network",
-      summary: "Sends packets to a host to check if the network path works.",
+      summary_en: "Sends packets to a host to check if the network path works.",
+      summary_zh: "向一台主机发包，检查网络是否通。",
       example: "ping -c 4 example.com",
       options: [
-        { flag: "-c N", meaning: "Send N packets, then stop" },
-        { flag: "-i N", meaning: "Seconds between packets" },
-        { flag: "-n", meaning: "Numeric output only (no DNS names)" },
+        { flag: "-c N", meaning_en: "Send N packets, then stop", meaning_zh: "发 N 个包后停止" },
+        { flag: "-i N", meaning_en: "Seconds between packets", meaning_zh: "发包间隔秒数" },
+        { flag: "-n", meaning_en: "Numeric output only (no DNS names)", meaning_zh: "只显示数字，不解析域名" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/ping.8.html" },
@@ -938,13 +999,14 @@ window.LINUX_DATA = {
     {
       name: "curl",
       category: "network",
-      summary: "Transfers data from or to a URL. Often used to download or call an API.",
+      summary_en: "Transfers data from or to a URL. Often used to download or call an API.",
+      summary_zh: "从网址传数据或下载，也常用来调用接口。",
       example: "curl -O https://example.com/file.txt",
       options: [
-        { flag: "-O", meaning: "Save using the remote file name" },
-        { flag: "-L", meaning: "Follow redirects" },
-        { flag: "-I", meaning: "Headers only" },
-        { flag: "-o FILE", meaning: "Save as FILE" },
+        { flag: "-O", meaning_en: "Save using the remote file name", meaning_zh: "用远程文件名保存" },
+        { flag: "-L", meaning_en: "Follow redirects", meaning_zh: "跟随跳转" },
+        { flag: "-I", meaning_en: "Headers only", meaning_zh: "只要响应头" },
+        { flag: "-o FILE", meaning_en: "Save as FILE", meaning_zh: "保存为 FILE" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/curl.1.html" },
@@ -954,13 +1016,14 @@ window.LINUX_DATA = {
     {
       name: "wget",
       category: "network",
-      summary: "Downloads files from the web. Simple and good for large files or recursion.",
+      summary_en: "Downloads files from the web. Simple and good for large files or recursion.",
+      summary_zh: "从网上下载文件，适合大文件或整站抓取。",
       example: "wget https://example.com/file.txt",
       options: [
-        { flag: "-O FILE", meaning: "Save as FILE" },
-        { flag: "-c", meaning: "Continue a partial download" },
-        { flag: "-q", meaning: "Quiet" },
-        { flag: "-r", meaning: "Recursive download" },
+        { flag: "-O FILE", meaning_en: "Save as FILE", meaning_zh: "保存为 FILE" },
+        { flag: "-c", meaning_en: "Continue a partial download", meaning_zh: "继续未完成的下载" },
+        { flag: "-q", meaning_en: "Quiet", meaning_zh: "安静模式" },
+        { flag: "-r", meaning_en: "Recursive download", meaning_zh: "递归下载" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/wget.1.html" },
@@ -970,13 +1033,14 @@ window.LINUX_DATA = {
     {
       name: "ssh",
       category: "network",
-      summary: "Opens a secure shell on a remote computer.",
+      summary_en: "Opens a secure shell on a remote computer.",
+      summary_zh: "安全地登录远程电脑的终端。",
       example: "ssh user@192.168.1.10",
       options: [
-        { flag: "-p PORT", meaning: "Connect on a different port" },
-        { flag: "-i KEY", meaning: "Use this private key file" },
-        { flag: "-L", meaning: "Local port forward" },
-        { flag: "user@host", meaning: "Remote user and host" },
+        { flag: "-p PORT", meaning_en: "Connect on a different port", meaning_zh: "使用别的端口连接" },
+        { flag: "-i KEY", meaning_en: "Use this private key file", meaning_zh: "使用这个私钥文件" },
+        { flag: "-L", meaning_en: "Local port forward", meaning_zh: "本地端口转发" },
+        { flag: "user@host", meaning_en: "Remote user and host", meaning_zh: "远程用户和主机" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/ssh.1.html" },
@@ -986,13 +1050,14 @@ window.LINUX_DATA = {
     {
       name: "scp",
       category: "network",
-      summary: "Copies files to or from a remote computer over SSH.",
+      summary_en: "Copies files to or from a remote computer over SSH.",
+      summary_zh: "通过 SSH 在本机和远程电脑之间复制文件。",
       example: "scp notes.txt user@host:~/notes.txt",
       options: [
-        { flag: "-r", meaning: "Copy a folder" },
-        { flag: "-P PORT", meaning: "SSH port (capital P)" },
-        { flag: "-i KEY", meaning: "Private key file" },
-        { flag: "-p", meaning: "Keep timestamps" },
+        { flag: "-r", meaning_en: "Copy a folder", meaning_zh: "复制整个文件夹" },
+        { flag: "-P PORT", meaning_en: "SSH port (capital P)", meaning_zh: "SSH 端口（大写 P）" },
+        { flag: "-i KEY", meaning_en: "Private key file", meaning_zh: "私钥文件" },
+        { flag: "-p", meaning_en: "Keep timestamps", meaning_zh: "保留时间戳" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/scp.1.html" },
@@ -1002,13 +1067,14 @@ window.LINUX_DATA = {
     {
       name: "ip",
       category: "network",
-      summary: "Shows and configures network interfaces, addresses, and routes (modern replacement for ifconfig).",
+      summary_en: "Shows and configures network interfaces, addresses, and routes (modern replacement for ifconfig).",
+      summary_zh: "查看和配置网卡、地址和路由（比 ifconfig 更新）。",
       example: "ip addr show",
       options: [
-        { flag: "addr", meaning: "IP addresses on interfaces" },
-        { flag: "link", meaning: "Network devices (up/down, MAC)" },
-        { flag: "route", meaning: "Routing table" },
-        { flag: "neigh", meaning: "ARP / neighbor table" },
+        { flag: "addr", meaning_en: "IP addresses on interfaces", meaning_zh: "网卡上的 IP 地址" },
+        { flag: "link", meaning_en: "Network devices (up/down, MAC)", meaning_zh: "网卡（启用/关闭、MAC）" },
+        { flag: "route", meaning_en: "Routing table", meaning_zh: "路由表" },
+        { flag: "neigh", meaning_en: "ARP / neighbor table", meaning_zh: "ARP / 邻居表" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/ip.8.html" },
@@ -1018,13 +1084,14 @@ window.LINUX_DATA = {
     {
       name: "ss",
       category: "network",
-      summary: "Shows sockets (open ports and connections). Modern replacement for netstat.",
+      summary_en: "Shows sockets (open ports and connections). Modern replacement for netstat.",
+      summary_zh: "查看端口和网络连接。很多系统用它代替 netstat。",
       example: "ss -tuln",
       options: [
-        { flag: "-t", meaning: "TCP" },
-        { flag: "-u", meaning: "UDP" },
-        { flag: "-l", meaning: "Listening sockets" },
-        { flag: "-n", meaning: "Numeric ports (no service names)" },
+        { flag: "-t", meaning_en: "TCP", meaning_zh: "TCP" },
+        { flag: "-u", meaning_en: "UDP", meaning_zh: "UDP" },
+        { flag: "-l", meaning_en: "Listening sockets", meaning_zh: "正在监听的端口" },
+        { flag: "-n", meaning_en: "Numeric ports (no service names)", meaning_zh: "端口用数字，不用服务名" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/ss.8.html" },
@@ -1034,12 +1101,13 @@ window.LINUX_DATA = {
     {
       name: "traceroute",
       category: "network",
-      summary: "Shows the hops a packet takes to reach a host.",
+      summary_en: "Shows the hops a packet takes to reach a host.",
+      summary_zh: "显示数据包到达目标经过的每一跳。",
       example: "traceroute example.com",
       options: [
-        { flag: "-n", meaning: "Numeric IPs only" },
-        { flag: "-m N", meaning: "Max hops" },
-        { flag: "-q N", meaning: "Probes per hop" },
+        { flag: "-n", meaning_en: "Numeric IPs only", meaning_zh: "只显示数字 IP" },
+        { flag: "-m N", meaning_en: "Max hops", meaning_zh: "最大跳数" },
+        { flag: "-q N", meaning_en: "Probes per hop", meaning_zh: "每一跳探测几次" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/traceroute.8.html" },
@@ -1049,11 +1117,12 @@ window.LINUX_DATA = {
     {
       name: "nslookup",
       category: "network",
-      summary: "Looks up DNS records for a name or IP (simple DNS query tool).",
+      summary_en: "Looks up DNS records for a name or IP (simple DNS query tool).",
+      summary_zh: "查询域名或 IP 的 DNS 记录。",
       example: "nslookup example.com",
       options: [
-        { flag: "NAME", meaning: "Look up this host" },
-        { flag: "NAME SERVER", meaning: "Query a specific DNS server" },
+        { flag: "NAME", meaning_en: "Look up this host", meaning_zh: "查询这个主机名" },
+        { flag: "NAME SERVER", meaning_en: "Query a specific DNS server", meaning_zh: "向指定 DNS 服务器查询" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/nslookup.1.html" },
@@ -1063,13 +1132,14 @@ window.LINUX_DATA = {
     {
       name: "apt",
       category: "packages",
-      summary: "Debian/Ubuntu package tool: update indexes, install, remove, and upgrade packages.",
+      summary_en: "Debian/Ubuntu package tool: update indexes, install, remove, and upgrade packages.",
+      summary_zh: "Debian/Ubuntu 的软件包工具：更新、安装、删除、升级。",
       example: "sudo apt update && sudo apt install curl",
       options: [
-        { flag: "update", meaning: "Refresh package lists" },
-        { flag: "install PKG", meaning: "Install a package" },
-        { flag: "remove PKG", meaning: "Remove a package" },
-        { flag: "upgrade", meaning: "Upgrade installed packages" },
+        { flag: "update", meaning_en: "Refresh package lists", meaning_zh: "刷新软件包列表" },
+        { flag: "install PKG", meaning_en: "Install a package", meaning_zh: "安装软件包" },
+        { flag: "remove PKG", meaning_en: "Remove a package", meaning_zh: "删除软件包" },
+        { flag: "upgrade", meaning_en: "Upgrade installed packages", meaning_zh: "升级已安装的软件包" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/apt.8.html" },
@@ -1079,13 +1149,14 @@ window.LINUX_DATA = {
     {
       name: "apt-get",
       category: "packages",
-      summary: "Older Debian/Ubuntu package command. Scripts often use this; people usually use apt.",
+      summary_en: "Older Debian/Ubuntu package command. Scripts often use this; people usually use apt.",
+      summary_zh: "较老的 Debian/Ubuntu 包命令。脚本里常见，日常多用 apt。",
       example: "sudo apt-get update",
       options: [
-        { flag: "update", meaning: "Refresh package lists" },
-        { flag: "install PKG", meaning: "Install a package" },
-        { flag: "remove PKG", meaning: "Remove a package" },
-        { flag: "dist-upgrade", meaning: "Upgrade, including dependency changes" },
+        { flag: "update", meaning_en: "Refresh package lists", meaning_zh: "刷新软件包列表" },
+        { flag: "install PKG", meaning_en: "Install a package", meaning_zh: "安装软件包" },
+        { flag: "remove PKG", meaning_en: "Remove a package", meaning_zh: "删除软件包" },
+        { flag: "dist-upgrade", meaning_en: "Upgrade, including dependency changes", meaning_zh: "升级（包括依赖变化）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/apt-get.8.html" },
@@ -1095,13 +1166,14 @@ window.LINUX_DATA = {
     {
       name: "dpkg",
       category: "packages",
-      summary: "Low-level Debian package tool. Works on .deb files. apt uses dpkg underneath.",
+      summary_en: "Low-level Debian package tool. Works on .deb files. apt uses dpkg underneath.",
+      summary_zh: "Debian 底层包工具，直接处理 .deb。apt 会调用它。",
       example: "dpkg -i package.deb",
       options: [
-        { flag: "-i FILE", meaning: "Install a .deb file" },
-        { flag: "-r PKG", meaning: "Remove a package" },
-        { flag: "-l", meaning: "List installed packages" },
-        { flag: "-L PKG", meaning: "List files in a package" },
+        { flag: "-i FILE", meaning_en: "Install a .deb file", meaning_zh: "安装一个 .deb 文件" },
+        { flag: "-r PKG", meaning_en: "Remove a package", meaning_zh: "删除软件包" },
+        { flag: "-l", meaning_en: "List installed packages", meaning_zh: "列出已安装的软件包" },
+        { flag: "-L PKG", meaning_en: "List files in a package", meaning_zh: "列出某软件包里的文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/dpkg.1.html" },
@@ -1111,13 +1183,14 @@ window.LINUX_DATA = {
     {
       name: "dnf",
       category: "packages",
-      summary: "Fedora, RHEL, and related distros: install, remove, and update packages.",
+      summary_en: "Fedora, RHEL, and related distros: install, remove, and update packages.",
+      summary_zh: "Fedora、RHEL 等系统上安装、删除和更新软件包。",
       example: "sudo dnf install curl",
       options: [
-        { flag: "install PKG", meaning: "Install a package" },
-        { flag: "remove PKG", meaning: "Remove a package" },
-        { flag: "upgrade", meaning: "Upgrade installed packages" },
-        { flag: "search WORD", meaning: "Search package names and descriptions" },
+        { flag: "install PKG", meaning_en: "Install a package", meaning_zh: "安装软件包" },
+        { flag: "remove PKG", meaning_en: "Remove a package", meaning_zh: "删除软件包" },
+        { flag: "upgrade", meaning_en: "Upgrade installed packages", meaning_zh: "升级已安装的软件包" },
+        { flag: "search WORD", meaning_en: "Search package names and descriptions", meaning_zh: "搜索软件包名称和说明" },
       ],
       links: [
         { label: "linux.die.net (yum, similar)", url: "https://linux.die.net/man/8/yum" },
@@ -1127,693 +1200,694 @@ window.LINUX_DATA = {
     {
       name: "yum",
       category: "packages",
-      summary: "Older Fedora/RHEL package tool. Newer systems use dnf; many yum commands still work.",
+      summary_en: "Older Fedora/RHEL package tool. Newer systems use dnf; many yum commands still work.",
+      summary_zh: "较老的 Fedora/RHEL 包工具。新系统多用 dnf。",
       example: "sudo yum install curl",
       options: [
-        { flag: "install PKG", meaning: "Install a package" },
-        { flag: "remove PKG", meaning: "Remove a package" },
-        { flag: "update", meaning: "Update packages" },
-        { flag: "search WORD", meaning: "Search packages" },
+        { flag: "install PKG", meaning_en: "Install a package", meaning_zh: "安装软件包" },
+        { flag: "remove PKG", meaning_en: "Remove a package", meaning_zh: "删除软件包" },
+        { flag: "update", meaning_en: "Update packages", meaning_zh: "更新软件包" },
+        { flag: "search WORD", meaning_en: "Search packages", meaning_zh: "搜索软件包" },
       ],
       links: [
         { label: "linux.die.net", url: "https://linux.die.net/man/8/yum" },
         { label: "man7.org (rpm)", url: "https://man7.org/linux/man-pages/man8/rpm.8.html" },
       ],
     },
-
     {
       name: "help",
       category: "system",
-      summary: "Shows help for a bash built-in command (commands that live inside the shell).",
+      summary_en: "Shows help for a bash built-in command (commands that live inside the shell).",
+      summary_zh: "查看 bash 内建命令的帮助（这类命令在 shell 内部）。",
       example: "help cd",
       options: [
-        { flag: "help NAME", meaning: "Help for one built-in" },
-        { flag: "help", meaning: "List many built-in commands" },
-        { flag: "-d", meaning: "Short description only" },
-        { flag: "-m", meaning: "Man-page style output" },
+        { flag: "help NAME", meaning_en: "Help for one built-in", meaning_zh: "查看一个内建命令的帮助" },
+        { flag: "help", meaning_en: "List many built-in commands", meaning_zh: "列出许多内建命令" },
+        { flag: "-d", meaning_en: "Short description only", meaning_zh: "只要简短说明" },
+        { flag: "-m", meaning_en: "Man-page style output", meaning_zh: "手册页风格的输出" },
       ],
       links: [
         { label: "man7.org (bash)", url: "https://man7.org/linux/man-pages/man1/bash.1.html" },
       ],
     },
-
     {
       name: "apropos",
       category: "system",
-      summary: "Searches man page short descriptions. Useful when you forget the command name.",
+      summary_en: "Searches man page short descriptions. Useful when you forget the command name.",
+      summary_zh: "按关键词搜索手册的一句话介绍，适合忘了命令名时。",
       example: "apropos copy",
       options: [
-        { flag: "WORD", meaning: "Find man pages related to WORD" },
-        { flag: "-a", meaning: "Match all words" },
-        { flag: "-s SECTION", meaning: "Only this man section (1, 5, 8…)" },
+        { flag: "WORD", meaning_en: "Find man pages related to WORD", meaning_zh: "查找与 WORD 有关的手册" },
+        { flag: "-a", meaning_en: "Match all words", meaning_zh: "必须匹配全部词" },
+        { flag: "-s SECTION", meaning_en: "Only this man section (1, 5, 8…)", meaning_zh: "只查这一章手册（1、5、8…）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/apropos.1.html" },
       ],
     },
-
     {
       name: "whatis",
       category: "system",
-      summary: "Prints the one-line description from a man page.",
+      summary_en: "Prints the one-line description from a man page.",
+      summary_zh: "打印手册页里那一句简短说明。",
       example: "whatis ls",
       options: [
-        { flag: "NAME", meaning: "Short description of NAME" },
-        { flag: "-s SECTION", meaning: "Only this man section" },
+        { flag: "NAME", meaning_en: "Short description of NAME", meaning_zh: "NAME 的一句话说明" },
+        { flag: "-s SECTION", meaning_en: "Only this man section", meaning_zh: "只查这一章手册" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/whatis.1.html" },
       ],
     },
-
     {
       name: "info",
       category: "system",
-      summary: "Opens GNU Info manuals. Some GNU tools document more here than in man.",
+      summary_en: "Opens GNU Info manuals. Some GNU tools document more here than in man.",
+      summary_zh: "打开 GNU Info 手册。有些 GNU 工具这里写得比 man 更全。",
       example: "info coreutils",
       options: [
-        { flag: "NAME", meaning: "Open the manual named NAME" },
-        { flag: "-k WORD", meaning: "Search Info pages for WORD" },
+        { flag: "NAME", meaning_en: "Open the manual named NAME", meaning_zh: "打开名为 NAME 的手册" },
+        { flag: "-k WORD", meaning_en: "Search Info pages for WORD", meaning_zh: "在 Info 手册里搜索 WORD" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/info.1.html" },
       ],
     },
-
     {
       name: "alias",
       category: "system",
-      summary: "Creates a short name for a longer command. Lives in the current shell until you save it.",
+      summary_en: "Creates a short name for a longer command. Lives in the current shell until you save it.",
+      summary_zh: "给长命令起一个短名字。当前终端有效，除非写入配置。",
       example: "alias ll='ls -lh'",
       options: [
-        { flag: "alias", meaning: "List current aliases" },
-        { flag: "alias NAME='CMD'", meaning: "Create an alias" },
-        { flag: "unalias NAME", meaning: "Remove an alias" },
+        { flag: "alias", meaning_en: "List current aliases", meaning_zh: "列出当前别名" },
+        { flag: "alias NAME='CMD'", meaning_en: "Create an alias", meaning_zh: "创建别名" },
+        { flag: "unalias NAME", meaning_en: "Remove an alias", meaning_zh: "删除别名" },
       ],
       links: [
         { label: "man7.org (bash)", url: "https://man7.org/linux/man-pages/man1/alias.1p.html" },
       ],
     },
-
     {
       name: "printenv",
       category: "system",
-      summary: "Prints environment variables (settings the shell and programs can read).",
+      summary_en: "Prints environment variables (settings the shell and programs can read).",
+      summary_zh: "打印环境变量（程序能读到的设置）。",
       example: "printenv PATH",
       options: [
-        { flag: "printenv", meaning: "Show all environment variables" },
-        { flag: "printenv NAME", meaning: "Show one variable" },
+        { flag: "printenv", meaning_en: "Show all environment variables", meaning_zh: "显示全部环境变量" },
+        { flag: "printenv NAME", meaning_en: "Show one variable", meaning_zh: "显示一个变量" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/printenv.1.html" },
       ],
     },
-
     {
       name: "export",
       category: "system",
-      summary: "Marks a shell variable so child programs can see it.",
+      summary_en: "Marks a shell variable so child programs can see it.",
+      summary_zh: "把变量导出，让子进程也能看到。",
       example: "export EDITOR=nano",
       options: [
-        { flag: "export NAME=VALUE", meaning: "Set and export" },
-        { flag: "export NAME", meaning: "Export an existing variable" },
-        { flag: "export -p", meaning: "List exported variables" },
+        { flag: "export NAME=VALUE", meaning_en: "Set and export", meaning_zh: "设置并导出" },
+        { flag: "export NAME", meaning_en: "Export an existing variable", meaning_zh: "导出已有变量" },
+        { flag: "export -p", meaning_en: "List exported variables", meaning_zh: "列出已导出的变量" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/export.1p.html" },
       ],
     },
-
     {
       name: "jobs",
       category: "system",
-      summary: "Lists jobs (commands paused or running in the background) in this terminal.",
+      summary_en: "Lists jobs (commands paused or running in the background) in this terminal.",
+      summary_zh: "列出本终端里暂停或在后台跑的任务。",
       example: "jobs",
       options: [
-        { flag: "jobs", meaning: "List jobs" },
-        { flag: "-l", meaning: "Also show process IDs" },
-        { flag: "-p", meaning: "Show only process IDs" },
+        { flag: "jobs", meaning_en: "List jobs", meaning_zh: "列出任务" },
+        { flag: "-l", meaning_en: "Also show process IDs", meaning_zh: "同时显示进程 ID" },
+        { flag: "-p", meaning_en: "Show only process IDs", meaning_zh: "只显示进程 ID" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/jobs.1p.html" },
       ],
     },
-
     {
       name: "bg",
       category: "system",
-      summary: "Resumes a stopped job in the background so the terminal is free.",
+      summary_en: "Resumes a stopped job in the background so the terminal is free.",
+      summary_zh: "把停住的任务放到后台继续跑，终端就空出来。",
       example: "bg %1",
       options: [
-        { flag: "bg", meaning: "Background the current stopped job" },
-        { flag: "bg %N", meaning: "Background job number N" },
+        { flag: "bg", meaning_en: "Background the current stopped job", meaning_zh: "把当前停住的任务放到后台" },
+        { flag: "bg %N", meaning_en: "Background job number N", meaning_zh: "把第 N 号任务放到后台" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/bg.1p.html" },
       ],
     },
-
     {
       name: "fg",
       category: "system",
-      summary: "Brings a background or stopped job back to the foreground.",
+      summary_en: "Brings a background or stopped job back to the foreground.",
+      summary_zh: "把后台或暂停的任务拉回前台。",
       example: "fg %1",
       options: [
-        { flag: "fg", meaning: "Foreground the current job" },
-        { flag: "fg %N", meaning: "Foreground job number N" },
+        { flag: "fg", meaning_en: "Foreground the current job", meaning_zh: "把当前任务调到前台" },
+        { flag: "fg %N", meaning_en: "Foreground job number N", meaning_zh: "把第 N 号任务调到前台" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/fg.1p.html" },
       ],
     },
-
     {
       name: "shutdown",
       category: "system",
-      summary: "Stops or restarts the computer in a safe way. Usually needs sudo.",
+      summary_en: "Stops or restarts the computer in a safe way. Usually needs sudo.",
+      summary_zh: "安全关机或重启。通常需要 sudo。",
       example: "sudo shutdown -h now",
       options: [
-        { flag: "-h now", meaning: "Halt (power off) now" },
-        { flag: "-r now", meaning: "Reboot now" },
-        { flag: "+10", meaning: "Action in 10 minutes" },
-        { flag: "-c", meaning: "Cancel a scheduled shutdown" },
+        { flag: "-h now", meaning_en: "Halt (power off) now", meaning_zh: "立即关机" },
+        { flag: "-r now", meaning_en: "Reboot now", meaning_zh: "立即重启" },
+        { flag: "+10", meaning_en: "Action in 10 minutes", meaning_zh: "10 分钟后执行" },
+        { flag: "-c", meaning_en: "Cancel a scheduled shutdown", meaning_zh: "取消已安排的关机" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/shutdown.8.html" },
       ],
     },
-
     {
       name: "cal",
       category: "system",
-      summary: "Prints a calendar in the terminal.",
+      summary_en: "Prints a calendar in the terminal.",
+      summary_zh: "在终端里打印日历。",
       example: "cal",
       options: [
-        { flag: "cal", meaning: "This month" },
-        { flag: "cal YEAR", meaning: "Whole year" },
-        { flag: "cal MONTH YEAR", meaning: "One month in a year" },
-        { flag: "-y", meaning: "Current year" },
+        { flag: "cal", meaning_en: "This month", meaning_zh: "本月" },
+        { flag: "cal YEAR", meaning_en: "Whole year", meaning_zh: "全年" },
+        { flag: "cal MONTH YEAR", meaning_en: "One month in a year", meaning_zh: "某年的某一个月" },
+        { flag: "-y", meaning_en: "Current year", meaning_zh: "今年全年" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/cal.1.html" },
       ],
     },
-
     {
       name: "bc",
       category: "system",
-      summary: "A calculator in the terminal. Good for decimals and pipes from other commands.",
+      summary_en: "A calculator in the terminal. Good for decimals and pipes from other commands.",
+      summary_zh: "终端计算器，适合小数，也可从管道读入。",
       example: "echo '2+3*4' | bc",
       options: [
-        { flag: "bc", meaning: "Start interactive calculator" },
-        { flag: "-l", meaning: "Load math library (decimals, sqrt…)" },
+        { flag: "bc", meaning_en: "Start interactive calculator", meaning_zh: "进入交互计算器" },
+        { flag: "-l", meaning_en: "Load math library (decimals, sqrt…)", meaning_zh: "加载数学库（小数、开方等）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/bc.1p.html" },
       ],
     },
-
     {
       name: "time",
       category: "system",
-      summary: "Runs a command and reports how long it took.",
+      summary_en: "Runs a command and reports how long it took.",
+      summary_zh: "运行一条命令，并报告花了多久。",
       example: "time ls -R /etc",
       options: [
-        { flag: "time CMD", meaning: "Time one command" },
+        { flag: "time CMD", meaning_en: "Time one command", meaning_zh: "给一条命令计时" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/time.1.html" },
       ],
     },
-
     {
       name: "nohup",
       category: "system",
-      summary: "Runs a command so it keeps going after you close the terminal.",
+      summary_en: "Runs a command so it keeps going after you close the terminal.",
+      summary_zh: "让命令在关闭终端后继续运行。",
       example: "nohup ./long-job.sh > out.txt &",
       options: [
-        { flag: "nohup CMD", meaning: "Run CMD immune to hangup" },
+        { flag: "nohup CMD", meaning_en: "Run CMD immune to hangup", meaning_zh: "运行 CMD，关闭终端也不中断" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/nohup.1.html" },
       ],
     },
-
     {
       name: "crontab",
       category: "system",
-      summary: "Edits scheduled jobs (cron) that run at chosen times.",
+      summary_en: "Edits scheduled jobs (cron) that run at chosen times.",
+      summary_zh: "编辑定时任务（cron），让命令在指定时间运行。",
       example: "crontab -l",
       options: [
-        { flag: "-l", meaning: "List your cron jobs" },
-        { flag: "-e", meaning: "Edit your cron jobs" },
-        { flag: "-r", meaning: "Remove your cron jobs" },
+        { flag: "-l", meaning_en: "List your cron jobs", meaning_zh: "列出你的定时任务" },
+        { flag: "-e", meaning_en: "Edit your cron jobs", meaning_zh: "编辑你的定时任务" },
+        { flag: "-r", meaning_en: "Remove your cron jobs", meaning_zh: "删除你的定时任务" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/crontab.1.html" },
       ],
     },
-
     {
       name: "chgrp",
       category: "permissions",
-      summary: "Changes the group owner of a file or folder.",
+      summary_en: "Changes the group owner of a file or folder.",
+      summary_zh: "修改文件或文件夹的所属组。",
       example: "chgrp staff report.txt",
       options: [
-        { flag: "GROUP FILE", meaning: "Set group on FILE" },
-        { flag: "-R", meaning: "Apply to a folder and everything inside" },
-        { flag: "-v", meaning: "Show what changed" },
+        { flag: "GROUP FILE", meaning_en: "Set group on FILE", meaning_zh: "设置 FILE 的所属组" },
+        { flag: "-R", meaning_en: "Apply to a folder and everything inside", meaning_zh: "应用到文件夹及其内容" },
+        { flag: "-v", meaning_en: "Show what changed", meaning_zh: "显示改了什么" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/chgrp.1.html" },
       ],
     },
-
     {
       name: "vi",
       category: "text",
-      summary: "Classic terminal text editor. Shotts teaches vi; many Unix systems have it.",
+      summary_en: "Classic terminal text editor. Shotts teaches vi; many Unix systems have it.",
+      summary_zh: "经典终端编辑器。很多 Unix 系统都有。",
       example: "vi notes.txt",
       options: [
-        { flag: "vi FILE", meaning: "Edit FILE" },
-        { flag: "i", meaning: "Insert mode (then type text)" },
-        { flag: "Esc", meaning: "Back to command mode" },
-        { flag: ":wq", meaning: "Save and quit" },
-        { flag: ":q!", meaning: "Quit without saving" },
+        { flag: "vi FILE", meaning_en: "Edit FILE", meaning_zh: "编辑 FILE" },
+        { flag: "i", meaning_en: "Insert mode (then type text)", meaning_zh: "进入插入模式（然后打字）" },
+        { flag: "Esc", meaning_en: "Back to command mode", meaning_zh: "回到命令模式" },
+        { flag: ":wq", meaning_en: "Save and quit", meaning_zh: "保存并退出" },
+        { flag: ":q!", meaning_en: "Quit without saving", meaning_zh: "不保存就退出" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/vi.1p.html" },
       ],
     },
-
     {
       name: "vim",
       category: "text",
-      summary: "Improved vi editor. Same basic keys as vi, with extra features.",
+      summary_en: "Improved vi editor. Same basic keys as vi, with extra features.",
+      summary_zh: "增强版 vi，基本按键相同，功能更多。",
       example: "vim notes.txt",
       options: [
-        { flag: "vim FILE", meaning: "Edit FILE" },
-        { flag: ":help", meaning: "Open vim help" },
-        { flag: ":wq", meaning: "Save and quit" },
+        { flag: "vim FILE", meaning_en: "Edit FILE", meaning_zh: "编辑 FILE" },
+        { flag: ":help", meaning_en: "Open vim help", meaning_zh: "打开 vim 帮助" },
+        { flag: ":wq", meaning_en: "Save and quit", meaning_zh: "保存并退出" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/vim.1.html" },
       ],
     },
-
     {
       name: "paste",
       category: "text",
-      summary: "Joins files side by side, line by line.",
+      summary_en: "Joins files side by side, line by line.",
+      summary_zh: "把多个文件按行左右拼在一起。",
       example: "paste names.txt ages.txt",
       options: [
-        { flag: "FILE1 FILE2", meaning: "Merge columns from two files" },
-        { flag: "-d CHAR", meaning: "Use CHAR as the column separator" },
+        { flag: "FILE1 FILE2", meaning_en: "Merge columns from two files", meaning_zh: "把两个文件的列并在一起" },
+        { flag: "-d CHAR", meaning_en: "Use CHAR as the column separator", meaning_zh: "用 CHAR 作为列分隔符" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/paste.1.html" },
       ],
     },
-
     {
       name: "join",
       category: "text",
-      summary: "Merges two sorted files on a shared field (like a simple database join).",
+      summary_en: "Merges two sorted files on a shared field (like a simple database join).",
+      summary_zh: "按共同字段合并两个已排序的文件。",
       example: "join ids.txt names.txt",
       options: [
-        { flag: "FILE1 FILE2", meaning: "Join on the first field" },
-        { flag: "-t CHAR", meaning: "Field separator" },
-        { flag: "-1 N -2 M", meaning: "Join field N in file1 with field M in file2" },
+        { flag: "FILE1 FILE2", meaning_en: "Join on the first field", meaning_zh: "按第一列连接" },
+        { flag: "-t CHAR", meaning_en: "Field separator", meaning_zh: "字段分隔符" },
+        { flag: "-1 N -2 M", meaning_en: "Join field N in file1 with field M in file2", meaning_zh: "用文件1第 N 列和文件2第 M 列连接" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/join.1.html" },
       ],
     },
-
     {
       name: "comm",
       category: "text",
-      summary: "Compares two sorted files and shows lines only in A, only in B, or in both.",
+      summary_en: "Compares two sorted files and shows lines only in A, only in B, or in both.",
+      summary_zh: "比较两个已排序文件：只在甲、只在乙、或两边都有。",
       example: "comm file-a.txt file-b.txt",
       options: [
-        { flag: "-1", meaning: "Hide lines only in file 1" },
-        { flag: "-2", meaning: "Hide lines only in file 2" },
-        { flag: "-3", meaning: "Hide lines in both files" },
+        { flag: "-1", meaning_en: "Hide lines only in file 1", meaning_zh: "隐藏只在文件 1 里的行" },
+        { flag: "-2", meaning_en: "Hide lines only in file 2", meaning_zh: "隐藏只在文件 2 里的行" },
+        { flag: "-3", meaning_en: "Hide lines in both files", meaning_zh: "隐藏两边都有的行" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/comm.1.html" },
       ],
     },
-
     {
       name: "patch",
       category: "text",
-      summary: "Applies a diff file (a list of changes) to update a file.",
+      summary_en: "Applies a diff file (a list of changes) to update a file.",
+      summary_zh: "用 diff 补丁文件去更新原文件。",
       example: "patch original.txt < fix.patch",
       options: [
-        { flag: "-p1", meaning: "Strip one leading path folder from names in the patch" },
-        { flag: "-R", meaning: "Reverse the patch" },
-        { flag: "--dry-run", meaning: "Test without changing files" },
+        { flag: "-p1", meaning_en: "Strip one leading path folder from names in the patch", meaning_zh: "去掉补丁路径里最前面一层目录" },
+        { flag: "-R", meaning_en: "Reverse the patch", meaning_zh: "反向打补丁" },
+        { flag: "--dry-run", meaning_en: "Test without changing files", meaning_zh: "只测试，不改文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/patch.1.html" },
       ],
     },
-
     {
       name: "nl",
       category: "text",
-      summary: "Adds line numbers to a file when printing it.",
+      summary_en: "Adds line numbers to a file when printing it.",
+      summary_zh: "打印文件时加上行号。",
       example: "nl story.txt",
       options: [
-        { flag: "nl FILE", meaning: "Number lines" },
-        { flag: "-b a", meaning: "Number all lines, including empty ones" },
+        { flag: "nl FILE", meaning_en: "Number lines", meaning_zh: "给行编号" },
+        { flag: "-b a", meaning_en: "Number all lines, including empty ones", meaning_zh: "所有行都编号，包括空行" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/nl.1.html" },
       ],
     },
-
     {
       name: "fmt",
       category: "text",
-      summary: "Rewraps paragraphs to a nicer line width.",
+      summary_en: "Rewraps paragraphs to a nicer line width.",
+      summary_zh: "把段落重新折成更合适的行宽。",
       example: "fmt -w 72 notes.txt",
       options: [
-        { flag: "-w N", meaning: "Wrap at N columns" },
-        { flag: "-u", meaning: "Uniform spacing between words" },
+        { flag: "-w N", meaning_en: "Wrap at N columns", meaning_zh: "在第 N 列折行" },
+        { flag: "-u", meaning_en: "Uniform spacing between words", meaning_zh: "词与词之间均匀空格" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/fmt.1.html" },
       ],
     },
-
     {
       name: "printf",
       category: "text",
-      summary: "Prints formatted text. More controlled than echo.",
+      summary_en: "Prints formatted text. More controlled than echo.",
+      summary_zh: "按格式打印文字，比 echo 更可控。",
       example: "printf '%s %d\\n' apples 3",
       options: [
-        { flag: "FORMAT ARGS", meaning: "Print ARGS using FORMAT" },
-        { flag: "%s", meaning: "String" },
-        { flag: "%d", meaning: "Integer" },
-        { flag: "\\n", meaning: "New line" },
+        { flag: "FORMAT ARGS", meaning_en: "Print ARGS using FORMAT", meaning_zh: "按 FORMAT 打印 ARGS" },
+        { flag: "%s", meaning_en: "String", meaning_zh: "字符串" },
+        { flag: "%d", meaning_en: "Integer", meaning_zh: "整数" },
+        { flag: "\\\\n", meaning_en: "New line", meaning_zh: "换行" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/printf.1.html" },
       ],
     },
-
     {
       name: "locate",
       category: "file-directory",
-      summary: "Finds files by name using a fast index. Index may be a day old until updated.",
+      summary_en: "Finds files by name using a fast index. Index may be a day old until updated.",
+      summary_zh: "用索引按名字快速找文件。索引可能不是最新的。",
       example: "locate bashrc",
       options: [
-        { flag: "NAME", meaning: "Find paths containing NAME" },
-        { flag: "-i", meaning: "Ignore upper/lower case" },
-        { flag: "-n N", meaning: "Show at most N results" },
+        { flag: "NAME", meaning_en: "Find paths containing NAME", meaning_zh: "查找路径里包含 NAME 的项" },
+        { flag: "-i", meaning_en: "Ignore upper/lower case", meaning_zh: "忽略大小写" },
+        { flag: "-n N", meaning_en: "Show at most N results", meaning_zh: "最多显示 N 条" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/locate.1.html" },
       ],
     },
-
     {
       name: "whereis",
       category: "file-directory",
-      summary: "Shows where a program, its man page, and source may live.",
+      summary_en: "Shows where a program, its man page, and source may live.",
+      summary_zh: "查找程序、手册页和源码可能所在的位置。",
       example: "whereis ls",
       options: [
-        { flag: "NAME", meaning: "Locate binary / man / source" },
-        { flag: "-b", meaning: "Binaries only" },
-        { flag: "-m", meaning: "Man pages only" },
+        { flag: "NAME", meaning_en: "Locate binary / man / source", meaning_zh: "查找程序 / 手册 / 源码" },
+        { flag: "-b", meaning_en: "Binaries only", meaning_zh: "只找可执行文件" },
+        { flag: "-m", meaning_en: "Man pages only", meaning_zh: "只找手册页" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/whereis.1.html" },
       ],
     },
-
     {
       name: "xargs",
       category: "file-directory",
-      summary: "Takes a list of names from the previous command and runs another command on them.",
+      summary_en: "Takes a list of names from the previous command and runs another command on them.",
+      summary_zh: "把上一命令列出的名字，交给另一条命令去处理。",
       example: "find . -name '*.tmp' | xargs rm",
       options: [
-        { flag: "xargs CMD", meaning: "Run CMD with items from stdin" },
-        { flag: "-n N", meaning: "At most N items per command" },
-        { flag: "-p", meaning: "Ask before running" },
-        { flag: "-0", meaning: "Names separated by null (safer with find -print0)" },
+        { flag: "xargs CMD", meaning_en: "Run CMD with items from stdin", meaning_zh: "用标准输入里的项去运行 CMD" },
+        { flag: "-n N", meaning_en: "At most N items per command", meaning_zh: "每条命令最多 N 个参数" },
+        { flag: "-p", meaning_en: "Ask before running", meaning_zh: "运行前询问" },
+        { flag: "-0", meaning_en: "Names separated by null (safer with find -print0)", meaning_zh: "用空字符分隔名字（配合 find -print0 更安全）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/xargs.1.html" },
       ],
     },
-
     {
       name: "basename",
       category: "file-directory",
-      summary: "Prints only the last part of a path (the file name).",
+      summary_en: "Prints only the last part of a path (the file name).",
+      summary_zh: "取出路径的最后一段（文件名）。",
       example: "basename /etc/hosts",
       options: [
-        { flag: "PATH", meaning: "Show the final name" },
-        { flag: "PATH .ext", meaning: "Also strip this suffix" },
+        { flag: "PATH", meaning_en: "Show the final name", meaning_zh: "只显示最后一段名字" },
+        { flag: "PATH .ext", meaning_en: "Also strip this suffix", meaning_zh: "同时去掉这个后缀" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/basename.1.html" },
       ],
     },
-
     {
       name: "dirname",
       category: "file-directory",
-      summary: "Prints the folder part of a path.",
+      summary_en: "Prints the folder part of a path.",
+      summary_zh: "取出路径里的目录部分。",
       example: "dirname /etc/hosts",
       options: [
-        { flag: "PATH", meaning: "Show the directory of PATH" },
+        { flag: "PATH", meaning_en: "Show the directory of PATH", meaning_zh: "显示 PATH 所在的目录" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/dirname.1.html" },
       ],
     },
-
     {
       name: "readlink",
       category: "file-directory",
-      summary: "Shows the target of a symbolic link (shortcut file).",
+      summary_en: "Shows the target of a symbolic link (shortcut file).",
+      summary_zh: "显示符号链接指向哪里。",
       example: "readlink -f /usr/bin/python",
       options: [
-        { flag: "LINK", meaning: "Print link target" },
-        { flag: "-f", meaning: "Follow to the real final path" },
+        { flag: "LINK", meaning_en: "Print link target", meaning_zh: "打印链接指向的目标" },
+        { flag: "-f", meaning_en: "Follow to the real final path", meaning_zh: "一直跟到最终真实路径" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/readlink.1.html" },
       ],
     },
-
     {
       name: "realpath",
       category: "file-directory",
-      summary: "Prints the full real path of a file, resolving links and '..'.",
+      summary_en: "Prints the full real path of a file, resolving links and '..'.",
+      summary_zh: "打印文件的真实完整路径，会解开链接和 ..。",
       example: "realpath ./index.html",
       options: [
-        { flag: "PATH", meaning: "Canonical path" },
-        { flag: "-e", meaning: "Fail if the path does not exist" },
+        { flag: "PATH", meaning_en: "Canonical path", meaning_zh: "规范的完整路径" },
+        { flag: "-e", meaning_en: "Fail if the path does not exist", meaning_zh: "路径不存在就失败" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/realpath.1.html" },
       ],
     },
-
     {
       name: "gunzip",
       category: "file-directory",
-      summary: "Uncompresses a .gz file made by gzip.",
+      summary_en: "Uncompresses a .gz file made by gzip.",
+      summary_zh: "解开 gzip 生成的 .gz 文件。",
       example: "gunzip notes.txt.gz",
       options: [
-        { flag: "FILE.gz", meaning: "Uncompress (replaces the .gz file)" },
-        { flag: "-k", meaning: "Keep the .gz file" },
-        { flag: "-c", meaning: "Write uncompressed data to the screen" },
+        { flag: "FILE.gz", meaning_en: "Uncompress (replaces the .gz file)", meaning_zh: "解压（会替换掉 .gz 文件）" },
+        { flag: "-k", meaning_en: "Keep the .gz file", meaning_zh: "保留 .gz 文件" },
+        { flag: "-c", meaning_en: "Write uncompressed data to the screen", meaning_zh: "把解开的内容打到屏幕" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/gunzip.1.html" },
       ],
     },
-
     {
       name: "bzip2",
       category: "file-directory",
-      summary: "Compresses a file to .bz2. Often smaller than gzip, slower.",
+      summary_en: "Compresses a file to .bz2. Often smaller than gzip, slower.",
+      summary_zh: "压成 .bz2。通常比 gzip 更小，也更慢。",
       example: "bzip2 big.log",
       options: [
-        { flag: "FILE", meaning: "Compress FILE to FILE.bz2" },
-        { flag: "-d", meaning: "Decompress" },
-        { flag: "-k", meaning: "Keep the original file" },
+        { flag: "FILE", meaning_en: "Compress FILE to FILE.bz2", meaning_zh: "把 FILE 压成 FILE.bz2" },
+        { flag: "-d", meaning_en: "Decompress", meaning_zh: "解压" },
+        { flag: "-k", meaning_en: "Keep the original file", meaning_zh: "保留原文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/bzip2.1.html" },
       ],
     },
-
     {
       name: "xz",
       category: "file-directory",
-      summary: "Compresses a file to .xz. Strong compression; used by many modern packages.",
+      summary_en: "Compresses a file to .xz. Strong compression; used by many modern packages.",
+      summary_zh: "压成 .xz。压缩率高，很多软件包在用。",
       example: "xz big.log",
       options: [
-        { flag: "FILE", meaning: "Compress to FILE.xz" },
-        { flag: "-d", meaning: "Decompress" },
-        { flag: "-k", meaning: "Keep the original file" },
+        { flag: "FILE", meaning_en: "Compress to FILE.xz", meaning_zh: "压成 FILE.xz" },
+        { flag: "-d", meaning_en: "Decompress", meaning_zh: "解压" },
+        { flag: "-k", meaning_en: "Keep the original file", meaning_zh: "保留原文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/xz.1.html" },
       ],
     },
-
     {
       name: "zip",
       category: "file-directory",
-      summary: "Creates a .zip archive. Common when sharing files with Windows/macOS.",
+      summary_en: "Creates a .zip archive. Common when sharing files with Windows/macOS.",
+      summary_zh: "做成 .zip 压缩包，方便和 Windows、macOS 交换文件。",
       example: "zip -r backup.zip folder/",
       options: [
-        { flag: "-r ARCHIVE DIR", meaning: "Zip a folder and its contents" },
-        { flag: "-l", meaning: "List files inside a zip (zip -sf on some systems)" },
+        { flag: "-r ARCHIVE DIR", meaning_en: "Zip a folder and its contents", meaning_zh: "把文件夹连同内容打成 zip" },
+        { flag: "-l", meaning_en: "List files inside a zip (zip -sf on some systems)", meaning_zh: "列出 zip 里的文件" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/zip.1.html" },
       ],
     },
-
     {
       name: "rsync",
       category: "file-directory",
-      summary: "Copies files and folders efficiently, locally or over the network. Good for backups.",
+      summary_en: "Copies files and folders efficiently, locally or over the network. Good for backups.",
+      summary_zh: "高效复制文件和文件夹，本地或网络都可以，适合备份。",
       example: "rsync -av src/ dest/",
       options: [
-        { flag: "-a", meaning: "Archive mode: keep dates, permissions, copy folders" },
-        { flag: "-v", meaning: "Verbose (show names)" },
-        { flag: "-n", meaning: "Dry run (show what would copy)" },
-        { flag: "--delete", meaning: "Remove extra files in dest (dangerous; check first)" },
+        { flag: "-a", meaning_en: "Archive mode: keep dates, permissions, copy folders", meaning_zh: "归档模式：保留日期、权限并复制目录" },
+        { flag: "-v", meaning_en: "Verbose (show names)", meaning_zh: "详细模式（显示名字）" },
+        { flag: "-n", meaning_en: "Dry run (show what would copy)", meaning_zh: "演练：只显示会复制什么" },
+        { flag: "--delete", meaning_en: "Remove extra files in dest (dangerous; check first)", meaning_zh: "删除目标里多出来的文件（危险，先检查）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/rsync.1.html" },
       ],
     },
-
     {
       name: "mount",
       category: "file-directory",
-      summary: "Attaches a disk or filesystem to a folder so you can use it.",
+      summary_en: "Attaches a disk or filesystem to a folder so you can use it.",
+      summary_zh: "把磁盘或文件系统挂到某个目录上才能使用。",
       example: "mount",
       options: [
-        { flag: "mount", meaning: "List mounted filesystems" },
-        { flag: "DEVICE DIR", meaning: "Mount DEVICE on DIR (often needs sudo)" },
+        { flag: "mount", meaning_en: "List mounted filesystems", meaning_zh: "列出已挂载的文件系统" },
+        { flag: "DEVICE DIR", meaning_en: "Mount DEVICE on DIR (often needs sudo)", meaning_zh: "把设备挂到 DIR（常需 sudo）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/mount.8.html" },
       ],
     },
-
     {
       name: "umount",
       category: "file-directory",
-      summary: "Detaches a mounted disk or filesystem. Note the spelling: umount, not unmount.",
+      summary_en: "Detaches a mounted disk or filesystem. Note the spelling: umount, not unmount.",
+      summary_zh: "卸载已挂载的磁盘。注意拼写是 umount，没有 n。",
       example: "sudo umount /mnt/usb",
       options: [
-        { flag: "DIR", meaning: "Unmount this mount point" },
-        { flag: "DEVICE", meaning: "Unmount this device" },
+        { flag: "DIR", meaning_en: "Unmount this mount point", meaning_zh: "卸载这个挂载点" },
+        { flag: "DEVICE", meaning_en: "Unmount this device", meaning_zh: "卸载这个设备" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/umount.8.html" },
       ],
     },
-
     {
       name: "dd",
       category: "file-directory",
-      summary: "Copies raw data from one file or device to another. Powerful and easy to misuse.",
+      summary_en: "Copies raw data from one file or device to another. Powerful and easy to misuse.",
+      summary_zh: "按块复制原始数据。很强大，用错设备会很危险。",
       example: "dd if=image.iso of=/dev/sdb bs=4M status=progress",
       options: [
-        { flag: "if=FILE", meaning: "Input file or device" },
-        { flag: "of=FILE", meaning: "Output file or device" },
-        { flag: "bs=SIZE", meaning: "Block size" },
-        { flag: "status=progress", meaning: "Show progress" },
+        { flag: "if=FILE", meaning_en: "Input file or device", meaning_zh: "输入文件或设备" },
+        { flag: "of=FILE", meaning_en: "Output file or device", meaning_zh: "输出文件或设备" },
+        { flag: "bs=SIZE", meaning_en: "Block size", meaning_zh: "块大小" },
+        { flag: "status=progress", meaning_en: "Show progress", meaning_zh: "显示进度" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/dd.1.html" },
       ],
     },
-
     {
       name: "netstat",
       category: "network",
-      summary: "Older tool to list network connections and listening ports. Many systems now prefer ss.",
+      summary_en: "Older tool to list network connections and listening ports. Many systems now prefer ss.",
+      summary_zh: "较老的工具，列出连接和监听端口。现在多用 ss。",
       example: "netstat -tuln",
       options: [
-        { flag: "-t", meaning: "TCP" },
-        { flag: "-u", meaning: "UDP" },
-        { flag: "-l", meaning: "Listening sockets" },
-        { flag: "-n", meaning: "Show numbers, do not resolve names" },
+        { flag: "-t", meaning_en: "TCP", meaning_zh: "TCP" },
+        { flag: "-u", meaning_en: "UDP", meaning_zh: "UDP" },
+        { flag: "-l", meaning_en: "Listening sockets", meaning_zh: "正在监听的端口" },
+        { flag: "-n", meaning_en: "Show numbers, do not resolve names", meaning_zh: "显示数字，不解析名称" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man8/netstat.8.html" },
       ],
     },
-
     {
       name: "host",
       category: "network",
-      summary: "Looks up a domain name or IP address (simple DNS query).",
+      summary_en: "Looks up a domain name or IP address (simple DNS query).",
+      summary_zh: "简单查询域名或 IP（DNS）。",
       example: "host example.com",
       options: [
-        { flag: "NAME", meaning: "Resolve NAME" },
-        { flag: "-t TYPE", meaning: "Query record type (A, MX, TXT…)" },
+        { flag: "NAME", meaning_en: "Resolve NAME", meaning_zh: "解析 NAME" },
+        { flag: "-t TYPE", meaning_en: "Query record type (A, MX, TXT…)", meaning_zh: "查询记录类型（A、MX、TXT…）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/host.1.html" },
       ],
     },
-
     {
       name: "dig",
       category: "network",
-      summary: "Detailed DNS lookup tool. Shows more than nslookup.",
+      summary_en: "Detailed DNS lookup tool. Shows more than nslookup.",
+      summary_zh: "更详细的 DNS 查询工具，信息比 nslookup 多。",
       example: "dig example.com",
       options: [
-        { flag: "NAME", meaning: "Query NAME" },
-        { flag: "+short", meaning: "Short answer only" },
-        { flag: "NAME MX", meaning: "Mail records" },
+        { flag: "NAME", meaning_en: "Query NAME", meaning_zh: "查询 NAME" },
+        { flag: "+short", meaning_en: "Short answer only", meaning_zh: "只要简短答案" },
+        { flag: "NAME MX", meaning_en: "Mail records", meaning_zh: "邮件记录（MX）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/dig.1.html" },
       ],
     },
-
     {
       name: "ftp",
       category: "network",
-      summary: "Old file-transfer program. Shotts covers it; today people often use sftp or scp instead.",
+      summary_en: "Old file-transfer program. Shotts covers it; today people often use sftp or scp instead.",
+      summary_zh: "较早的文件传输程序。现在更常用 sftp 或 scp。",
       example: "ftp ftp.example.com",
       options: [
-        { flag: "HOST", meaning: "Connect to HOST" },
-        { flag: "get FILE", meaning: "Download one file (inside ftp)" },
-        { flag: "put FILE", meaning: "Upload one file (inside ftp)" },
+        { flag: "HOST", meaning_en: "Connect to HOST", meaning_zh: "连接到 HOST" },
+        { flag: "get FILE", meaning_en: "Download one file (inside ftp)", meaning_zh: "下载一个文件（ftp 内部命令）" },
+        { flag: "put FILE", meaning_en: "Upload one file (inside ftp)", meaning_zh: "上传一个文件（ftp 内部命令）" },
       ],
       links: [
         { label: "man7.org", url: "https://man7.org/linux/man-pages/man1/ftp.1.html" },
       ],
     },
-
     {
       name: "zypper",
       category: "packages",
-      summary: "Package tool on openSUSE and SUSE. Shotts includes it with apt/yum/dnf.",
+      summary_en: "Package tool on openSUSE and SUSE. Shotts includes it with apt/yum/dnf.",
+      summary_zh: "openSUSE / SUSE 上的软件包工具。",
       example: "sudo zypper install curl",
       options: [
-        { flag: "install PKG", meaning: "Install" },
-        { flag: "remove PKG", meaning: "Remove" },
-        { flag: "update", meaning: "Update packages" },
-        { flag: "search WORD", meaning: "Search" },
+        { flag: "install PKG", meaning_en: "Install", meaning_zh: "安装" },
+        { flag: "remove PKG", meaning_en: "Remove", meaning_zh: "删除软件包" },
+        { flag: "update", meaning_en: "Update packages", meaning_zh: "更新软件包" },
+        { flag: "search WORD", meaning_en: "Search", meaning_zh: "搜索" },
       ],
       links: [
         { label: "openSUSE zypper", url: "https://en.opensuse.org/SDB:Zypper_manual" },
