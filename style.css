@@ -82,7 +82,8 @@ body {
 .toolbar,
 .results,
 .site-footer,
-.empty {
+.empty,
+.hub {
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
@@ -94,6 +95,21 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.nav-home {
+  margin: 0 0 0.45rem;
+}
+
+.nav-home a {
+  color: var(--accent-hot);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.nav-home a:hover {
+  text-decoration: underline;
 }
 
 h1 {
@@ -401,6 +417,56 @@ a:focus-visible {
   font-size: 0.9rem;
 }
 
+.header-tools-hub {
+  flex: 0 0 auto;
+  max-width: none;
+}
+
+.hub {
+  padding: 1.4rem 1.25rem 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.85rem;
+}
+
+.tile {
+  display: block;
+  background: var(--bg-raised);
+  border-radius: var(--radius);
+  border-top: 3px solid var(--line);
+  padding: 1.15rem 1.2rem 1.05rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  min-height: 7.5rem;
+}
+
+.tile h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.15rem;
+}
+
+.tile-hint,
+.soon {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.tile-live {
+  border-top-color: var(--accent);
+}
+
+.tile-live:hover {
+  outline: 1px solid var(--accent);
+}
+
+.tile-soon {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+
 .fatal {
   max-width: 960px;
   margin: 1rem auto;
@@ -424,6 +490,10 @@ a:focus-visible {
 
   .lang-toggle {
     align-self: flex-end;
+  }
+
+  .hub {
+    grid-template-columns: 1fr;
   }
 
   h1 {

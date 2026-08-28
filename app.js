@@ -23,9 +23,16 @@ const I18N = {
     copy: "复制",
     copied: "已复制",
     exact: "精确匹配",
+    home: "首页",
+    hubTitle: "学习手册",
+    hubLede: "先选一个主题。现在只有 Linux 可用。",
+    hubSkip: "跳到主题",
+    linuxTile: "Linux 命令手册",
+    linuxHint: "打开手册",
+    soon: "稍后",
     footer:
       "用浏览器直接打开本文件即可。查询在你的电脑上用 SQLite（sql.js）完成。man7.org 和 linux.die.net 的手册链接需要联网。",
-    sqliteFail: "SQLite 未能加载。请把 vendor 文件夹和 index.html 放在一起。",
+    sqliteFail: "SQLite 未能加载。请把 vendor 文件夹和本页放在一起。",
     sqliteFailStatus: "SQLite 加载失败",
   },
   en: {
@@ -49,9 +56,16 @@ const I18N = {
     copy: "Copy",
     copied: "Copied",
     exact: "Exact match",
+    home: "Home",
+    hubTitle: "Learning handbook",
+    hubLede: "Pick a topic. Only Linux is available now.",
+    hubSkip: "Skip to topics",
+    linuxTile: "Linux command reference",
+    linuxHint: "Open the handbook",
+    soon: "Later",
     footer:
       "Open this file in a browser. Queries run in SQLite (sql.js) on your machine. Manual pages on man7.org and linux.die.net need a network connection.",
-    sqliteFail: "SQLite files did not load. Keep the vendor folder next to index.html.",
+    sqliteFail: "SQLite files did not load. Keep the vendor folder next to this page.",
     sqliteFailStatus: "SQLite failed to load",
   },
 };
@@ -65,6 +79,8 @@ const state = {
   exactHit: false,
 };
 
+const isHandbook = Boolean(document.getElementById("results"));
+const isHub = Boolean(document.getElementById("hub"));
 const searchInput = document.getElementById("search");
 const categoryNav = document.getElementById("categories");
 const resultsEl = document.getElementById("results");
@@ -270,21 +286,36 @@ function queryCommands() {
 function applyChrome() {
   const ui = t();
   document.documentElement.lang = ui.htmlLang;
-  document.title = ui.title;
   const skip = document.querySelector(".skip-link");
-  if (skip) skip.textContent = ui.skip;
   const h1 = document.querySelector("h1");
-  if (h1) h1.textContent = ui.title;
   const lede = document.querySelector(".lede");
-  if (lede) lede.textContent = ui.lede;
+  const home = document.getElementById("home-link");
+  if (home) home.textContent = ui.home;
+  if (isHub) {
+    document.title = ui.hubTitle;
+    if (skip) skip.textContent = ui.hubSkip;
+    if (h1) h1.textContent = ui.hubTitle;
+    if (lede) lede.textContent = ui.hubLede;
+    const linuxTitle = document.getElementById("tile-linux-title");
+    const linuxHint = document.getElementById("tile-linux-hint");
+    if (linuxTitle) linuxTitle.textContent = ui.linuxTile;
+    if (linuxHint) linuxHint.textContent = ui.linuxHint;
+    document.querySelectorAll(".tile-soon .soon").forEach((el) => {
+      el.textContent = ui.soon;
+    });
+  } else {
+    document.title = ui.title;
+    if (skip) skip.textContent = ui.skip;
+    if (h1) h1.textContent = ui.title;
+    if (lede) lede.textContent = ui.lede;
+  }
   const searchLabel = document.querySelector(".search-wrap .visually-hidden");
   if (searchLabel) searchLabel.textContent = ui.searchLabel;
-  searchInput.placeholder = ui.searchPh;
+  if (searchInput) searchInput.placeholder = ui.searchPh;
   const hint = document.getElementById("search-hint");
   if (hint) hint.textContent = ui.searchHint;
-  categoryNav.setAttribute("aria-label", ui.catsLabel);
-  const empty = document.getElementById("empty");
-  if (empty) empty.textContent = ui.empty;
+  if (categoryNav) categoryNav.setAttribute("aria-label", ui.catsLabel);
+  if (emptyEl) emptyEl.textContent = ui.empty;
   const footer = document.querySelector(".site-footer p");
   if (footer) footer.textContent = ui.footer;
   if (langToggle) {
@@ -391,18 +422,27 @@ function render() {
     .join("");
 }
 
-function bind() {
-  searchInput.addEventListener("input", () => {
-    state.query = searchInput.value.trim();
-    render();
-  });
+function refresh() {
+  if (isHandbook && state.db) render();
+  else applyChrome();
+}
 
-  categoryNav.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-slug]");
-    if (!button) return;
-    state.category = button.dataset.slug || "";
-    render();
-  });
+function bind() {
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      state.query = searchInput.value.trim();
+      render();
+    });
+  }
+
+  if (categoryNav) {
+    categoryNav.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-slug]");
+      if (!button) return;
+      state.category = button.dataset.slug || "";
+      render();
+    });
+  }
 
   if (langToggle) {
     langToggle.addEventListener("click", (event) => {
@@ -411,9 +451,11 @@ function bind() {
       const next = button.dataset.lang === "en" ? "en" : "zh";
       state.lang = next;
       saveLang(next);
-      render();
+      refresh();
     });
   }
+
+  if (!resultsEl) return;
 
   resultsEl.addEventListener("click", async (event) => {
     const copy = event.target.closest(".copy-btn");
@@ -452,6 +494,7 @@ function bind() {
   });
 
   document.addEventListener("keydown", (event) => {
+    if (!searchInput) return;
     if (event.key === "/" && document.activeElement !== searchInput) {
       event.preventDefault();
       searchInput.focus();
@@ -467,7 +510,9 @@ function bind() {
 
 async function init() {
   applyChrome();
-  statusEl.textContent = t().loading;
+  bind();
+  if (!isHandbook) return;
+  if (statusEl) statusEl.textContent = t().loading;
   try {
     if (typeof initSqlJs !== "function" || !window.SQL_WASM_BASE64) {
       throw new Error(t().sqliteFail);
@@ -484,10 +529,9 @@ async function init() {
       state.query = searchInput.value.trim();
     }
     if (params.has("cat")) state.category = params.get("cat") || "";
-    bind();
     render();
   } catch (err) {
-    statusEl.textContent = t().sqliteFailStatus;
+    if (statusEl) statusEl.textContent = t().sqliteFailStatus;
     const box = document.createElement("p");
     box.className = "fatal";
     box.textContent = err.message || String(err);
