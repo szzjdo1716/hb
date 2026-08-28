@@ -6,7 +6,6 @@ const I18N = {
     htmlLang: "zh-CN",
     title: "Linux 命令手册",
     skip: "跳到命令列表",
-    eyebrow: "离线 · SQLite",
     lede: "常用 Linux 命令，保存在本地 SQLite 中。搜索或点分类即可查阅。打开本文件后无需联网（手册链接除外）。",
     searchLabel: "搜索命令",
     searchPh: "输入命令名，例如 ls 或 grep",
@@ -33,7 +32,6 @@ const I18N = {
     htmlLang: "en",
     title: "Linux Command Reference",
     skip: "Skip to commands",
-    eyebrow: "Offline · SQLite",
     lede: "Common commands, stored in a local SQLite database. Search or pick a category. Works without the internet after you open this file.",
     searchLabel: "Search commands",
     searchPh: "Type a command name, e.g. ls or grep",
@@ -275,8 +273,6 @@ function applyChrome() {
   document.title = ui.title;
   const skip = document.querySelector(".skip-link");
   if (skip) skip.textContent = ui.skip;
-  const eyebrow = document.querySelector(".eyebrow");
-  if (eyebrow) eyebrow.textContent = ui.eyebrow;
   const h1 = document.querySelector("h1");
   if (h1) h1.textContent = ui.title;
   const lede = document.querySelector(".lede");
