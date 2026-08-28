@@ -17,6 +17,15 @@
   --perm: #fbbf24;
   --net: #f472b6;
   --pkg: #fb923c;
+  --gh: #a5b4fc;
+  --gh-setup: #38bdf8;
+  --gh-local: #34d399;
+  --gh-remote: #818cf8;
+  --gh-branch: #fbbf24;
+  --gh-web: #f472b6;
+  --gh-pages: #22d3ee;
+  --gh-ipad: #c084fc;
+  --gh-safety: #fb7185;
   --radius: 14px;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -248,6 +257,14 @@ a:focus-visible {
 .cmd[data-slug="permissions"] { border-top-color: var(--perm); }
 .cmd[data-slug="network"] { border-top-color: var(--net); }
 .cmd[data-slug="packages"] { border-top-color: var(--pkg); }
+.cmd[data-slug="setup"] { border-top-color: var(--gh-setup); }
+.cmd[data-slug="local"] { border-top-color: var(--gh-local); }
+.cmd[data-slug="remote"] { border-top-color: var(--gh-remote); }
+.cmd[data-slug="branch"] { border-top-color: var(--gh-branch); }
+.cmd[data-slug="github-web"] { border-top-color: var(--gh-web); }
+.cmd[data-slug="pages"] { border-top-color: var(--gh-pages); }
+.cmd[data-slug="ipad"] { border-top-color: var(--gh-ipad); }
+.cmd[data-slug="safety"] { border-top-color: var(--gh-safety); }
 
 .cmd-head {
   width: 100%;
@@ -461,6 +478,14 @@ a:focus-visible {
 
 .tile-live:hover {
   outline: 1px solid var(--accent);
+}
+
+.tile-github {
+  border-top-color: var(--gh);
+}
+
+.tile-github:hover {
+  outline-color: var(--gh);
 }
 
 .tile-soon {

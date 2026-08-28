@@ -26,10 +26,12 @@ const I18N = {
     exact: "精确匹配",
     home: "首页",
     hubTitle: "学习手册",
-    hubLede: "先选一个主题。现在只有 Linux 可用。",
+    hubLede: "先选一个主题。现在 Linux 和 GitHub 可用。",
     hubSkip: "跳到主题",
     linuxTile: "Linux 命令手册",
     linuxHint: "打开手册",
+    githubTile: "GitHub 入门手册",
+    githubHint: "打开手册",
     soon: "稍后",
     footer:
       "用浏览器直接打开本文件即可。查询在你的电脑上用 SQLite（sql.js）完成。man7.org 和 linux.die.net 的手册链接需要联网。",
@@ -60,10 +62,12 @@ const I18N = {
     exact: "Exact match",
     home: "Home",
     hubTitle: "Learning handbook",
-    hubLede: "Pick a topic. Only Linux is available now.",
+    hubLede: "Pick a topic. Linux and GitHub are available now.",
     hubSkip: "Skip to topics",
     linuxTile: "Linux command reference",
     linuxHint: "Open the handbook",
+    githubTile: "GitHub starter handbook",
+    githubHint: "Open the handbook",
     soon: "Later",
     footer:
       "Open this file in a browser. Queries run in SQLite (sql.js) on your machine. Manual pages on man7.org and linux.die.net need a network connection.",
@@ -71,6 +75,32 @@ const I18N = {
     sqliteFailStatus: "SQLite failed to load",
   },
 };
+
+const SUBJECT_I18N = {
+  github: {
+    zh: {
+      title: "GitHub 入门手册",
+      lede: "从本机 git 到 GitHub 网页、Pages、iPad 编辑。搜索命令名或主题词即可。打开本页后无需联网（文档链接除外）。",
+      searchPh: "输入 git status、push、pages、pr …",
+      searchHint: "只输入命令名或主题名时，只显示这一条。",
+      footer:
+        "查询在你的电脑上用 SQLite（sql.js）完成。docs.github.com 链接需要联网。Grok Build CLI 不能在 iPad 上运行。",
+      status: (n, total) => `${n} / ${total} 条 · SQLite`,
+    },
+    en: {
+      title: "GitHub starter handbook",
+      lede: "From local git to GitHub website, Pages, and iPad editing. Search a command or topic. Works offline after this page loads (doc links need the network).",
+      searchPh: "Type git status, push, pages, pr…",
+      searchHint: "A command or topic name shows that card only.",
+      footer:
+        "Queries run in SQLite (sql.js) on your machine. docs.github.com links need a network. Grok Build CLI does not run on iPad.",
+      status: (n, total) => `${n} of ${total} · SQLite`,
+    },
+  },
+};
+
+const HANDBOOK_DATA = window.GITHUB_DATA || window.LINUX_DATA;
+const SUBJECT = window.GITHUB_DATA ? "github" : window.LINUX_DATA ? "linux" : "";
 
 const state = {
   db: null,
@@ -91,7 +121,9 @@ const statusEl = document.getElementById("status");
 const langToggle = document.getElementById("lang-toggle");
 
 function t() {
-  return I18N[state.lang] || I18N.zh;
+  const base = I18N[state.lang] || I18N.zh;
+  const extra = (SUBJECT_I18N[SUBJECT] && SUBJECT_I18N[SUBJECT][state.lang]) || {};
+  return Object.assign({}, base, extra);
 }
 
 function readLang() {
@@ -175,7 +207,7 @@ function seed(db) {
   const insertCat = db.prepare(
     "INSERT INTO categories (slug, name_en, name_zh, sort_order) VALUES (?, ?, ?, ?)"
   );
-  LINUX_DATA.categories.forEach((cat, index) => {
+  HANDBOOK_DATA.categories.forEach((cat, index) => {
     insertCat.run([
       cat.slug,
       cat.name_en || cat.name || "",
@@ -190,7 +222,7 @@ function seed(db) {
       (name, category_slug, summary_en, summary_zh, example, options_json, links_json, shortcuts_json)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
   );
-  LINUX_DATA.commands.forEach((cmd) => {
+  HANDBOOK_DATA.commands.forEach((cmd) => {
     insertCmd.run([
       cmd.name,
       cmd.category,
@@ -249,11 +281,13 @@ function queryCommands() {
   }
 
   if (q) {
-    if (names.has(first.toLowerCase())) {
+    if (names.has(q.toLowerCase())) {
+      sql += " AND c.name = ? COLLATE NOCASE";
+      params.push(q);
+    } else if (SUBJECT !== "github" && names.has(first.toLowerCase())) {
       sql += " AND c.name = ? COLLATE NOCASE";
       params.push(first);
-      state.exactHit = true;
-    } else if (tokens.length === 1 && CMD_TOKEN.test(q)) {
+    } else if (SUBJECT !== "github" && tokens.length === 1 && CMD_TOKEN.test(q)) {
       sql += " AND c.name LIKE ? COLLATE NOCASE";
       params.push(prefixNeedle(q));
     }
@@ -264,9 +298,15 @@ function queryCommands() {
   stmt.bind(params);
   let rows = rowsFrom(stmt);
 
-  if (q && !names.has(first.toLowerCase()) && !(tokens.length === 1 && CMD_TOKEN.test(q))) {
+  const usedNameExact = q && names.has(q.toLowerCase());
+  const usedLinuxFirst =
+    q && SUBJECT !== "github" && names.has(first.toLowerCase());
+  const usedLinuxPrefix =
+    q && SUBJECT !== "github" && tokens.length === 1 && CMD_TOKEN.test(q);
+  if (q && !usedNameExact && !usedLinuxFirst && !usedLinuxPrefix) {
     const needle = q.toLowerCase();
     rows = rows.filter((row) => {
+      const inName = String(row.name || "").toLowerCase().includes(needle);
       const summary = pickText(row, "summary_en", "summary_zh").toLowerCase();
       let options = [];
       try {
@@ -275,15 +315,15 @@ function queryCommands() {
         options = [];
       }
       const optText = options.map(optionMeaning).join(" ").toLowerCase();
-      return summary.includes(needle) || optText.includes(needle);
+      return inName || summary.includes(needle) || optText.includes(needle);
     });
   }
 
   state.exactHit =
     Boolean(q) &&
     rows.length === 1 &&
-    names.has(first.toLowerCase()) &&
-    rows[0].name.toLowerCase() === first.toLowerCase();
+    names.has(q.toLowerCase()) &&
+    rows[0].name.toLowerCase() === q.toLowerCase();
   return rows;
 }
 
@@ -304,6 +344,10 @@ function applyChrome() {
     const linuxHint = document.getElementById("tile-linux-hint");
     if (linuxTitle) linuxTitle.textContent = ui.linuxTile;
     if (linuxHint) linuxHint.textContent = ui.linuxHint;
+    const githubTitle = document.getElementById("tile-github-title");
+    const githubHint = document.getElementById("tile-github-hint");
+    if (githubTitle) githubTitle.textContent = ui.githubTile;
+    if (githubHint) githubHint.textContent = ui.githubHint;
     document.querySelectorAll(".tile-soon .soon").forEach((el) => {
       el.textContent = ui.soon;
     });
@@ -545,6 +589,9 @@ async function init() {
   if (!isHandbook) return;
   if (statusEl) statusEl.textContent = t().loading;
   try {
+    if (!HANDBOOK_DATA) {
+      throw new Error(t().sqliteFail);
+    }
     if (typeof initSqlJs !== "function" || !window.SQL_WASM_BASE64) {
       throw new Error(t().sqliteFail);
     }
