@@ -846,7 +846,7 @@ function pmatrixColHtml(entries) {
       return `<tr><td>${mathHtml(t)}</td></tr>`;
     })
     .join("");
-  return `<span class="pmatrix"><table><tbody>${rows}</tbody></table></span>`;
+  return `<span class="pmatrix pmatrix-col"><table><tbody>${rows}</tbody></table></span>`;
 }
 
 function pmatrixSpec(tl, tr, bl, br) {
@@ -1155,16 +1155,17 @@ function entryBody(row) {
       const isCol =
         part.kind === "col" || (HARDCODED_PMATRIX[row.id] || {}).kind === "col";
       const prev = chunks[chunks.length - 1] || "";
+      const colInner = unwrapPmatrixExpr(html);
       if (isCol && thenHtml && /^<p class="math-prose">/.test(prev) && /=\s*<\/p>\s*$/.test(prev)) {
         chunks[chunks.length - 1] = prev.replace(
-          /<\/p>\s*$/,
-          ` ${unwrapPmatrixExpr(html)}${thenHtml}</p>`
+          /(\S+(?:\([^)]*\))?)\s*=\s*<\/p>\s*$/u,
+          `<span class="pmatrix-inline">$1 = ${colInner}</span>${thenHtml}</p>`
         );
         continue;
       }
       if (isCol && thenHtml) {
         chunks.push(
-          `<p class="math-prose">${unwrapPmatrixExpr(html)}${thenHtml}</p>`
+          `<p class="math-prose">${colInner}${thenHtml}</p>`
         );
         continue;
       }

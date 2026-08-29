@@ -707,6 +707,7 @@ a:focus-visible {
 
 .pmatrix-then {
   font-size: 1em;
+  white-space: normal;
 }
 
 .pmatrix-op {
@@ -745,6 +746,71 @@ a:focus-visible {
 
 .pmatrix td {
   padding: 0.08em 0.4em;
+  text-align: center;
+}
+
+.pmatrix-inline {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.35em;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.pmatrix.pmatrix-col {
+  display: inline-table;
+  vertical-align: middle;
+  border-collapse: collapse;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  gap: 0;
+  align-items: stretch;
+}
+
+.pmatrix.pmatrix-col::before,
+.pmatrix.pmatrix-col::after {
+  display: table-cell;
+  vertical-align: middle;
+  font-family: var(--math, "STIX Two Math", "Cambria Math", serif);
+  font-size: 3.1em;
+  font-weight: 300;
+  line-height: 0.75;
+  height: 100%;
+  pointer-events: none;
+}
+
+.pmatrix.pmatrix-col::before {
+  content: "(";
+  padding-right: 0.02em;
+}
+
+.pmatrix.pmatrix-col::after {
+  content: ")";
+  padding-left: 0.02em;
+}
+
+.pmatrix.pmatrix-col > table {
+  display: table-cell;
+  vertical-align: middle;
+  border-collapse: collapse;
+}
+
+.pmatrix.pmatrix-col tbody {
+  display: table;
+}
+
+.pmatrix.pmatrix-col tr {
+  display: table-row;
+}
+
+.pmatrix.pmatrix-col td {
+  display: table-cell;
+  padding: 0.02em 0.28em;
+  line-height: 1.15;
   text-align: center;
 }
 
