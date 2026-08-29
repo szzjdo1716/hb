@@ -389,10 +389,44 @@ function stripTags(value) {
     .replace(/&quot;/g, '"');
 }
 
+function eqIds() {
+  const fromData = (HANDBOOK_DATA && HANDBOOK_DATA.eq_ids) || [];
+  return new Set(fromData.map(String));
+}
+
+function cardIds() {
+  const entries = (HANDBOOK_DATA && HANDBOOK_DATA.entries) || [];
+  return new Set(entries.map((e) => String(e.id)));
+}
+
+function refHref(id) {
+  const cards = cardIds();
+  const eqs = eqIds();
+  if (cards.has(id)) return `#card-${id}`;
+  if (eqs.has(id)) return `#eq-${id}`;
+  return `#card-${id}`;
+}
+
+function linkifyRefs(html) {
+  return String(html || "").replace(
+    /(\d{1,2}\.\d{1,3})/g,
+    (full, id, offset, src) => {
+      const before = src.slice(Math.max(0, offset - 10), offset);
+      if (/id="(?:card|eq)-$/.test(before) || /#[a-z]*-$/.test(before)) return full;
+      return `<a class="ref" href="${refHref(id)}">${id}</a>`;
+    }
+  );
+}
+
 function mathHtml(value) {
   let s = String(value || "").replace(/<\s*\/?\s*script/gi, "");
+  s = s.replace(/\^{([^}]+)}/g, "<sup>$1</sup>");
+  s = s.replace(/_\{([^}]+)}/g, "<sub>$1</sub>");
+  s = s.replace(/([A-Za-zΑ-ω𝐴-𝑧𝑉𝐅𝒫ℒℳ0-9\)\]])\^([A-Za-z0-9])/g, "$1<sup>$2</sup>");
+  s = s.replace(/([A-Za-zΑ-ω𝐴-𝑧𝑉𝐅𝒫ℒℳ0-9\)\]])_([A-Za-z0-9])/g, "$1<sub>$2</sub>");
   s = s.replace(/([abcdn0𝑎𝑏𝑐𝑑])\s*<sub>\s*[i𝑖]\s*<\/sub>/gi, "$1𝑖");
   s = s.replace(/([i𝑖])<sub>\s*2\s*<\/sub>/g, "$1<sup>2</sup>");
+  s = linkifyRefs(s);
   return s;
 }
 
@@ -693,6 +727,17 @@ function flushBullets(items) {
     .join("")}</ul>`;
 }
 
+function formulaBlock(part, picked) {
+  const eq = part && part.eq;
+  const inner = withEnNote(picked.text, picked.note);
+  if (eq) {
+    return `<div class="math-block has-eq" id="eq-${esc(eq)}"><span class="eq-num">(${esc(
+      eq
+    )})</span><div class="eq-math">${inner}</div></div>`;
+  }
+  return `<div class="math-block">${inner}</div>`;
+}
+
 function entryBody(row) {
   const layout = parseLayout(row.layout_json);
   const body = Array.isArray(layout.body) ? layout.body : [];
@@ -710,9 +755,7 @@ function entryBody(row) {
       bullets = [];
     }
     if (kind === "formula") {
-      if (picked.text) {
-        chunks.push(`<div class="math-block">${withEnNote(picked.text, picked.note)}</div>`);
-      }
+      if (picked.text) chunks.push(formulaBlock(part, picked));
       return;
     }
     if (picked.text) {
@@ -758,7 +801,7 @@ function renderLinear(rows) {
         ? `<span class="exact-badge">${esc(ui.exact)}</span>`
         : "";
       return `
-        <article class="cmd entry" data-name="${esc(row.id)}" data-slug="${esc(
+        <article class="cmd entry" id="card-${esc(row.id)}" data-name="${esc(row.id)}" data-slug="${esc(
         row.chapter
       )}" data-kind="${esc(row.kind)}">
           <button class="cmd-head" type="button" aria-expanded="${open}">
@@ -907,6 +950,17 @@ function bind() {
     head.querySelector(".chev").textContent = open ? "▾" : "▸";
   });
 
+  resultsEl.addEventListener("click", (event) => {
+    const ref = event.target.closest("a.ref");
+    if (!ref) return;
+    const href = ref.getAttribute("href") || "";
+    if (!href.startsWith("#")) return;
+    event.preventDefault();
+    openHash(href);
+  });
+
+  window.addEventListener("hashchange", () => openHash(location.hash));
+
   document.addEventListener("keydown", (event) => {
     if (!searchInput) return;
     if (event.key === "/" && document.activeElement !== searchInput) {
@@ -920,6 +974,23 @@ function bind() {
       searchInput.blur();
     }
   });
+}
+
+function openHash(hash) {
+  const raw = String(hash || "").replace(/^#/, "");
+  const m = /^(card|eq)-(\d{1,2}\.\d{1,3})$/.exec(raw);
+  if (!m || !searchInput) return;
+  let id = m[2];
+  if (m[1] === "eq") {
+    const map = (HANDBOOK_DATA && HANDBOOK_DATA.eq_map) || {};
+    id = map[id] || id;
+  }
+  searchInput.value = id;
+  state.query = id;
+  state.open.add(id);
+  render();
+  const el = document.getElementById(raw) || document.getElementById(`card-${id}`);
+  if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
 }
 
 async function init() {
@@ -952,6 +1023,7 @@ async function init() {
       saveLang(langParam);
     }
     render();
+    if (location.hash) openHash(location.hash);
   } catch (err) {
     if (statusEl) statusEl.textContent = t().sqliteFailStatus;
     const box = document.createElement("p");

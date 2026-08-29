@@ -1,0 +1,1349 @@
+{
+  "en": [
+    {
+      "id": "1.2",
+      "reason": "example",
+      "page": 16,
+      "nearby": "1.2 example: complex arithmetic The product (2 + 3𝑖)(4 + 5𝑖) can be evaluated by"
+    },
+    {
+      "id": "1.4",
+      "reason": "example",
+      "page": 17,
+      "nearby": "1.4 example: commutativity of complex multiplication To show that 𝛼𝛽= 𝛽𝛼for all "
+    },
+    {
+      "id": "1.7",
+      "reason": "example",
+      "page": 19,
+      "nearby": "1.7 example: 𝐑2 and 𝐑3 • The set 𝐑2, which you can think of as a plane, is the s"
+    },
+    {
+      "id": "1.9",
+      "reason": "example",
+      "page": 19,
+      "nearby": "1.9 example: lists versus sets • The lists (3, 5) and (5, 3) are not equal, but "
+    },
+    {
+      "id": "1.12",
+      "reason": "example",
+      "page": 20,
+      "nearby": "1.12 example: 𝐂4 𝐂4 is the set of all lists of four complex numbers: "
+    },
+    {
+      "id": "1.16",
+      "reason": "example",
+      "page": 21,
+      "nearby": "1.16 example: context determines which 0 is intended Consider the statement that"
+    },
+    {
+      "id": "1.23",
+      "reason": "example",
+      "page": 27,
+      "nearby": "1.23 example: 𝐅∞ 𝐅∞is defined to be the set of all sequences of elements of 𝐅: "
+    },
+    {
+      "id": "1.25",
+      "reason": "example",
+      "page": 28,
+      "nearby": "1.25 example: 𝐅𝑆is a vector space If 𝑆i t t th 𝐅𝑆( ith th ti f dditi "
+    },
+    {
+      "id": "1.35",
+      "reason": "example",
+      "page": 33,
+      "nearby": "1.35 example: subspaces a) If 𝑏∈𝐅then "
+    },
+    {
+      "id": "1.37",
+      "reason": "example",
+      "page": 34,
+      "nearby": "1.37 example: a sum of subspaces of 𝐅3 Suppose 𝑈is the set of all elements of 𝐅3"
+    },
+    {
+      "id": "1.38",
+      "reason": "example",
+      "page": 34,
+      "nearby": "1.38 example: a sum of subspaces of 𝐅4 Suppose "
+    },
+    {
+      "id": "1.39",
+      "reason": "eq-only",
+      "page": 34,
+      "nearby": "1.39 𝑈+ 𝑊⊆{(𝑥, 𝑥, 𝑦, 𝑧) ∈𝐅4 ∶𝑥, 𝑦, 𝑧∈𝐅}. To prove the inclusion in the other dir"
+    },
+    {
+      "id": "1.42",
+      "reason": "example",
+      "page": 35,
+      "nearby": "1.42 example: a direct sum of two subspaces Suppose 𝑈is the subspace of 𝐅3 of th"
+    },
+    {
+      "id": "1.43",
+      "reason": "example",
+      "page": 36,
+      "nearby": "1.43 example: a direct sum of multiple subspaces T d ⊕i T X t \\ Suppose 𝑉𝑘is the"
+    },
+    {
+      "id": "1.44",
+      "reason": "example",
+      "page": 36,
+      "nearby": "1.44 example: a sum that is not a direct sum Suppose "
+    },
+    {
+      "id": "2.3",
+      "reason": "example",
+      "page": 42,
+      "nearby": "2.3 example: linear combinations in 𝐑3 (17 4 2) i li bi ti f (2 1 3) (1 2 4) hi "
+    },
+    {
+      "id": "2.5",
+      "reason": "example",
+      "page": 43,
+      "nearby": "2.5 example: span The previous example shows that in 𝐑3, "
+    },
+    {
+      "id": "2.8",
+      "reason": "example",
+      "page": 44,
+      "nearby": "2.8 example: a list that spans 𝐅𝑛 Suppose 𝑛is a positive integer. We want to sho"
+    },
+    {
+      "id": "2.14",
+      "reason": "example",
+      "page": 45,
+      "nearby": "2.14 example: 𝒫(𝐅) is infinite-dimensional Consider any list of elements of 𝒫(𝐅)"
+    },
+    {
+      "id": "2.16",
+      "reason": "example",
+      "page": 46,
+      "nearby": "2.16 example: linearly independent lists a) To see that the list (1, 0, 0, 0), ("
+    },
+    {
+      "id": "2.18",
+      "reason": "example",
+      "page": 47,
+      "nearby": "2.18 example: linearly dependent lists • (2, 3, 1), (1, −1, 2), (7, 3, 8) is lin"
+    },
+    {
+      "id": "2.20",
+      "reason": "eq-only",
+      "page": 48,
+      "nearby": "2.20 𝑣𝑘= 𝑏1𝑣1 + ⋯+ 𝑏𝑘−1𝑣𝑘−1. Suppose 𝑢∈span(𝑣1, … , 𝑣𝑚). Then there exist 𝑐1, … "
+    },
+    {
+      "id": "2.21",
+      "reason": "example",
+      "page": 48,
+      "nearby": "2.21 example: smallest 𝑘in linear dependence lemma Consider the list "
+    },
+    {
+      "id": "2.23",
+      "reason": "example",
+      "page": 50,
+      "nearby": "2.23 example: no list of length 4 is linearly independent in 𝐑3 The list (1, 0, "
+    },
+    {
+      "id": "2.24",
+      "reason": "example",
+      "page": 50,
+      "nearby": "2.24 example: no list of length 3 spans 𝐑4 The list (1, 0, 0, 0), (0, 1, 0, 0), "
+    },
+    {
+      "id": "2.27",
+      "reason": "example",
+      "page": 53,
+      "nearby": "2.27 example: bases a) The list (1 0 0) (0 1 0 0) (0 0 1) is a basis of 𝐅𝑛 "
+    },
+    {
+      "id": "2.29",
+      "reason": "eq-only",
+      "page": 53,
+      "nearby": "2.29 𝑣= 𝑎1𝑣1 + ⋯+ 𝑎𝑛𝑣𝑛, where 𝑎 𝑎∈𝐅 "
+    },
+    {
+      "id": "2.36",
+      "reason": "example",
+      "page": 58,
+      "nearby": "2.36 example: dimensions di 𝐅𝑛 b th t d d b i f 𝐅𝑛h l th "
+    },
+    {
+      "id": "2.40",
+      "reason": "example",
+      "page": 60,
+      "nearby": "2.40 example: a basis of 𝐅2 Consider the list (5, 7), (4, 3) of vectors in 𝐅2. T"
+    },
+    {
+      "id": "2.41",
+      "reason": "example",
+      "page": 60,
+      "nearby": "2.41 example: a basis of a subspace of 𝒫3(𝐑) Let 𝑈be the subspace of 𝒫3(𝐑) defin"
+    },
+    {
+      "id": "2.44",
+      "reason": "eq-only",
+      "page": 61,
+      "nearby": "2.44 𝑣1, … , 𝑣𝑚, 𝑢1, … , 𝑢𝑗, 𝑤1, … , 𝑤𝑘 is a basis of 𝑉1 + 𝑉2. This will complet"
+    },
+    {
+      "id": "2.45",
+      "reason": "eq-only",
+      "page": 61,
+      "nearby": "2.45 𝑐1𝑤1 + ⋯+ 𝑐𝑘𝑤𝑘= −𝑎1𝑣1 −⋯−𝑎𝑚𝑣𝑚−𝑏1𝑢1 −⋯−𝑏𝑗𝑢 which shows that 𝑐1𝑤1 + ⋯+ 𝑐𝑘𝑤𝑘∈𝑉"
+    },
+    {
+      "id": "3.3",
+      "reason": "example",
+      "page": 66,
+      "nearby": "3.3 example: linear maps ero "
+    },
+    {
+      "id": "3.9",
+      "reason": "example",
+      "page": 70,
+      "nearby": "3.9 example: two noncommuting linear maps from 𝒫(𝐑) to 𝒫(𝐑) Suppose 𝐷∈ℒ(𝒫(𝐑)) is"
+    },
+    {
+      "id": "3.12",
+      "reason": "example",
+      "page": 73,
+      "nearby": "3.12 example: null space If 𝑇is the zero map from 𝑉to 𝑊meaning that 𝑇𝑣 0 for eve"
+    },
+    {
+      "id": "3.17",
+      "reason": "example",
+      "page": 75,
+      "nearby": "3.17 example: range • If 𝑇is the zero map from 𝑉to 𝑊meaning that 𝑇𝑣 0 for every "
+    },
+    {
+      "id": "3.20",
+      "reason": "example",
+      "page": 76,
+      "nearby": "3.20 example: surjectivity depends on the target space The differentiation map 𝐷"
+    },
+    {
+      "id": "3.23",
+      "reason": "example",
+      "page": 77,
+      "nearby": "3.23 example: linear map from 𝐅4 to 𝐅3 is not injective Define a linear map 𝑇∶𝐅4"
+    },
+    {
+      "id": "3.25",
+      "reason": "eq-only",
+      "page": 78,
+      "nearby": "3.25 𝑇(𝑥1, … , 𝑥𝑛) = (∑ 𝑘=1 𝐴1,𝑘𝑥𝑘, … , ∑ 𝑘=1 𝐴𝑚,𝑘𝑥𝑘). Th ti 𝑇( ) 0 (th 0 h i th"
+    },
+    {
+      "id": "3.27",
+      "reason": "eq-only",
+      "page": 79,
+      "nearby": "⋮ 3.27 𝑛 ∑𝐴 𝑥= 𝑐 "
+    },
+    {
+      "id": "3.30",
+      "reason": "example",
+      "page": 83,
+      "nearby": "3.30 example: 𝐴𝑗,𝑘equals entry in row 𝑗, column 𝑘of 𝐴 Suppose 𝐴 = ( 8 4 5 −3𝑖) "
+    },
+    {
+      "id": "3.32",
+      "reason": "example",
+      "page": 84,
+      "nearby": "3.32 example: the matrix of a linear map from 𝐅2 to 𝐅3 Suppose 𝑇∈ℒ(𝐅2, 𝐅3) is de"
+    },
+    {
+      "id": "3.33",
+      "reason": "example",
+      "page": 84,
+      "nearby": "3.33 example: matrix of the differentiation map from 𝒫3(𝐑) to 𝒫2( Suppose 𝐷∈ℒ(𝒫3"
+    },
+    {
+      "id": "3.37",
+      "reason": "example",
+      "page": 86,
+      "nearby": "3.37 example: addition and scalar multiplication of matrices 3 1   4 2  6 2   4 "
+    },
+    {
+      "id": "3.42",
+      "reason": "example",
+      "page": 87,
+      "nearby": "3.42 example: matrix multiplication Here we multiply together a 3-by-2 matrix an"
+    },
+    {
+      "id": "3.45",
+      "reason": "example",
+      "page": 88,
+      "nearby": "3.45 example: 𝐴𝑗,⋅equals 𝑗th row of 𝐴and 𝐴⋅,𝑘equals 𝑘th column o The notation 𝐴2"
+    },
+    {
+      "id": "3.47",
+      "reason": "eq-only",
+      "page": 89,
+      "nearby": "3.47 (𝐴𝐵)𝑗,𝑘= 𝐴𝑗,1𝐵1,𝑘+ ⋯+ 𝐴𝑗,𝑛𝐵𝑛,𝑘. The definition of matrix multiplication als"
+    },
+    {
+      "id": "3.49",
+      "reason": "example",
+      "page": 89,
+      "nearby": "3.49 example: product of a 3-by-2 matrix and a 2-by-1 matrix Use our definitions"
+    },
+    {
+      "id": "3.53",
+      "reason": "example",
+      "page": 91,
+      "nearby": "3.53 example: column rank and row rank of a 2-by-4 matrix Suppose "
+    },
+    {
+      "id": "3.55",
+      "reason": "example",
+      "page": 92,
+      "nearby": "3.55 example: transpose of a matrix ⎛ 5 −7 ⎞ 5 3 −4  "
+    },
+    {
+      "id": "3.62",
+      "reason": "example",
+      "page": 96,
+      "nearby": "3.62 example: inverse of a linear map from 𝐑3 to 𝐑3 Suppose 𝑇∈ℒ(𝐑3) is defined b"
+    },
+    {
+      "id": "3.64",
+      "reason": "example",
+      "page": 98,
+      "nearby": "3.64 example: neither injectivity nor surjectivity implies invertibili Th lti li"
+    },
+    {
+      "id": "3.66",
+      "reason": "eq-only",
+      "page": 98,
+      "nearby": "3.66 dim 𝑉= dim null 𝑇+ dim range 𝑇. If 𝑇is injective (which by 3 15 is equivale"
+    },
+    {
+      "id": "3.67",
+      "reason": "example",
+      "page": 99,
+      "nearby": "3.67 example: there exists a polynomial 𝑝such that ((𝑥2 + 5𝑥+ 7)𝑝 The linear map"
+    },
+    {
+      "id": "3.74",
+      "reason": "example",
+      "page": 102,
+      "nearby": "3.74 example: matrix of a vector Th t i f th l i l 2 7 5 3 4 ith t t th "
+    },
+    {
+      "id": "3.77",
+      "reason": "eq-only",
+      "page": 103,
+      "nearby": "3.77 𝑇𝑣= 𝑏1𝑇𝑣1 + ⋯+ 𝑏𝑛𝑇𝑣𝑛. Hence "
+    },
+    {
+      "id": "3.83",
+      "reason": "example",
+      "page": 106,
+      "nearby": "3.83 example: matrix of identity operator on 𝐅2 with respect to two Consider the"
+    },
+    {
+      "id": "3.85",
+      "reason": "eq-only",
+      "page": 107,
+      "nearby": "3.85 𝐴= 𝐶−1ℳ(𝑇, (𝑢1, … , 𝑢𝑛), (𝑣1, … , 𝑣𝑛)), where we have used 3 82 "
+    },
+    {
+      "id": "3.88",
+      "reason": "example",
+      "page": 110,
+      "nearby": "3.88 example: product of the vector spaces 𝒫5(𝐑) and 𝐑3 Elements of 𝒫5(𝐑) × 𝐑3 a"
+    },
+    {
+      "id": "3.90",
+      "reason": "example",
+      "page": 111,
+      "nearby": "3.90 example: 𝐑2 × 𝐑3 ≠𝐑5 but 𝐑2 × 𝐑3 is isomorphic to 𝐑5 Elements of the vector"
+    },
+    {
+      "id": "3.91",
+      "reason": "example",
+      "page": 111,
+      "nearby": "3.91 example: a basis of 𝒫2(𝐑) × 𝐑2 Consider this list of length five of element"
+    },
+    {
+      "id": "3.96",
+      "reason": "example",
+      "page": 113,
+      "nearby": "3.96 example: sum of a vector and a one-dimensional subspace of Suppose "
+    },
+    {
+      "id": "3.98",
+      "reason": "example",
+      "page": 113,
+      "nearby": "3.98 example: translates If 𝑈i th li i 𝐑2 d fi d b 𝑈 {( 2 ) ∈𝐑2 ∈𝐑} th "
+    },
+    {
+      "id": "3.100",
+      "reason": "example",
+      "page": 114,
+      "nearby": "3.100 example: quotient spaces If 𝑈 {( 2 ) ∈𝐑2 ∈𝐑} th 𝐑2/𝑈i th t f ll li i 𝐑 "
+    },
+    {
+      "id": "3.109",
+      "reason": "example",
+      "page": 119,
+      "nearby": "3.109 example: linear functionals • Define 𝜑∶𝐑3 →𝐑by 𝜑(𝑥𝑦𝑧) = 4𝑥 5𝑦+ 2𝑧Then 𝜑is "
+    },
+    {
+      "id": "3.113",
+      "reason": "example",
+      "page": 120,
+      "nearby": "3.113 example: the dual basis of the standard basis of 𝐅𝑛 Suppose 𝑛is a positive"
+    },
+    {
+      "id": "3.115",
+      "reason": "eq-only",
+      "page": 120,
+      "nearby": "3.115 𝑣= 𝑐1𝑣1 + ⋯+ 𝑐𝑛𝑣𝑛. If 𝑗∈{1 𝑛} then applying 𝜑to both sides of the equation"
+    },
+    {
+      "id": "3.117",
+      "reason": "eq-only",
+      "page": 121,
+      "nearby": "3.117 𝑎1𝜑1 + ⋯+ 𝑎𝑛𝜑𝑛= 0. Now "
+    },
+    {
+      "id": "3.119",
+      "reason": "example",
+      "page": 122,
+      "nearby": "3.119 example: dual map of the differentiation linear map Define 𝐷∶𝒫(𝐑) →𝒫(𝐑) by"
+    },
+    {
+      "id": "3.122",
+      "reason": "example",
+      "page": 123,
+      "nearby": "3.122 example: element of an annihilator Suppose 𝑈is the subspace of 𝒫(𝐑) consis"
+    },
+    {
+      "id": "3.123",
+      "reason": "example",
+      "page": 123,
+      "nearby": "3.123 example: the annihilator of a two-dimensional subspace of 𝐑 Let 𝑒1, 𝑒2, 𝑒3"
+    },
+    {
+      "id": "3.126",
+      "reason": "eq-only",
+      "page": 124,
+      "nearby": "3.126 dim range 𝑖′ + dim 𝑈0 = dim 𝑉. If 𝜑∈𝑈′ then 𝜑can be extended to a linear f"
+    },
+    {
+      "id": "4.3",
+      "reason": "example",
+      "page": 134,
+      "nearby": "4.3 example: real and imaginary part, complex conjugate, absolute Suppose 𝑧= 3 +"
+    },
+    {
+      "id": "4.7",
+      "reason": "eq-only",
+      "page": 136,
+      "nearby": "4.7 𝑝(𝑧) = 𝑝(𝑧) −𝑝(𝜆) = 𝑎1(𝑧−𝜆) + ⋯+ 𝑎𝑚(𝑧𝑚−𝜆𝑚) for all 𝑧∈𝐅For each 𝑘∈{1 𝑚} the e"
+    },
+    {
+      "id": "4.10",
+      "reason": "eq-only",
+      "page": 138,
+      "nearby": "4.10 1, 𝑧, … , 𝑧𝑚−1, 𝑠, 𝑧𝑠, … , 𝑧𝑛−𝑚𝑠 is linearly independent in 𝒫(𝐅) because ea"
+    },
+    {
+      "id": "4.11",
+      "reason": "eq-only",
+      "page": 138,
+      "nearby": "𝑝= 𝑎0 + 𝑎1𝑧+ ⋯+ 𝑎𝑚−1𝑧𝑚−1 + 𝑏0𝑠+ 𝑏1𝑧𝑠+ ⋯+ 𝑏𝑛−𝑚𝑧𝑛− 4.11 = 𝑎+ 𝑎𝑧+ + 𝑎 𝑧𝑚−1 + 𝑠(𝑏+ 𝑏"
+    },
+    {
+      "id": "5.3",
+      "reason": "example",
+      "page": 147,
+      "nearby": "5.3 example: subspace invariant under differentiation operator Suppose that 𝑇∈ℒ("
+    },
+    {
+      "id": "5.4",
+      "reason": "example",
+      "page": 147,
+      "nearby": "5.4 example: four invariant subspaces, not necessarily all different If 𝑇∈ℒ(𝑉), "
+    },
+    {
+      "id": "5.6",
+      "reason": "example",
+      "page": 148,
+      "nearby": "5.6 example: eigenvalue Define an operator 𝑇∈ℒ(𝐅3) by "
+    },
+    {
+      "id": "5.9",
+      "reason": "example",
+      "page": 149,
+      "nearby": "5.9 example: eigenvalues and eigenvectors Suppose 𝑇∈ℒ(𝐅2) is defined by 𝑇(𝑤, 𝑧) "
+    },
+    {
+      "id": "5.10",
+      "reason": "eq-only",
+      "page": 149,
+      "nearby": "5.10 −𝑧= 𝜆𝑤, 𝑤= 𝜆𝑧. Substituting the value for 𝑤given by the second equation int"
+    },
+    {
+      "id": "5.15",
+      "reason": "example",
+      "page": 152,
+      "nearby": "5.15 example: a polynomial applied to the differentiation operator Suppose 𝐷∈ℒ(𝒫"
+    },
+    {
+      "id": "5.20",
+      "reason": "example",
+      "page": 157,
+      "nearby": "5.20 example: an operator on a complex vector space with no eige Define 𝑇∈ℒ(𝒫(𝐂)"
+    },
+    {
+      "id": "5.23",
+      "reason": "eq-only",
+      "page": 158,
+      "nearby": "5.23 𝑐0𝑢+ 𝑐1𝑇𝑢+ ⋯+ 𝑐𝑚−1𝑇𝑚−1𝑢+ 𝑇𝑚𝑢= 0. Define a monic polynomial 𝑞∈𝒫𝑚(𝐅) by "
+    },
+    {
+      "id": "5.25",
+      "reason": "eq-only",
+      "page": 159,
+      "nearby": "5.25 𝑐0𝑣+ 𝑐1𝑇𝑣+ ⋯+ 𝑐dim 𝑉−1𝑇dim 𝑉−1𝑣= −𝑇dim 𝑉𝑣. Use a basis of 𝑉to convert the e"
+    },
+    {
+      "id": "5.26",
+      "reason": "example",
+      "page": 160,
+      "nearby": "5.26 example: minimal polynomial of an operator on 𝐅5 Suppose 𝑇∈ℒ(𝐅5) and "
+    },
+    {
+      "id": "5.28",
+      "reason": "example",
+      "page": 161,
+      "nearby": "5.28 example: An operator whose eigenvalues cannot be found exa Let 𝑇∈ℒ(𝐂5) be t"
+    },
+    {
+      "id": "5.30",
+      "reason": "eq-only",
+      "page": 162,
+      "nearby": "5.30 𝑞= 𝑝𝑠+ 𝑟 and deg 𝑟< deg 𝑝We have "
+    },
+    {
+      "id": "5.36",
+      "reason": "example",
+      "page": 168,
+      "nearby": "5.36 example: matrix of an operator with respect to standard basis Define 𝑇∈ℒ(𝐅3"
+    },
+    {
+      "id": "5.42",
+      "reason": "example",
+      "page": 172,
+      "nearby": "5.42 example: eigenvalues via an upper-triangular matrix Define 𝑇∈ℒ(𝐅3) by 𝑇(𝑥, "
+    },
+    {
+      "id": "5.43",
+      "reason": "example",
+      "page": 172,
+      "nearby": "5.43 example: whether 𝑇has an upper-triangular matrix can depe Define 𝑇∈ℒ(𝐅4) by"
+    },
+    {
+      "id": "5.45",
+      "reason": "eq-only",
+      "page": 173,
+      "nearby": "5.45 𝑇𝑢𝑘= (𝑇|𝑈)(𝑢𝑘) ∈span(𝑢1, … , 𝑢𝑘). Extend 𝑢1 𝑢𝑀to a basis 𝑢1 𝑢𝑀𝑣1 𝑣𝑁of 𝑉If 𝑘"
+    },
+    {
+      "id": "5.46",
+      "reason": "eq-only",
+      "page": 173,
+      "nearby": "5.46 𝑇𝑣𝑘∈span(𝑢1, … , 𝑢𝑀, 𝑣1, … , 𝑣𝑘). From 5 45 and 5 46 we conclude (using 5 3"
+    },
+    {
+      "id": "5.49",
+      "reason": "example",
+      "page": 177,
+      "nearby": "5.49 example: diagonal matrix ⎛8 0 0 ⎞ "
+    },
+    {
+      "id": "5.51",
+      "reason": "example",
+      "page": 177,
+      "nearby": "5.51 example: diagonalization may require a different basis Define 𝑇∈ℒ(𝐑2) by "
+    },
+    {
+      "id": "5.53",
+      "reason": "example",
+      "page": 178,
+      "nearby": "5.53 example: eigenspaces of an operator Suppose the matrix of an operator 𝑇∈ℒ(𝑉"
+    },
+    {
+      "id": "5.56",
+      "reason": "eq-only",
+      "page": 179,
+      "nearby": "5.56 dim 𝑉= dim 𝐸(𝜆1, 𝑇) + ⋯+ dim 𝐸(𝜆𝑚, 𝑇). Choose a basis of each 𝐸(𝜆𝑘, 𝑇); put"
+    },
+    {
+      "id": "5.57",
+      "reason": "example",
+      "page": 180,
+      "nearby": "5.57 example: an operator that is not diagonalizable Define an operator 𝑇∈ℒ(𝐅3) "
+    },
+    {
+      "id": "5.59",
+      "reason": "example",
+      "page": 181,
+      "nearby": "5.59 example: using diagonalization to compute 𝑇100 Define 𝑇∈ℒ(𝐅3) by 𝑇(𝑥, 𝑦, 𝑧)"
+    },
+    {
+      "id": "5.60",
+      "reason": "example",
+      "page": 182,
+      "nearby": "5.60 example: diagonalizable, but with no known exact eigenvalue Define 𝑇∈ℒ(𝐂5) "
+    },
+    {
+      "id": "5.61",
+      "reason": "example",
+      "page": 182,
+      "nearby": "5.61 example: showing that an operator is not diagonalizable Define 𝑇∈ℒ(𝐅3) by "
+    },
+    {
+      "id": "5.63",
+      "reason": "eq-only",
+      "page": 183,
+      "nearby": "5.63 (𝑇−𝜆1𝐼) ⋯(𝑇−𝜆𝑚𝐼) = 0. We will prove that 𝑇is diagonalizable by induction on"
+    },
+    {
+      "id": "5.64",
+      "reason": "eq-only",
+      "page": 183,
+      "nearby": "5.64 (𝑇−𝜆1𝐼) ⋯(𝑇−𝜆𝑚−1𝐼)𝑢= (𝑇−𝜆1𝐼) ⋯(𝑇−𝜆𝑚𝐼)𝑣= Hence (𝑧−𝜆1) ⋯(𝑧−𝜆 1) is a polynomi"
+    },
+    {
+      "id": "5.68",
+      "reason": "eq-only",
+      "page": 185,
+      "nearby": "5.68 𝑤= 𝑐1𝑣1 + ⋯+ 𝑐𝑛𝑣𝑛. Let 𝐴denote the matrix of 𝑇with respect to the basis 𝑣 𝑣"
+    },
+    {
+      "id": "5.69",
+      "reason": "eq-only",
+      "page": 185,
+      "nearby": "𝜆𝑤= ∑ 𝑘=1 𝑐𝑘𝑇𝑣𝑘 5.69 "
+    },
+    {
+      "id": "5.70",
+      "reason": "eq-only",
+      "page": 185,
+      "nearby": "= ∑ 𝑗= 1 (∑ 𝑘=1 𝐴𝑗,𝑘𝑐𝑘)𝑣𝑗. 5.70 "
+    },
+    {
+      "id": "5.72",
+      "reason": "example",
+      "page": 189,
+      "nearby": "5.72 example: partial differentiation operators commute Suppose 𝑚is a nonnegativ"
+    },
+    {
+      "id": "5.73",
+      "reason": "eq-only",
+      "page": 189,
+      "nearby": "5.73 𝑝(𝑤, 𝑧) = ∑ 𝑗+𝑘≤𝑚 𝑎𝑗,𝑘𝑤𝑗𝑧𝑘, "
+    },
+    {
+      "id": "5.77",
+      "reason": "eq-only",
+      "page": 191,
+      "nearby": "5.77 𝑉= 𝐸(𝜆1, 𝑆) ⊕⋯⊕𝐸(𝜆𝑚, 𝑆). For each 𝑘= 1, … , 𝑚, the subspace 𝐸(𝜆𝑘, 𝑆) is inv"
+    },
+    {
+      "id": "5.79",
+      "reason": "example",
+      "page": 191,
+      "nearby": "5.79 example: common eigenvector for partial differentiation opera Let 𝒫𝑚(𝐂2, 𝐂)"
+    },
+    {
+      "id": "6.3",
+      "reason": "example",
+      "page": 198,
+      "nearby": "6.3 example: inner products a) The Euclidean inner product on 𝐅𝑛is defined by "
+    },
+    {
+      "id": "6.8",
+      "reason": "example",
+      "page": 200,
+      "nearby": "6.8 example: norms a) If (𝑧 𝑧) ∈𝐅𝑛(with the Euclidean inner product) then "
+    },
+    {
+      "id": "6.15",
+      "reason": "eq-only",
+      "page": 203,
+      "nearby": "≥∣⟨𝑢, 𝑣⟩∣ ‖𝑣‖2 . 6.15 "
+    },
+    {
+      "id": "6.16",
+      "reason": "example",
+      "page": 203,
+      "nearby": "6.16 example: Cauchy–Schwarz inequality a) If 𝑥 𝑥 𝑦 𝑦∈𝐑then "
+    },
+    {
+      "id": "6.18",
+      "reason": "eq-only",
+      "page": 204,
+      "nearby": "≤‖𝑢‖2 + ‖𝑣‖2 + 2∣⟨𝑢, 𝑣⟩∣ 6.18 ≤‖𝑢‖2 + ‖𝑣‖2 + 2‖𝑢‖ ‖𝑣‖ 6.19 "
+    },
+    {
+      "id": "6.19",
+      "reason": "eq-only",
+      "page": 204,
+      "nearby": "≤‖𝑢‖2 + ‖𝑣‖2 + 2‖𝑢‖ ‖𝑣‖ 6.19 = (‖𝑢‖ + ‖𝑣‖)2, "
+    },
+    {
+      "id": "6.20",
+      "reason": "eq-only",
+      "page": 204,
+      "nearby": "6.20 ⟨𝑢, 𝑣⟩= ‖𝑢‖ ‖𝑣‖. If one of 𝑢, 𝑣is a nonnegative real multiple of the other,"
+    },
+    {
+      "id": "6.23",
+      "reason": "example",
+      "page": 211,
+      "nearby": "6.23 example: orthonormal lists a) The standard basis of 𝐅𝑛is an orthonormal lis"
+    },
+    {
+      "id": "6.29",
+      "reason": "example",
+      "page": 213,
+      "nearby": "6.29 example: an orthonormal basis of 𝐅4 As mentioned above, the standard basis "
+    },
+    {
+      "id": "6.31",
+      "reason": "example",
+      "page": 214,
+      "nearby": "6.31 example: finding coefficients for a linear combination Suppose we want to w"
+    },
+    {
+      "id": "6.33",
+      "reason": "eq-only",
+      "page": 215,
+      "nearby": "6.33 span(𝑣1, … , 𝑣𝑘−1) = span(𝑒1, … , 𝑒𝑘−1). Because 𝑣1, … , 𝑣𝑚is linearly inde"
+    },
+    {
+      "id": "6.34",
+      "reason": "example",
+      "page": 216,
+      "nearby": "6.34 example: an orthonormal basis of 𝒫2(𝐑) Suppose we make 𝒫2(𝐑) into an inner "
+    },
+    {
+      "id": "6.40",
+      "reason": "example",
+      "page": 218,
+      "nearby": "6.40 example: linear functional on 𝐅3 The function 𝜑∶𝐅3 →𝐅defined by "
+    },
+    {
+      "id": "6.41",
+      "reason": "example",
+      "page": 218,
+      "nearby": "6.41 example: linear functional on 𝒫5(𝐑) The function 𝜑∶𝒫5(𝐑) →𝐑defined by "
+    },
+    {
+      "id": "6.43",
+      "reason": "eq-only",
+      "page": 219,
+      "nearby": "6.43 𝑣= 𝜑(𝑒1)𝑒1 + ⋯+ 𝜑(𝑒𝑛)𝑒𝑛, we have 𝜑(𝑢) = ⟨𝑢, 𝑣⟩for every 𝑢∈𝑉, as desired. "
+    },
+    {
+      "id": "6.44",
+      "reason": "example",
+      "page": 220,
+      "nearby": "6.44 example: computation illustrating Riesz representation theore Suppose we wa"
+    },
+    {
+      "id": "6.45",
+      "reason": "eq-only",
+      "page": 220,
+      "nearby": "6.45 ∫ 1 −1 𝑝(𝑡)(cos(𝜋𝑡)) 𝑑𝑡= ∫ 1 −1 𝑝𝑞 for every polynomial 𝑝∈𝒫(𝐑) To do this w"
+    },
+    {
+      "id": "6.47",
+      "reason": "example",
+      "page": 225,
+      "nearby": "6.47 example: orthogonal complements • If 𝑉= 𝐑3 and 𝑈is the subset of 𝑉consistin"
+    },
+    {
+      "id": "6.50",
+      "reason": "eq-only",
+      "page": 227,
+      "nearby": "6.50 𝑣= ⟨𝑣, 𝑒1⟩𝑒1 + ⋯+ ⟨𝑣, 𝑒𝑚⟩𝑒𝑚 ⏟⏟⏟⏟⏟⏟⏟⏟⏟ 𝑢 + 𝑣−⟨𝑣, 𝑒1⟩𝑒1 −⋯−⟨𝑣, 𝑒𝑚⟩ ⏟⏟⏟⏟⏟⏟⏟⏟⏟⏟"
+    },
+    {
+      "id": "6.53",
+      "reason": "eq-only",
+      "page": 227,
+      "nearby": "6.53 𝑈⊆(𝑈⟂)⟂. To do this, suppose 𝑢∈𝑈. Then ⟨𝑢, 𝑤⟩= 0 for every 𝑤∈𝑈⟂(by t "
+    },
+    {
+      "id": "6.56",
+      "reason": "example",
+      "page": 228,
+      "nearby": "6.56 example: orthogonal projection onto one-dimensional subspa Suppose 𝑢∈𝑉with "
+    },
+    {
+      "id": "6.59",
+      "reason": "eq-only",
+      "page": 230,
+      "nearby": "6.59 𝑣= 𝜑(𝑤) ‖𝑤‖2 𝑤. Th ( ll )⟂Al ≠0 (b ∉ ll ) "
+    },
+    {
+      "id": "6.60",
+      "reason": "eq-only",
+      "page": 231,
+      "nearby": "6.60 ‖𝑣‖ = |𝜑(𝑤)| ‖𝑤‖ . 6 5 6 6 "
+    },
+    {
+      "id": "6.62",
+      "reason": "eq-only",
+      "page": 231,
+      "nearby": "‖𝑣−𝑃𝑈𝑣‖2 ≤‖𝑣−𝑃𝑈𝑣‖2 + ‖𝑃𝑈𝑣−𝑢‖2 6.62 ∥(𝑣 𝑃𝑣) + (𝑃𝑣 𝑢)∥2 "
+    },
+    {
+      "id": "6.63",
+      "reason": "example",
+      "page": 232,
+      "nearby": "6.63 example: using linear algebra to approximate the sine functio Suppose we wa"
+    },
+    {
+      "id": "6.64",
+      "reason": "eq-only",
+      "page": 232,
+      "nearby": "6.64 ⟨𝑓, 𝑔⟩= ∫ 𝜋 −𝜋𝑓𝑔. Let 𝑣∈𝐶[ 𝜋𝜋] be the f nction defined b 𝑣(𝑥) sin 𝑥Let 𝑈 "
+    },
+    {
+      "id": "6.65",
+      "reason": "eq-only",
+      "page": 232,
+      "nearby": "6.65 𝑢(𝑥) = 0.987862𝑥−0.155271𝑥3 + 0.00564312𝑥5, where the 𝜋’s that appear in th"
+    },
+    {
+      "id": "6.66",
+      "reason": "eq-only",
+      "page": 233,
+      "nearby": "6.66 𝑝(𝑥) = 𝑥−𝑥 3! + 𝑥 5! . To see how good this approximation is the next pictu"
+    },
+    {
+      "id": "6.71",
+      "reason": "example",
+      "page": 237,
+      "nearby": "6.71 example: pseudoinverse of a linear map from 𝐅4 to 𝐅3 Suppose 𝑇∈ℒ(𝐅4, 𝐅3) is"
+    },
+    {
+      "id": "6.72",
+      "reason": "eq-only",
+      "page": 237,
+      "nearby": "6.72 𝑇†(𝑥, 𝑦, 𝑧) = (𝑇|(null 𝑇)⟂)−1𝑃range 𝑇(𝑥, 𝑦, 𝑧) = (𝑇|(null 𝑇)⟂)−1( The right"
+    },
+    {
+      "id": "7.2",
+      "reason": "example",
+      "page": 242,
+      "nearby": "7.2 example: adjoint of a linear map from 𝐑3 to 𝐑2 Define 𝑇∶𝐑3 →𝐑2 by "
+    },
+    {
+      "id": "7.3",
+      "reason": "example",
+      "page": 243,
+      "nearby": "7.3 example: adjoint of a linear map with range of dimension at m Fix 𝑢∈𝑉and 𝑥∈𝑊"
+    },
+    {
+      "id": "7.8",
+      "reason": "example",
+      "page": 245,
+      "nearby": "7.8 example: conjugate transpose of a 2-by-3 matrix If t i 𝐴h l The conjugate tr"
+    },
+    {
+      "id": "7.11",
+      "reason": "example",
+      "page": 247,
+      "nearby": "7.11 example: determining whether 𝑇is self-adjoint from its matri Suppose 𝑐∈𝐅and"
+    },
+    {
+      "id": "7.15",
+      "reason": "eq-only",
+      "page": 248,
+      "nearby": "7.15 ⟨𝑇∗𝑣, 𝑣⟩= ⟨𝑣, 𝑇∗𝑣⟩= ⟨𝑇𝑣, 𝑣⟩. Now "
+    },
+    {
+      "id": "7.17",
+      "reason": "eq-only",
+      "page": 249,
+      "nearby": "7.17 ⟨𝑇𝑢, 𝑤⟩= ⟨𝑇(𝑢+ 𝑤), 𝑢+ 𝑤⟩−⟨𝑇(𝑢−𝑤), 𝑢−𝑤⟩ 4 , b d b ti th i ht id i th ti "
+    },
+    {
+      "id": "7.19",
+      "reason": "example",
+      "page": 249,
+      "nearby": "7.19 example: an operator that is normal but not self-adjoint Let 𝑇be the operat"
+    },
+    {
+      "id": "7.24",
+      "reason": "eq-only",
+      "page": 252,
+      "nearby": "7.24 𝐴= 𝑇+ 𝑇 2 and 𝐵= 𝑇−𝑇 2𝑖 . Then 𝐴and 𝐵are self-adjoint and 𝑇= 𝐴+ 𝑖𝐵A quick c"
+    },
+    {
+      "id": "7.25",
+      "reason": "eq-only",
+      "page": 252,
+      "nearby": "7.25 𝐴𝐵−𝐵𝐴= 𝑇𝑇−𝑇𝑇 2𝑖 . Because 𝑇is normal the right side of the equation above e"
+    },
+    {
+      "id": "7.28",
+      "reason": "eq-only",
+      "page": 258,
+      "nearby": "7.28 (𝑧−𝜆1) ⋯(𝑧−𝜆𝑚)(𝑧2 + 𝑏1𝑧+ 𝑐1) ⋯(𝑧2 + 𝑏𝑁𝑧+ 𝑐𝑁); here either 𝑚or 𝑁might equal "
+    },
+    {
+      "id": "7.30",
+      "reason": "example",
+      "page": 259,
+      "nearby": "7.30 example: an orthonormal basis of eigenvectors for an operato Consider the o"
+    },
+    {
+      "id": "7.32",
+      "reason": "eq-only",
+      "page": 260,
+      "nearby": "7.32 ℳ(𝑇, (𝑒1, … , 𝑒𝑛)) = ⎛⎜⎜⎜ ⎝ , , ⋱ ⋮ 0 𝑎𝑛,𝑛 ⎞⎟⎟⎟ ⎠ . "
+    },
+    {
+      "id": "7.33",
+      "reason": "example",
+      "page": 261,
+      "nearby": "7.33 example: an orthonormal basis of eigenvectors for an operato Consider the o"
+    },
+    {
+      "id": "7.35",
+      "reason": "example",
+      "page": 265,
+      "nearby": "7.35 example: positive operators a) Let 𝑇∈ℒ(𝐅2) be the operator whose matrix (us"
+    },
+    {
+      "id": "7.37",
+      "reason": "example",
+      "page": 265,
+      "nearby": "7.37 example: square root of an operator If 𝑇∈ℒ(𝐅3) is defined by 𝑇(𝑧1, 𝑧2, 𝑧3) "
+    },
+    {
+      "id": "7.41",
+      "reason": "example",
+      "page": 268,
+      "nearby": "7.41 example: square root of positive operators Define operators 𝑆, 𝑇on 𝐑2 (with"
+    },
+    {
+      "id": "7.42",
+      "reason": "eq-only",
+      "page": 268,
+      "nearby": "7.42 ℳ(𝑆) = ( 1 0 0 2 ) and ℳ(𝑇) = ( 1 1 1 1 ) . E h f th t i l it t th 𝑆 d 𝑇 lf"
+    },
+    {
+      "id": "7.45",
+      "reason": "example",
+      "page": 272,
+      "nearby": "7.45 example: orthonormal basis maps to orthonormal list ⟹is Suppose 𝑒1, … , 𝑒𝑛i"
+    },
+    {
+      "id": "7.46",
+      "reason": "eq-only",
+      "page": 272,
+      "nearby": "7.46 𝑣= ⟨𝑣, 𝑒1⟩𝑒1 + ⋯+ ⟨𝑣, 𝑒𝑛⟩𝑒𝑛 and "
+    },
+    {
+      "id": "7.47",
+      "reason": "eq-only",
+      "page": 272,
+      "nearby": "7.47 ‖𝑣‖2 = ∣⟨𝑣, 𝑒1⟩∣2 + ⋯+ ∣⟨𝑣, 𝑒𝑛⟩∣2, where we have used 6.30(b). Applying 𝑆to"
+    },
+    {
+      "id": "7.48",
+      "reason": "eq-only",
+      "page": 272,
+      "nearby": "7.48 ‖𝑆𝑣‖2 = ∣⟨𝑣, 𝑒1⟩∣2 + ⋯+ |⟨𝑣, 𝑒𝑛⟩|2. Comparing 7.47 and 7.48 shows that ‖𝑣‖ "
+    },
+    {
+      "id": "7.50",
+      "reason": "eq-only",
+      "page": 273,
+      "nearby": "7.50 ∑ 𝑗=1 𝐴𝑗,𝑘𝐴𝑗,𝑟= ⟨∑ 𝑗=1 𝐴𝑗,𝑘𝑓𝑗, ∑ 𝑗=1 𝐴𝑗,𝑟𝑓𝑗⟩= ⟨𝑆𝑒𝑘, 𝑆𝑒𝑟⟩= { ⎨{⎩ 1 if 0 if "
+    },
+    {
+      "id": "7.52",
+      "reason": "example",
+      "page": 274,
+      "nearby": "7.52 example: rotation of 𝐑2 Suppose 𝜃∈𝐑and 𝑆is the operator on 𝐅2 whose matrix "
+    },
+    {
+      "id": "7.59",
+      "reason": "eq-only",
+      "page": 278,
+      "nearby": "7.59 span(𝑣1, … , 𝑣𝑘) = span(𝑒1, … , 𝑒𝑘) for each 𝑘= 1 𝑛Let 𝑅be the 𝑛-by-𝑛matrix"
+    },
+    {
+      "id": "7.60",
+      "reason": "example",
+      "page": 279,
+      "nearby": "7.60 example: QR factorization of a 3-by-3 matrix To find the QR factorization o"
+    },
+    {
+      "id": "7.66",
+      "reason": "example",
+      "page": 285,
+      "nearby": "7.66 example: singular values of an operator on 𝐅4 Define 𝑇∈ℒ(𝐅4) by 𝑇(𝑧1, 𝑧2, 𝑧"
+    },
+    {
+      "id": "7.67",
+      "reason": "example",
+      "page": 285,
+      "nearby": "7.67 example: singular values of a linear map from 𝐅4 to 𝐅3 Suppose 𝑇∈ℒ(𝐅4, 𝐅3) "
+    },
+    {
+      "id": "7.71",
+      "reason": "eq-only",
+      "page": 287,
+      "nearby": "7.71 𝑇𝑣= 𝑠1⟨𝑣, 𝑒1⟩𝑓1 + ⋯+ 𝑠𝑚⟨𝑣, 𝑒𝑚⟩𝑓𝑚 for every 𝑣∈𝑉 "
+    },
+    {
+      "id": "7.72",
+      "reason": "eq-only",
+      "page": 287,
+      "nearby": "7.72 𝑇∗𝑇𝑒𝑘= 𝑠𝑘 2𝑒𝑘 for each 𝑘= 1, … , 𝑛. "
+    },
+    {
+      "id": "7.73",
+      "reason": "eq-only",
+      "page": 287,
+      "nearby": "7.73 𝑓𝑘= 𝑇𝑒𝑘 𝑠𝑘 . If 𝑗𝑘 {1 } th "
+    },
+    {
+      "id": "7.76",
+      "reason": "eq-only",
+      "page": 289,
+      "nearby": "7.76 𝑇𝑣= 𝑠1⟨𝑣, 𝑒1⟩𝑓1 + ⋯+ 𝑠𝑚⟨𝑣, 𝑒𝑚⟩𝑓𝑚 for every 𝑣∈𝑉Then "
+    },
+    {
+      "id": "7.77",
+      "reason": "eq-only",
+      "page": 289,
+      "nearby": "7.77 𝑇∗𝑤= 𝑠1⟨𝑤, 𝑓1⟩𝑒1 + ⋯+ 𝑠𝑚⟨𝑤, 𝑓𝑚⟩𝑒𝑚 and "
+    },
+    {
+      "id": "7.78",
+      "reason": "eq-only",
+      "page": 289,
+      "nearby": "7.78 𝑇†𝑤= ⟨𝑤, 𝑓1⟩ 𝑠1 𝑒1 + ⋯+ ⟨𝑤, 𝑓𝑚⟩ 𝑠𝑚 𝑒𝑚 "
+    },
+    {
+      "id": "7.79",
+      "reason": "example",
+      "page": 290,
+      "nearby": "7.79 example: finding a singular value decomposition Define 𝑇∈ℒ(𝐅4, 𝐅3) by 𝑇(𝑥1,"
+    },
+    {
+      "id": "7.81",
+      "reason": "eq-only",
+      "page": 291,
+      "nearby": "7.81 𝑇𝑣= 𝑠1⟨𝑣, 𝑒1⟩𝑓1 + ⋯+ 𝑠𝑚⟨𝑣, 𝑒𝑚⟩𝑓𝑚 be a singular value decomposition of 𝑇Let "
+    },
+    {
+      "id": "7.83",
+      "reason": "eq-only",
+      "page": 294,
+      "nearby": "7.83 𝑇𝑣= 𝑠1⟨𝑣, 𝑒1⟩𝑓1 + ⋯+ 𝑠𝑚⟨𝑣, 𝑒𝑚⟩𝑓𝑚 for all 𝑣∈𝑉. Hence if 𝑣∈𝑉then "
+    },
+    {
+      "id": "7.84",
+      "reason": "eq-only",
+      "page": 294,
+      "nearby": "7.84 ‖𝑇𝑣‖ ≤𝑠1 for all 𝑣∈𝑉with ‖𝑣‖ ≤1. Taking 𝑣= 𝑒1 in 7.83 shows that 𝑇𝑒1 = 𝑠1 𝑓"
+    },
+    {
+      "id": "7.85",
+      "reason": "eq-only",
+      "page": 294,
+      "nearby": "7.85 max{‖𝑇𝑣‖ ∶𝑣∈𝑉and ‖𝑣‖ ≤1} = 𝑠1. The equation above is the motivation for the"
+    },
+    {
+      "id": "7.89",
+      "reason": "eq-only",
+      "page": 296,
+      "nearby": "7.89 ‖𝑇𝑣‖ ≤‖𝑇‖ ‖𝑣‖. N ≥0 d ‖𝑇‖ ≤‖ ‖ f ll ∈𝑉Thi i li th t "
+    },
+    {
+      "id": "7.90",
+      "reason": "example",
+      "page": 297,
+      "nearby": "7.90 example: norms • If 𝐼denotes the usual identity operator on 𝑉, then ‖𝐼‖ = 1"
+    },
+    {
+      "id": "7.94",
+      "reason": "eq-only",
+      "page": 300,
+      "nearby": "7.94 𝑇𝑣= 𝑠1⟨𝑣, 𝑒1⟩𝑓1 + ⋯+ 𝑠𝑚⟨𝑣, 𝑒𝑚⟩𝑓𝑚 for every 𝑣∈𝑉. Extend 𝑒1, … , 𝑒𝑚and 𝑓1, … "
+    },
+    {
+      "id": "7.97",
+      "reason": "example",
+      "page": 301,
+      "nearby": "7.97 example: ellipsoids "
+    },
+    {
+      "id": "7.100",
+      "reason": "eq-only",
+      "page": 302,
+      "nearby": "7.100 𝑇𝑣= 𝑠1⟨𝑣, 𝑒1⟩𝑓1 + ⋯+ 𝑠𝑛⟨𝑣, 𝑒𝑛⟩𝑓𝑛 for all 𝑣∈𝑉; here 𝑠1, … , 𝑠𝑛are the singu"
+    },
+    {
+      "id": "7.103",
+      "reason": "example",
+      "page": 303,
+      "nearby": "7.103 example: parallelepipeds "
+    },
+    {
+      "id": "7.106",
+      "reason": "example",
+      "page": 304,
+      "nearby": "7.106 example: boxes "
+    },
+    {
+      "id": "7.110",
+      "reason": "example",
+      "page": 306,
+      "nearby": "7.110 example: volume change by a linear map Suppose that 𝑇∈ℒ(𝐑2) is defined by "
+    },
+    {
+      "id": "8.5",
+      "reason": "eq-only",
+      "page": 313,
+      "nearby": "8.5 (null 𝑇𝑛) ∩(range 𝑇𝑛) = {0}. Suppose 𝑣∈(null 𝑇𝑛) ∩(range 𝑇𝑛) Then 𝑇𝑛𝑣= 0 and"
+    },
+    {
+      "id": "8.6",
+      "reason": "example",
+      "page": 313,
+      "nearby": "8.6 example: 𝐅3 = null 𝑇3 ⊕range 𝑇3 for 𝑇∈ℒ(𝐅3) Suppose 𝑇∈ℒ(𝐅3) is defined by "
+    },
+    {
+      "id": "8.7",
+      "reason": "eq-only",
+      "page": 314,
+      "nearby": "8.7 𝑉= 𝐸(𝜆1, 𝑇) ⊕⋯⊕𝐸(𝜆𝑚, 𝑇), where 𝜆1, … , 𝜆𝑚are the distinct eigenvalues of 𝑇(s"
+    },
+    {
+      "id": "8.10",
+      "reason": "example",
+      "page": 316,
+      "nearby": "8.10 example: generalized eigenvectors of an operator on 𝐂3 Define 𝑇∈ℒ(𝐂3) by "
+    },
+    {
+      "id": "8.13",
+      "reason": "eq-only",
+      "page": 317,
+      "nearby": "8.13 𝑎1(𝑇−𝜆𝑚𝐼)𝑛𝑣1 + ⋯+ 𝑎𝑚−1(𝑇−𝜆𝑚𝐼)𝑛𝑣𝑚−1 = 0. Suppose 𝑘∈{1 𝑚−1} Then "
+    },
+    {
+      "id": "8.15",
+      "reason": "example",
+      "page": 318,
+      "nearby": "8.15 example: nilpotent operators a) The operator 𝑇∈ℒ(𝐅4) defined by "
+    },
+    {
+      "id": "8.21",
+      "reason": "example",
+      "page": 322,
+      "nearby": "8.21 example: generalized eigenspaces of an operator on 𝐂3 Define 𝑇∈ℒ(𝐂3) by "
+    },
+    {
+      "id": "8.24",
+      "reason": "example",
+      "page": 324,
+      "nearby": "8.24 example: multiplicity of each eigenvalue of an operator Suppose 𝑇∈ℒ(𝐂3) is "
+    },
+    {
+      "id": "8.27",
+      "reason": "example",
+      "page": 325,
+      "nearby": "8.27 example: the characteristic polynomial of an operator Suppose 𝑇∈ℒ(𝐂3) is de"
+    },
+    {
+      "id": "8.32",
+      "reason": "eq-only",
+      "page": 327,
+      "nearby": "8.32 dim null 𝑇≤𝑑. The matrix of the operator 𝑇𝑛with respect to the basis 𝑣1 𝑣 "
+    },
+    {
+      "id": "8.33",
+      "reason": "eq-only",
+      "page": 327,
+      "nearby": "8.33 dim null 𝑇𝑛≤𝑑. For 𝜆an eigenvalue of 𝑇let 𝑚𝜆denote the multiplicity of 𝜆as "
+    },
+    {
+      "id": "8.34",
+      "reason": "eq-only",
+      "page": 327,
+      "nearby": "8.34 𝑚𝜆≤𝑑𝜆 for each eigenvalue 𝜆of 𝑇The sum of the multiplicities 𝑚𝜆over all "
+    },
+    {
+      "id": "8.36",
+      "reason": "example",
+      "page": 328,
+      "nearby": "8.36 example: a block diagonal matrix The 5-by-5 matrix "
+    },
+    {
+      "id": "8.38",
+      "reason": "example",
+      "page": 329,
+      "nearby": "8.38 example: block diagonal matrix via generalized eigenvectors Let 𝑇∈ℒ(𝐂3) be "
+    },
+    {
+      "id": "8.40",
+      "reason": "eq-only",
+      "page": 333,
+      "nearby": "8.40 √1 + 𝑥= 1 + 𝑎1𝑥+ 𝑎2𝑥2 + ⋯. We do not find an explicit formula for "
+    },
+    {
+      "id": "8.42",
+      "reason": "example",
+      "page": 335,
+      "nearby": "8.42 example: nilpotent operator with nice matrix Let 𝑇be the operator on 𝐂4 def"
+    },
+    {
+      "id": "8.43",
+      "reason": "example",
+      "page": 335,
+      "nearby": "8.43 example: nilpotent operator with slightly more complicated m Let 𝑇be the op"
+    },
+    {
+      "id": "8.48",
+      "reason": "example",
+      "page": 340,
+      "nearby": "8.48 example: trace of a 3-by-3 matrix Suppose "
+    },
+    {
+      "id": "8.53",
+      "reason": "example",
+      "page": 342,
+      "nearby": "8.53 example: trace of an operator on 𝐂3 Suppose 𝑇∈ℒ(𝐂3) is defined by "
+    },
+    {
+      "id": "9.2",
+      "reason": "example",
+      "page": 347,
+      "nearby": "9.2 example: bilinear forms The function 𝛽∶𝐅3 × 𝐅3 𝐅defined by "
+    },
+    {
+      "id": "9.8",
+      "reason": "example",
+      "page": 350,
+      "nearby": "9.8 example: the matrix of a bilinear form on 𝒫2(𝐑) Define a bilinear form 𝛽on 𝒫"
+    },
+    {
+      "id": "9.10",
+      "reason": "example",
+      "page": 351,
+      "nearby": "9.10 example: symmetric bilinear forms • If 𝑉is a real inner product space and 𝜌"
+    },
+    {
+      "id": "9.15",
+      "reason": "example",
+      "page": 353,
+      "nearby": "9.15 example: alternating bilinear forms • Suppose 𝑛≥3 and 𝛼∶𝐅𝑛× 𝐅𝑛→𝐅is defined "
+    },
+    {
+      "id": "9.19",
+      "reason": "example",
+      "page": 355,
+      "nearby": "9.19 example: quadratic form Suppose 𝛽is the bilinear form on 𝐑3 defined by "
+    },
+    {
+      "id": "9.22",
+      "reason": "example",
+      "page": 357,
+      "nearby": "9.22 example: symmetric bilinear form associated with a quadratic Suppose 𝑞is th"
+    },
+    {
+      "id": "9.26",
+      "reason": "example",
+      "page": 360,
+      "nearby": "9.26 example: 𝑚-linear forms S ∈𝑉(2) D fi f ti 𝛽 𝑉4 𝐅b "
+    },
+    {
+      "id": "9.33",
+      "reason": "example",
+      "page": 363,
+      "nearby": "9.33 example: signs • The permutation (1, … , 𝑚) [no changes in the natural orde"
+    },
+    {
+      "id": "9.38",
+      "reason": "eq-only",
+      "page": 365,
+      "nearby": "9.38 𝛼(𝑣1, … , 𝑣𝑛) = ∑ (𝑗1,…,𝑗𝑛)∈perm 𝑛 (sign(𝑗1, … , 𝑗𝑛))𝜑𝑗1(𝑣1) ⋯𝜑𝑗𝑛( Th ifi i"
+    },
+    {
+      "id": "9.42",
+      "reason": "example",
+      "page": 368,
+      "nearby": "9.42 example: determinants of operators Let 𝑛= dim 𝑉. "
+    },
+    {
+      "id": "9.44",
+      "reason": "example",
+      "page": 369,
+      "nearby": "9.44 example: determinants of matrices • If 𝐼is the 𝑛by 𝑛identity matrix then th"
+    },
+    {
+      "id": "9.47",
+      "reason": "example",
+      "page": 370,
+      "nearby": "9.47 example: explicit formula for determinant • If 𝐴is a 2-by-2 matrix then the"
+    },
+    {
+      "id": "9.54",
+      "reason": "eq-only",
+      "page": 373,
+      "nearby": "9.54 ℳ(𝑆−1𝑇𝑆, ( 𝑓1, … , 𝑓𝑛)) = ℳ(𝑇, (𝑒1, … , 𝑒𝑛)), as follows from two applicati"
+    },
+    {
+      "id": "9.69",
+      "reason": "example",
+      "page": 385,
+      "nearby": "9.69 example: bilinear functionals • Suppose 𝜑∈𝑉′ and 𝜏∈𝑊′ Define 𝛽∶𝑉× 𝑊→𝐅by 𝛽(𝑣"
+    },
+    {
+      "id": "9.75",
+      "reason": "eq-only",
+      "page": 387,
+      "nearby": "9.75 ∑ 𝑘=1 ∑ 𝑗= 1 𝑎𝑗,𝑘(𝑒𝑗⊗𝑓𝑘) = 0. Note that (𝑒⊗𝑓)(𝜑 𝜏) equals 1 if 𝑗= 𝑀and 𝑘= 𝑁"
+    },
+    {
+      "id": "9.76",
+      "reason": "example",
+      "page": 388,
+      "nearby": "9.76 example: tensor product of element of 𝐅𝑚with element of 𝐅𝑛 Suppose 𝑚and 𝑛ar"
+    },
+    {
+      "id": "9.78",
+      "reason": "example",
+      "page": 388,
+      "nearby": "9.78 example: bilinear maps • Every bilinear functional on 𝑉× 𝑊is a bilinear map"
+    },
+    {
+      "id": "9.81",
+      "reason": "eq-only",
+      "page": 390,
+      "nearby": "9.81 ⟨∑ 𝑘=1 ∑ 𝑗= 1 𝑏𝑗,𝑘𝑒𝑗⊗𝑓𝑘, ∑ 𝑘=1 ∑ 𝑗= 1 𝑐𝑗,𝑘𝑒𝑗⊗𝑓𝑘⟩= ∑ 𝑘=1 ∑ 𝑗= 1 𝑏𝑗,𝑘𝑐𝑗,𝑘 The"
+    },
+    {
+      "id": "9.86",
+      "reason": "example",
+      "page": 392,
+      "nearby": "9.86 example: 𝑚-linear functional Suppose 𝜑𝑘∈𝑉𝑘 ′ for each 𝑘∈{1, … , 𝑚}. Define "
+    }
+  ],
+  "zh": []
+}

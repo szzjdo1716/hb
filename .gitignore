@@ -1,2 +1,6 @@
+.venv/
+.tools/
 books/
 *.pdf
+__pycache__/
+scripts/__pycache__/

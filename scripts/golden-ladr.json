@@ -1,0 +1,87 @@
+{
+  "9.1": {
+    "kind": "definition",
+    "title": "bilinear form",
+    "note": null,
+    "forbid": [
+      "For example",
+      "inner prod",
+      "bilinear functional would be more consistent",
+      "unfortunately has become standard"
+    ],
+    "body": [
+      { "t": "p", "includes": "A bilinear form on V is a function" },
+      { "t": "p", "includes": "V × V" },
+      { "t": "formula", "includes": "↦" },
+      { "t": "p", "includes": "are both linear functionals" }
+    ]
+  },
+  "9.3": {
+    "kind": "definition",
+    "titleIncludes": "V^{(2)}",
+    "note": null,
+    "bodyOnlyIncludes": "The set of bilinear forms on V is denoted by V^{(2)}.",
+    "forbid": ["With the usual operations", "n-by-n"]
+  },
+  "9.5": {
+    "kind": "result",
+    "titleIncludes": "dim V^{(2)} = (dim V)^2",
+    "includes": [
+      "Suppose",
+      "is a basis of V",
+      "isomorphism",
+      "V^{(2)}",
+      "F^{n,n}",
+      "(dim V)^2"
+    ],
+    "forbid": ["dim V(2)", "(dim V)2"]
+  },
+  "1.1": {
+    "kind": "definition",
+    "minBullets": 3,
+    "includes": ["a + bi", "ordered pair"],
+    "forbid": ["Euler", "Leonhard"]
+  },
+  "1.11": {
+    "kind": "definition",
+    "includes": ["F^n", "x_1"]
+  },
+  "1.24": {
+    "kind": "notation",
+    "minBullets": 3,
+    "includes": ["F^S"]
+  },
+  "1.26": {
+    "kind": "result",
+    "bodyIncludes": "A vector space has a unique additive identity",
+    "titleNotInBodyTwice": true
+  },
+  "1.31": {
+    "kind": "result",
+    "includes": ["a0 = 0 for every a", "F"]
+  },
+  "1.45": {
+    "kind": "result",
+    "includes": ["are subspaces of"]
+  },
+  "1.46": {
+    "kind": "result",
+    "includes": ["direct sum", "U ∩ W", "{0}"]
+  },
+  "2.12": {
+    "kind": "notation",
+    "includes": ["𝒫_m(F) = span(1, z", "z^m"]
+  },
+  "2.15": {
+    "kind": "definition",
+    "minBullets": 2,
+    "hasFormula": true,
+    "includes": ["a_1 v_1", "= 0", "is a_1", "a_m = 0"],
+    "noteIncludes": "The reasoning above"
+  },
+  "2.28": {
+    "kind": "result",
+    "hasFormulaEq": "2.29",
+    "noCard": ["2.29"]
+  }
+}
