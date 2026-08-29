@@ -518,9 +518,27 @@ a:focus-visible {
     "Times New Roman", "Noto Serif", serif;
 }
 
-.linear-page .cmd {
+.linear-page .cmd,
+.linear-page .cmd-body,
+.linear-page .math-block,
+.linear-page .eq-math {
   overflow: visible;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+.linear-page .cmd {
   border-top-color: var(--linear);
+}
+
+.linear-page .math-block {
+  overflow-x: auto;
+}
+
+.linear-page .eq-math {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .linear-page .cmd[data-slug="ch1"] { border-top-color: #38bdf8; }
@@ -632,6 +650,39 @@ a:focus-visible {
 
 .eq-line {
   display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.cases-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: normal;
+  max-width: 100%;
+}
+
+.cases-lhs {
+  overflow-wrap: anywhere;
+}
+
+.cases-brace {
+  font-family: var(--math, "STIX Two Math", "Cambria Math", serif);
+  font-size: 2.6em;
+  font-weight: 300;
+  line-height: 0.85;
+  user-select: none;
+}
+
+.cases {
+  border-collapse: collapse;
+  font: inherit;
+  text-align: left;
+}
+
+.cases td {
+  padding: 0.08rem 0.45rem;
+  vertical-align: baseline;
 }
 
 .matrix-wrap {

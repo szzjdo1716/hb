@@ -450,8 +450,9 @@ function mathHtml(value) {
   s = s.replace(/<sup>['′]<\/sup>/g, "′");
 
   s = s.replace(/(\S)\^\\perp/g, "$1<sup>⊥</sup>");
+  s = s.replace(/(\S)\^?\\dagger/g, "$1<sup>†</sup>");
 
-  const token = "(?:\\d+|\\p{L}|[⊥⟂∗*])";
+  const token = "(?:\\d+|\\p{L}|[⊥⟂∗*†])";
   s = s.replace(new RegExp("(\\S)_(" + token + ")", "gu"), "$1<sub>$2</sub>");
   s = s.replace(new RegExp("(\\S)\\^(" + token + ")", "gu"), "$1<sup>$2</sup>");
 
@@ -758,8 +759,60 @@ function parseLayout(json) {
 function flushBullets(items) {
   if (!items.length) return "";
   return `<ul class="math-bullets">${items
-    .map((item) => `<li>${withEnNote(item.text, item.note)}</li>`)
+    .map((item) => {
+      const cases = renderCases(item.text);
+      return `<li>${cases || withEnNote(item.text, item.note)}</li>`;
+    })
     .join("")}</ul>`;
+}
+
+function renderCases(text) {
+  const raw = String(text || "");
+  const looks =
+    (/1\s*(?:if|若)/.test(raw) && /0\s*(?:if|若)/.test(raw)) ||
+    (/\{1\s*if/.test(raw) && /0\s*if/.test(raw)) ||
+    (/[⎧⎨⎩]/.test(raw) && /1/.test(raw) && /0/.test(raw));
+  if (!looks) return null;
+  const t = raw
+    .replace(/[⎧⎨⎩⎪│]/g, " ")
+    .replace(/[{}]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const cond = "(\\S+\\s*[=≠]\\s*\\S+)";
+  let m = t.match(
+    new RegExp(
+      "^1\\s*[,，]?\\s*(?:if|若)\\s+" +
+        cond +
+        "\\s+(.+?)\\s*=\\s*0\\s*[,，]?\\s*(?:if|若)\\s+" +
+        cond +
+        "\\.?$"
+    )
+  );
+  const ifWord = /若/.test(raw) ? "若 " : "if ";
+  if (m) return casesHtml(m[2], m[1], m[3], ifWord);
+  m = t.match(
+    new RegExp(
+      "^(.+?)\\s*=\\s*1\\s*[,，]?\\s*(?:if|若)\\s+" +
+        cond +
+        "\\s+0\\s*[,，]?\\s*(?:if|若)\\s+" +
+        cond +
+        "\\.?$"
+    )
+  );
+  if (m) return casesHtml(m[1], m[2], m[3], ifWord);
+  return null;
+}
+
+function casesHtml(lhs, whenOne, whenZero, ifWord) {
+  const word = ifWord || "if ";
+  const tidy = (s) => String(s || "").trim().replace(/[.,。．]+$/g, "");
+  return `<div class="cases-wrap"><span class="cases-lhs">${mathHtml(
+    tidy(lhs)
+  )} =</span><span class="cases-brace" aria-hidden="true">{</span><table class="cases"><tbody><tr><td>1</td><td>${mathHtml(
+    word + tidy(whenOne)
+  )}</td></tr><tr><td>0</td><td>${mathHtml(
+    word + tidy(whenZero)
+  )}</td></tr></tbody></table></div>`;
 }
 
 function matrixFence(side, rows) {
@@ -837,6 +890,12 @@ function renderClauses(text, note) {
 }
 
 function formulaInner(text, note) {
+  const cases = renderCases(text);
+  if (cases) {
+    if (!note || state.lang !== "zh") return cases;
+    const label = t().enOriginal || "英文原句";
+    return `${cases} <span class="en-note">${esc(label)}</span>`;
+  }
   const matrix = renderMatrix(text);
   if (matrix) {
     if (!note || state.lang !== "zh") return matrix;
