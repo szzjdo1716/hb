@@ -961,3 +961,14 @@ a:focus-visible {
     gap: 0.25rem;
   }
 }
+
+.pmatrix-rows {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.2;
+  padding: 0 0.2em;
+  vertical-align: middle;
+}
+.pmatrix-rows > span { display: block; }
