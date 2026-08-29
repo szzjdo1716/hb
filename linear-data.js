@@ -2518,20 +2518,21 @@ window.LINEAR_DATA = {
       "include": true,
       "body": [
         {
-          "t": "formula",
-          "en": "𝑏_1 ⎛⎜ ⎞⎟⎟⎟",
-          "zh": "𝑏_1 ���� ����...",
-          "eq": null
-        },
-        {
           "t": "p",
-          "en": "Suppose 𝐴 is an 𝑚-by-𝑛 matrix and 𝑏 = ⎜⎜ ⋮ is an 𝑛-by-1 matrix. Then",
-          "zh": "假设 𝐴是𝑚 × 𝑛矩阵且 𝑏 = 是𝑛 × 1矩阵．那么"
+          "en": "Suppose 𝐴 is an 𝑚-by-𝑛 matrix and 𝑏 =",
+          "zh": "假设 𝐴是𝑚 × 𝑛矩阵且 𝑏 ="
+        },
+        {
+          "t": "pmatrix-eq",
+          "kind": "col",
+          "entries": ["𝑏_1", "⋮", "𝑏_𝑛"],
+          "en": "is an 𝑛-by-1 matrix. Then",
+          "zh": "是𝑛 × 1矩阵．那么"
         },
         {
           "t": "formula",
-          "en": "⎝ 𝑏𝑛 ⎠ 𝐴𝑏 = 𝑏_1 𝐴_{⋅,1} + ⋯ + 𝑏_𝑛 𝐴_{⋅,𝑛}.",
-          "zh": "� 𝑏^𝑛 � 𝐴𝑏 = 𝑏1𝐴·,1 + · · · + 𝑏𝑛𝐴·,𝑛．",
+          "en": "𝐴𝑏 = 𝑏_1 𝐴_{⋅,1} + ⋯ + 𝑏_𝑛 𝐴_{⋅,𝑛}",
+          "zh": "𝐴𝑏 = 𝑏_1 𝐴_{⋅,1} + ⋯ + 𝑏_𝑛 𝐴_{⋅,𝑛}",
           "eq": null
         },
         {
@@ -2541,8 +2542,8 @@ window.LINEAR_DATA = {
         }
       ],
       "note": null,
-      "statement_en": "𝑏_1 ⎛⎜ ⎞⎟⎟⎟ Suppose 𝐴 is an 𝑚-by-𝑛 matrix and 𝑏 = ⎜⎜ ⋮ is an 𝑛-by-1 matrix. Then ⎝ 𝑏𝑛 ⎠ 𝐴𝑏 = 𝑏_1 𝐴_{⋅,1} + ⋯ + 𝑏_𝑛 𝐴_{⋅,𝑛}. In other words, 𝐴𝑏 is a linear combination of the columns of 𝐴, with the scalars that multiply the columns coming from 𝑏.",
-      "statement_zh": "𝑏_1 ���� ����... 假设 𝐴是𝑚 × 𝑛矩阵且 𝑏 = 是𝑛 × 1矩阵．那么 � 𝑏^𝑛 � 𝐴𝑏 = 𝑏1𝐴·,1 + · · · + 𝑏𝑛𝐴·,𝑛． 换言之，𝐴𝑏是 𝐴中各列的线性组合，而与这些列相乘的标量则来自 𝑏．"
+      "statement_en": "Suppose 𝐴 is an 𝑚-by-𝑛 matrix and 𝑏 is an 𝑛-by-1 matrix. Then 𝐴𝑏 = 𝑏_1 𝐴_{⋅,1} + ⋯ + 𝑏_𝑛 𝐴_{⋅,𝑛}. In other words, 𝐴𝑏 is a linear combination of the columns of 𝐴, with the scalars that multiply the columns coming from 𝑏.",
+      "statement_zh": "假设 𝐴是𝑚 × 𝑛矩阵且 𝑏 是𝑛 × 1矩阵．那么 𝐴𝑏 = 𝑏_1 𝐴_{⋅,1} + ⋯ + 𝑏_𝑛 𝐴_{⋅,𝑛}． 换言之，𝐴𝑏是 𝐴中各列的线性组合，而与这些列相乘的标量则来自 𝑏．"
     },
     {
       "id": "3.51",
@@ -2916,10 +2917,10 @@ window.LINEAR_DATA = {
           "zh": "假设𝑣 ∈ 𝑉且𝑣_1,..., 𝑣_𝑛是𝑉的基．𝑣关于该基的矩阵是𝑛 × 1矩阵"
         },
         {
-          "t": "formula",
-          "en": "𝑏_1 ⎛⎜ ⎞⎟⎟⎟ ℳ(𝑣) = ⎜⎜ ⋮ ⎝ 𝑏𝑛 ⎠",
-          "zh": "𝑏_1 ���� ����... M(𝑣) = � 𝑏^𝑛 �",
-          "eq": null
+          "t": "pmatrix-eq",
+          "kind": "col",
+          "label": "ℳ(𝑣) =",
+          "entries": ["𝑏_1", "⋮", "𝑏_𝑛"]
         },
         {
           "t": "p",
@@ -2937,8 +2938,8 @@ window.LINEAR_DATA = {
         "en": "The matrix ℳ(𝑣) of a vector 𝑣 ∈ 𝑉 depends on the basis 𝑣_1, …, 𝑣_𝑛 of 𝑉, as well as on 𝑣. However, the basis should be clear from the context and thus it is not included in the notation.",
         "zh": "向量𝑣 ∈ 𝑉的矩阵 M(𝑣) 取决于𝑉的基𝑣_1,..., 𝑣_𝑛，也取决于𝑣．然而，由上下文应该可明 确基取什么，因此它没被包含在记号里．"
       },
-      "statement_en": "Suppose 𝑣 ∈ 𝑉 and 𝑣_1, …, 𝑣_𝑛 is a basis of 𝑉. The matrix of 𝑣 with respect to this basis is the 𝑛-by-1 matrix 𝑏_1 ⎛⎜ ⎞⎟⎟⎟ ℳ(𝑣) = ⎜⎜ ⋮ ⎝ 𝑏𝑛 ⎠ where 𝑏_1, …, 𝑏_𝑛 are the scalars such that 𝑣 = 𝑏_1 𝑣_1 + ⋯ + 𝑏_𝑛 𝑣_𝑛. The matrix ℳ(𝑣) of a vector 𝑣 ∈ 𝑉 depends on the basis 𝑣_1, …, 𝑣_𝑛 of 𝑉, as well as on 𝑣. However, the basis should be clear from the context and thus it is not included in the notation.",
-      "statement_zh": "假设𝑣 ∈ 𝑉且𝑣_1,..., 𝑣_𝑛是𝑉的基．𝑣关于该基的矩阵是𝑛 × 1矩阵 𝑏_1 ���� ����... M(𝑣) = � 𝑏^𝑛 � 其中 𝑏_1,..., 𝑏_𝑛是使得下式成立的标量： 𝑣 = 𝑏1𝑣1 + · · · + 𝑏𝑛𝑣𝑛． 向量𝑣 ∈ 𝑉的矩阵 M(𝑣) 取决于𝑉的基𝑣_1,..., 𝑣_𝑛，也取决于𝑣．然而，由上下文应该可明 确基取什么，因此它没被包含在记号里．"
+      "statement_en": "Suppose 𝑣 ∈ 𝑉 and 𝑣_1, …, 𝑣_𝑛 is a basis of 𝑉. The matrix of 𝑣 with respect to this basis is the 𝑛-by-1 matrix ℳ(𝑣) where 𝑏_1, …, 𝑏_𝑛 are the scalars such that 𝑣 = 𝑏_1 𝑣_1 + ⋯ + 𝑏_𝑛 𝑣_𝑛. The matrix ℳ(𝑣) of a vector 𝑣 ∈ 𝑉 depends on the basis 𝑣_1, …, 𝑣_𝑛 of 𝑉, as well as on 𝑣. However, the basis should be clear from the context and thus it is not included in the notation.",
+      "statement_zh": "假设𝑣 ∈ 𝑉且𝑣_1,..., 𝑣_𝑛是𝑉的基．𝑣关于该基的矩阵是𝑛 × 1矩阵 M(𝑣)．其中 𝑏_1,..., 𝑏_𝑛是使得下式成立的标量： 𝑣 = 𝑏_1 𝑣_1 + ⋯ + 𝑏_𝑛 𝑣_𝑛． 向量𝑣 ∈ 𝑉的矩阵 M(𝑣) 取决于𝑉的基𝑣_1,..., 𝑣_𝑛，也取决于𝑣．然而，由上下文应该可明 确基取什么，因此它没被包含在记号里．"
     },
     {
       "id": "3.75",

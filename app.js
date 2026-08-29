@@ -836,9 +836,24 @@ function pmatrixHtml(tl, tr, bl, br) {
   )}</td><td>⋯</td><td>${mathHtml(br)}</td></tr></tbody></table></span>`;
 }
 
+function pmatrixColHtml(entries) {
+  const cells = Array.isArray(entries) ? entries.filter((cell) => cell != null && String(cell).length) : [];
+  if (!cells.length) return "";
+  const rows = cells
+    .map((cell) => {
+      const t = String(cell);
+      if (t === "⋮" || t === "⋯" || t === "…") return `<tr><td>${t}</td></tr>`;
+      return `<tr><td>${mathHtml(t)}</td></tr>`;
+    })
+    .join("");
+  return `<span class="pmatrix"><table><tbody>${rows}</tbody></table></span>`;
+}
+
 function pmatrixSpec(tl, tr, bl, br) {
   return { tl, tr, bl, br };
 }
+
+const COL_ENTRIES_BN = ["𝑏_1", "⋮", "𝑏_𝑛"];
 
 const HARDCODED_PMATRIX = {
   "3.29": {
@@ -869,14 +884,51 @@ const HARDCODED_PMATRIX = {
       pmatrixSpec("𝜆𝐴_{1,1}", "𝜆𝐴_{1,𝑛}", "𝜆𝐴_{𝑚,1}", "𝜆𝐴_{𝑚,𝑛}"),
     ],
   },
+  "3.50": {
+    kind: "col",
+    entries: COL_ENTRIES_BN.slice(),
+  },
+  "3.73": {
+    kind: "col",
+    label: "ℳ(𝑣) =",
+    entries: COL_ENTRIES_BN.slice(),
+  },
 };
 
+function pmatrixReady(part) {
+  if (!part) return false;
+  if (part.kind === "col") {
+    return Array.isArray(part.entries) && part.entries.length > 0;
+  }
+  return Array.isArray(part.items) && part.items.length > 0;
+}
+
+function unwrapPmatrixExpr(html) {
+  const s = String(html || "").trim();
+  const m = s.match(/^<div class="pmatrix-expr">([\s\S]*)<\/div>$/);
+  return m ? m[1] : s;
+}
+
 function renderPmatrixEq(part, fallbackId) {
-  const spec =
-    part && Array.isArray(part.items) && part.items.length
-      ? part
-      : HARDCODED_PMATRIX[fallbackId] || HARDCODED_PMATRIX[String(fallbackId || "")];
-  const items = spec && spec.items;
+  const spec = pmatrixReady(part)
+    ? part
+    : HARDCODED_PMATRIX[fallbackId] || HARDCODED_PMATRIX[String(fallbackId || "")];
+  if (!spec) return "";
+  if (spec.kind === "col") {
+    const entries =
+      Array.isArray(spec.entries) && spec.entries.length ? spec.entries : COL_ENTRIES_BN;
+    const col = pmatrixColHtml(entries);
+    if (!col) {
+      const hard = HARDCODED_PMATRIX[fallbackId];
+      if (hard && hard !== spec) return renderPmatrixEq(hard, fallbackId);
+      return "";
+    }
+    const bits = [];
+    if (spec.label) bits.push(`<span class="pmatrix-op">${mathHtml(spec.label)}</span>`);
+    bits.push(col);
+    return `<div class="pmatrix-expr">${bits.join("")}</div>`;
+  }
+  const items = spec.items;
   if (!items || !items.length) {
     const hard = HARDCODED_PMATRIX[fallbackId];
     if (!hard) return "";
@@ -1095,7 +1147,28 @@ function entryBody(row) {
       const html =
         renderPmatrixEq(part, row.id) ||
         renderPmatrixEq(HARDCODED_PMATRIX[row.id], row.id);
-      if (html) chunks.push(`<div class="math-block">${html}</div>`);
+      if (!html) continue;
+      const thenPicked = pickLinearContent(part.en || "", part.zh || "");
+      const thenHtml = thenPicked.text
+        ? ` <span class="pmatrix-then">${withEnNote(thenPicked.text, thenPicked.note)}</span>`
+        : "";
+      const isCol =
+        part.kind === "col" || (HARDCODED_PMATRIX[row.id] || {}).kind === "col";
+      const prev = chunks[chunks.length - 1] || "";
+      if (isCol && thenHtml && /^<p class="math-prose">/.test(prev) && /=\s*<\/p>\s*$/.test(prev)) {
+        chunks[chunks.length - 1] = prev.replace(
+          /<\/p>\s*$/,
+          ` ${unwrapPmatrixExpr(html)}${thenHtml}</p>`
+        );
+        continue;
+      }
+      if (isCol && thenHtml) {
+        chunks.push(
+          `<p class="math-prose">${unwrapPmatrixExpr(html)}${thenHtml}</p>`
+        );
+        continue;
+      }
+      chunks.push(`<div class="math-block">${html}</div>`);
       continue;
     }
     const text = picked.text || "";

@@ -694,6 +694,21 @@ a:focus-visible {
   max-width: 100%;
 }
 
+.math-prose .pmatrix-expr {
+  display: inline-flex;
+  justify-content: flex-start;
+  vertical-align: middle;
+  gap: 0.3rem 0.45rem;
+}
+
+.math-prose .pmatrix {
+  margin: 0 0.12em;
+}
+
+.pmatrix-then {
+  font-size: 1em;
+}
+
 .pmatrix-op {
   font-size: 1.15em;
 }
