@@ -246,7 +246,7 @@ a:focus-visible {
   border-radius: var(--radius);
   border-top: 3px solid var(--accent);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  overflow: visible;
   max-width: 100%;
 }
 
@@ -519,6 +519,7 @@ a:focus-visible {
 }
 
 .linear-page .cmd {
+  overflow: visible;
   border-top-color: var(--linear);
 }
 
@@ -603,7 +604,11 @@ a:focus-visible {
   border-radius: 12px;
   text-align: center;
   font-size: 1.12rem;
-  line-height: 1.7;
+  line-height: 1.85;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  white-space: pre-wrap;
   overflow-wrap: anywhere;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -611,9 +616,45 @@ a:focus-visible {
 .math-block.has-eq {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   column-gap: 0.85rem;
   text-align: center;
+}
+
+.eq-math {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  white-space: pre-wrap;
+  line-height: 1.85;
+  text-align: center;
+}
+
+.eq-line {
+  display: block;
+}
+
+.matrix-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  white-space: normal;
+}
+
+.matrix {
+  border-collapse: collapse;
+  font: inherit;
+}
+
+.matrix td {
+  padding: 0.12rem 0.45rem;
+  text-align: center;
+}
+
+.matrix-wrap .matrix {
+  border-left: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  border-radius: 6px;
 }
 
 .eq-num {
@@ -623,10 +664,6 @@ a:focus-visible {
   color: var(--accent-hot);
   text-align: left;
   min-width: 3.2rem;
-}
-
-.eq-math {
-  text-align: center;
 }
 
 .linear-page a.ref {

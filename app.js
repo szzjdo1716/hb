@@ -419,15 +419,34 @@ function linkifyRefs(html) {
 }
 
 function mathHtml(value) {
-  let s = String(value || "").replace(/<\s*\/?\s*script/gi, "");
+  let s = String(value || "");
+  s = s.replace(/<\s*\/?\s*script/gi, "");
+
   s = s.replace(/\^{([^}]+)}/g, "<sup>$1</sup>");
   s = s.replace(/_\{([^}]+)}/g, "<sub>$1</sub>");
-  s = s.replace(/([A-Za-z0-9\)\]])\^([A-Za-z0-9])/g, "$1<sup>$2</sup>");
-  s = s.replace(/([A-Za-z0-9\)\]])_([A-Za-z0-9])/g, "$1<sub>$2</sub>");
-  s = s.replace(/([abcdn0𝑎𝑏𝑐𝑑])\s*<sub>\s*[i𝑖]\s*<\/sub>/gi, "$1𝑖");
+
+  s = s.replace(/(\S)\^(?:\*|∗)/g, "$1<sup>∗</sup>");
+  s = s.replace(/([^>\s])∗/g, "$1<sup>∗</sup>");
+  s = s.replace(/<sup>\*<\/sup>/g, "<sup>∗</sup>");
+
+  s = s.replace(/(\S)\^['′]/g, "$1′");
+  s = s.replace(/<sup>['′]<\/sup>/g, "′");
+
+  s = s.replace(/(\S)\^(?:⊥|⟂|\\perp)/g, "$1<sup>⊥</sup>");
+  s = s.replace(/<sup>(?:⟂|\\perp)<\/sup>/g, "<sup>⊥</sup>");
+
+  s = s.replace(/(\S)_(\d+)/g, "$1<sub>$2</sub>");
+  s = s.replace(
+    /(\S)_(n|m|k|i|j|U|V|W|𝑛|𝑚|𝑘|𝑖|𝑗|𝑈|𝑉|𝑊)/g,
+    "$1<sub>$2</sub>"
+  );
+  s = s.replace(/(\S)\^(\d+)/g, "$1<sup>$2</sup>");
+  s = s.replace(/(\S)\^(n|𝑛)/g, "$1<sup>$2</sup>");
+
   s = s.replace(/([i𝑖])<sub>\s*2\s*<\/sub>/g, "$1<sup>2</sup>");
-  s = linkifyRefs(s);
-  return s;
+  s = s.replace(/([abcdn0𝑎𝑏𝑐𝑑])\s*<sub>\s*[i𝑖]\s*<\/sub>/gi, "$1𝑖");
+
+  return linkifyRefs(s);
 }
 
 function queryEntries() {
@@ -727,9 +746,47 @@ function flushBullets(items) {
     .join("")}</ul>`;
 }
 
+function renderMatrix(text) {
+  const raw = String(text || "");
+  if (!/[⎛⎜⎝⎞⎟⎠│]/.test(raw)) return null;
+  const t = raw.replace(/[⎛⎜⎝⎞⎟⎠│]/g, " ").replace(/\s+/g, " ").trim();
+  const m = t.match(
+    /((?:𝐴|A)_\{1,1\})\s*(⋯|…)\s*((?:𝐴|A)_\{1,[^}]+\})\s*(?:𝐴|A)\s*=\s*⋮\s*⋮\.?\s*((?:𝐴|A)_\{[^,]+,1\})\s*(⋯|…)\s*((?:𝐴|A)_\{[^}]+\})/
+  );
+  if (m) {
+    return `<div class="matrix-wrap"><span class="matrix-eq">${mathHtml(
+      "𝐴 ="
+    )}</span><table class="matrix"><tbody><tr><td>${mathHtml(
+      m[1]
+    )}</td><td>${esc(m[2])}</td><td>${mathHtml(m[3])}</td></tr><tr><td>⋮</td><td></td><td>⋮</td></tr><tr><td>${mathHtml(
+      m[4]
+    )}</td><td>${esc(m[5])}</td><td>${mathHtml(m[6])}</td></tr></tbody></table></div>`;
+  }
+  return mathHtml(t);
+}
+
+function formulaInner(text, note) {
+  const matrix = renderMatrix(text);
+  if (matrix) {
+    if (!note || state.lang !== "zh") return matrix;
+    const label = t().enOriginal || "英文原句";
+    return `${matrix} <span class="en-note">${esc(label)}</span>`;
+  }
+  const lines = String(text || "").split(/\r?\n/).filter((line) => line.length);
+  if (lines.length > 1) {
+    const html = lines
+      .map((line) => `<div class="eq-line">${mathHtml(line)}</div>`)
+      .join("");
+    if (!note || state.lang !== "zh") return html;
+    const label = t().enOriginal || "英文原句";
+    return `${html} <span class="en-note">${esc(label)}</span>`;
+  }
+  return withEnNote(text, note);
+}
+
 function formulaBlock(part, picked) {
   const eq = part && part.eq;
-  const inner = withEnNote(picked.text, picked.note);
+  const inner = formulaInner(picked.text, picked.note);
   if (eq) {
     return `<div class="math-block has-eq" id="eq-${esc(eq)}"><span class="eq-num">(${esc(
       eq
