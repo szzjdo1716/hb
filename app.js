@@ -422,8 +422,8 @@ function mathHtml(value) {
   let s = String(value || "").replace(/<\s*\/?\s*script/gi, "");
   s = s.replace(/\^{([^}]+)}/g, "<sup>$1</sup>");
   s = s.replace(/_\{([^}]+)}/g, "<sub>$1</sub>");
-  s = s.replace(/([A-Za-zΑ-ω𝐴-𝑧𝑉𝐅𝒫ℒℳ0-9\)\]])\^([A-Za-z0-9])/g, "$1<sup>$2</sup>");
-  s = s.replace(/([A-Za-zΑ-ω𝐴-𝑧𝑉𝐅𝒫ℒℳ0-9\)\]])_([A-Za-z0-9])/g, "$1<sub>$2</sub>");
+  s = s.replace(/([A-Za-z0-9\)\]])\^([A-Za-z0-9])/g, "$1<sup>$2</sup>");
+  s = s.replace(/([A-Za-z0-9\)\]])_([A-Za-z0-9])/g, "$1<sub>$2</sub>");
   s = s.replace(/([abcdn0𝑎𝑏𝑐𝑑])\s*<sub>\s*[i𝑖]\s*<\/sub>/gi, "$1𝑖");
   s = s.replace(/([i𝑖])<sub>\s*2\s*<\/sub>/g, "$1<sup>2</sup>");
   s = linkifyRefs(s);
