@@ -651,10 +651,24 @@ a:focus-visible {
   text-align: center;
 }
 
+.matrix-paren {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 0.1rem;
+}
+
+.matrix-fence {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: var(--math, "STIX Two Math", "Cambria Math", serif);
+  font-size: 1.35em;
+  line-height: 0.92;
+  user-select: none;
+}
+
 .matrix-wrap .matrix {
-  border-left: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  border-radius: 6px;
+  border: none;
 }
 
 .eq-num {

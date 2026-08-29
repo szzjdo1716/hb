@@ -418,30 +418,46 @@ function linkifyRefs(html) {
   );
 }
 
+function relocateUnboundStar(s) {
+  let moved = false;
+  s = s.replace(/(\S)\s+([*∗])\s+(\S)/g, (m, left, _star, right) => {
+    if (/\d$/.test(left) && /^\d/.test(right)) return m;
+    if (/\S$/.test(left) && /^\p{L}/u.test(right)) {
+      moved = true;
+      return `${left} ${right}`;
+    }
+    return m;
+  });
+  if (!moved) return s;
+  const eq = s.lastIndexOf("=");
+  if (eq < 0) return s;
+  const head = s.slice(0, eq + 1);
+  let rhs = s.slice(eq + 1);
+  if (/\)\s*\^?\s*[∗*]/.test(rhs) || /∗\s*[,.]/.test(rhs)) return s;
+  rhs = rhs.replace(/\)(?![\s\S]*\))/, ")^*");
+  return head + rhs;
+}
+
 function mathHtml(value) {
   let s = String(value || "");
   s = s.replace(/<\s*\/?\s*script/gi, "");
+  s = relocateUnboundStar(s);
 
   s = s.replace(/\^{([^}]+)}/g, "<sup>$1</sup>");
   s = s.replace(/_\{([^}]+)}/g, "<sub>$1</sub>");
 
-  s = s.replace(/(\S)\^(?:\*|∗)/g, "$1<sup>∗</sup>");
-  s = s.replace(/([^>\s])∗/g, "$1<sup>∗</sup>");
-  s = s.replace(/<sup>\*<\/sup>/g, "<sup>∗</sup>");
-
   s = s.replace(/(\S)\^['′]/g, "$1′");
   s = s.replace(/<sup>['′]<\/sup>/g, "′");
 
-  s = s.replace(/(\S)\^(?:⊥|⟂|\\perp)/g, "$1<sup>⊥</sup>");
-  s = s.replace(/<sup>(?:⟂|\\perp)<\/sup>/g, "<sup>⊥</sup>");
+  s = s.replace(/(\S)\^\\perp/g, "$1<sup>⊥</sup>");
 
-  s = s.replace(/(\S)_(\d+)/g, "$1<sub>$2</sub>");
-  s = s.replace(
-    /(\S)_(n|m|k|i|j|U|V|W|𝑛|𝑚|𝑘|𝑖|𝑗|𝑈|𝑉|𝑊)/g,
-    "$1<sub>$2</sub>"
-  );
-  s = s.replace(/(\S)\^(\d+)/g, "$1<sup>$2</sup>");
-  s = s.replace(/(\S)\^(n|𝑛)/g, "$1<sup>$2</sup>");
+  const token = "(?:\\d+|\\p{L}|[⊥⟂∗*])";
+  s = s.replace(new RegExp("(\\S)_(" + token + ")", "gu"), "$1<sub>$2</sub>");
+  s = s.replace(new RegExp("(\\S)\\^(" + token + ")", "gu"), "$1<sup>$2</sup>");
+
+  s = s.replace(/([^>\s])∗/g, "$1<sup>∗</sup>");
+  s = s.replace(/<sup>\*<\/sup>/g, "<sup>∗</sup>");
+  s = s.replace(/<sup>⟂<\/sup>/g, "<sup>⊥</sup>");
 
   s = s.replace(/([i𝑖])<sub>\s*2\s*<\/sub>/g, "$1<sup>2</sup>");
   s = s.replace(/([abcdn0𝑎𝑏𝑐𝑑])\s*<sub>\s*[i𝑖]\s*<\/sub>/gi, "$1𝑖");
@@ -746,6 +762,28 @@ function flushBullets(items) {
     .join("")}</ul>`;
 }
 
+function matrixFence(side, rows) {
+  const left = ["⎛", "⎜", "⎝"];
+  const right = ["⎞", "⎟", "⎠"];
+  const set = side === "l" ? left : right;
+  const chars = [];
+  for (let i = 0; i < rows; i++) {
+    chars.push(i === 0 ? set[0] : i === rows - 1 ? set[2] : set[1]);
+  }
+  return `<span class="matrix-fence" aria-hidden="true">${chars
+    .map((c) => `<span>${c}</span>`)
+    .join("")}</span>`;
+}
+
+function wrapMatrixTable(eq, rowsHtml, nRows) {
+  return `<div class="matrix-wrap">${
+    eq ? `<span class="matrix-eq">${mathHtml(eq)}</span>` : ""
+  }<span class="matrix-paren">${matrixFence("l", nRows)}<table class="matrix"><tbody>${rowsHtml}</tbody></table>${matrixFence(
+    "r",
+    nRows
+  )}</span></div>`;
+}
+
 function renderMatrix(text) {
   const raw = String(text || "");
   if (!/[⎛⎜⎝⎞⎟⎠│]/.test(raw)) return null;
@@ -754,15 +792,48 @@ function renderMatrix(text) {
     /((?:𝐴|A)_\{1,1\})\s*(⋯|…)\s*((?:𝐴|A)_\{1,[^}]+\})\s*(?:𝐴|A)\s*=\s*⋮\s*⋮\.?\s*((?:𝐴|A)_\{[^,]+,1\})\s*(⋯|…)\s*((?:𝐴|A)_\{[^}]+\})/
   );
   if (m) {
-    return `<div class="matrix-wrap"><span class="matrix-eq">${mathHtml(
-      "𝐴 ="
-    )}</span><table class="matrix"><tbody><tr><td>${mathHtml(
-      m[1]
-    )}</td><td>${esc(m[2])}</td><td>${mathHtml(m[3])}</td></tr><tr><td>⋮</td><td></td><td>⋮</td></tr><tr><td>${mathHtml(
-      m[4]
-    )}</td><td>${esc(m[5])}</td><td>${mathHtml(m[6])}</td></tr></tbody></table></div>`;
+    const rows =
+      `<tr><td>${mathHtml(m[1])}</td><td>${esc(m[2])}</td><td>${mathHtml(m[3])}</td></tr>` +
+      `<tr><td>⋮</td><td></td><td>⋮</td></tr>` +
+      `<tr><td>${mathHtml(m[4])}</td><td>${esc(m[5])}</td><td>${mathHtml(m[6])}</td></tr>`;
+    return wrapMatrixTable("𝐴 =", rows, 3);
   }
   return mathHtml(t);
+}
+
+function splitClauses(text) {
+  const src = String(text || "");
+  if (!/\(a\)/.test(src) || !/\(b\)/.test(src)) return null;
+  const bits = src.split(/(?=\([a-z]\))/);
+  const items = [];
+  let lead = "";
+  bits.forEach((bit, index) => {
+    const m = bit.match(/^\(([a-z])\)\s*([\s\S]*)/);
+    if (m) items.push({ mark: m[1], text: String(m[2] || "").trim() });
+    else if (index === 0) lead = bit.trim();
+  });
+  if (items.length < 2) return null;
+  return { lead, items };
+}
+
+function renderClauses(text, note) {
+  const split = splitClauses(text);
+  if (!split) return `<p class="math-prose">${withEnNote(text, note)}</p>`;
+  let html = "";
+  if (split.lead) html += `<p class="math-prose">${mathHtml(split.lead)}</p>`;
+  html += `<div class="clause-list">${split.items
+    .map(
+      (item) =>
+        `<div class="clause-row"><span class="clause-mark">(${esc(
+          item.mark
+        )})</span><span class="clause-text">${mathHtml(item.text)}</span></div>`
+    )
+    .join("")}</div>`;
+  if (note && state.lang === "zh") {
+    const label = t().enOriginal || "英文原句";
+    html += ` <span class="en-note">${esc(label)}</span>`;
+  }
+  return html;
 }
 
 function formulaInner(text, note) {
@@ -816,14 +887,14 @@ function entryBody(row) {
       return;
     }
     if (picked.text) {
-      chunks.push(`<p class="math-prose">${withEnNote(picked.text, picked.note)}</p>`);
+      chunks.push(renderClauses(picked.text, picked.note));
     }
   });
   if (bullets.length) chunks.push(flushBullets(bullets));
   if (!chunks.length) {
     const statement = pickLinearContent(row.statement_en, row.statement_zh);
     if (statement.text) {
-      chunks.push(`<p class="math-prose">${withEnNote(statement.text, statement.note)}</p>`);
+      chunks.push(renderClauses(statement.text, statement.note));
     }
   }
   const note = layout.note;
