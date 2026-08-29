@@ -99,6 +99,7 @@ const SUBJECT_I18N = {
       empty: "没有匹配的条目。",
       skip: "跳到条目列表",
       enOriginal: "英文原句",
+      noteLabel: "注",
     },
     en: {
       title: "Linear algebra handbook",
@@ -108,6 +109,7 @@ const SUBJECT_I18N = {
       status: (n, total) => `${n} of ${total} · SQLite`,
       empty: "No entries match that search.",
       skip: "Skip to entries",
+      noteLabel: "Note",
     },
   },
   github: {
@@ -204,8 +206,9 @@ function pickText(row, enKey, zhKey) {
 function pickLinearContent(en, zh) {
   if (state.lang === "en") return { text: en || "", note: false };
   if (hasCJK(zh)) return { text: zh || "", note: false };
+  if (zh) return { text: zh, note: false };
   if (en) return { text: en, note: true };
-  return { text: zh || "", note: false };
+  return { text: "", note: false };
 }
 
 function withEnNote(text, note) {
@@ -292,18 +295,14 @@ function seed(db) {
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     );
     (HANDBOOK_DATA.entries || []).forEach((entry) => {
-      const layout = {
-        layout: entry.layout || "prose",
-        lead_en: entry.lead_en || "",
-        lead_zh: entry.lead_zh || "",
-        formula_en: entry.formula_en || "",
-        formula_zh: entry.formula_zh || "",
-        after_en: entry.after_en || "",
-        after_zh: entry.after_zh || "",
-        rows: entry.rows || [],
-        bullets_en: entry.bullets_en || [],
-        bullets_zh: entry.bullets_zh || [],
-      };
+      const body = Array.isArray(entry.body) ? entry.body : [];
+      const note = entry.note && typeof entry.note === "object" ? entry.note : null;
+      const joinedEn =
+        entry.statement_en ||
+        body.map((part) => part.en || "").join(" ") + (note && note.en ? ` ${note.en}` : "");
+      const joinedZh =
+        entry.statement_zh ||
+        body.map((part) => part.zh || "").join(" ") + (note && note.zh ? ` ${note.zh}` : "");
       insert.run([
         entry.id,
         entry.kind,
@@ -311,9 +310,9 @@ function seed(db) {
         entry.number,
         entry.name_en || "",
         entry.name_zh || "",
-        entry.statement_en || "",
-        entry.statement_zh || "",
-        JSON.stringify(layout),
+        joinedEn,
+        joinedZh,
+        JSON.stringify({ body, note }),
         entry.include === false ? 0 : 1,
       ]);
     });
@@ -687,68 +686,60 @@ function parseLayout(json) {
   }
 }
 
+function flushBullets(items) {
+  if (!items.length) return "";
+  return `<ul class="math-bullets">${items
+    .map((item) => `<li>${withEnNote(item.text, item.note)}</li>`)
+    .join("")}</ul>`;
+}
+
 function entryBody(row) {
   const layout = parseLayout(row.layout_json);
-  const type = layout.layout || "prose";
-  const lead = pickLinearContent(layout.lead_en, layout.lead_zh);
-  const formula = pickLinearContent(layout.formula_en, layout.formula_zh);
-  const after = pickLinearContent(layout.after_en, layout.after_zh);
-  const parts = [];
-  if (type === "properties" && Array.isArray(layout.rows) && layout.rows.length) {
-    if (lead.text) parts.push(`<p class="math-lead">${withEnNote(lead.text, lead.note)}</p>`);
-    parts.push(
-      `<div class="prop-list">${layout.rows
-        .map((item) => {
-          const lab = pickLinearContent(item.label_en, item.label_zh);
-          const text = pickLinearContent(item.text_en, item.text_zh);
-          return `<div class="prop-row"><span class="prop-label">${withEnNote(
-            lab.text,
-            lab.note
-          )}</span><span class="prop-text">${withEnNote(text.text, text.note)}</span></div>`;
-        })
-        .join("")}</div>`
-    );
-    return parts.join("");
-  }
-  if (type === "clauses" && Array.isArray(layout.rows) && layout.rows.length) {
-    if (lead.text) parts.push(`<p class="math-lead">${withEnNote(lead.text, lead.note)}</p>`);
-    parts.push(
-      `<div class="clause-list">${layout.rows
-        .map((item) => {
-          const lab = pickLinearContent(item.label_en, item.label_zh);
-          const text = pickLinearContent(item.text_en, item.text_zh);
-          return `<div class="clause-row"><span class="clause-mark">${withEnNote(
-            lab.text,
-            lab.note
-          )}</span><span class="clause-text">${withEnNote(text.text, text.note)}</span></div>`;
-        })
-        .join("")}</div>`
-    );
-    return parts.join("");
-  }
-  if (type === "bullets") {
-    const enList = layout.bullets_en || [];
-    const zhList = layout.bullets_zh || [];
-    const useZh = state.lang === "zh" && zhList.some(hasCJK);
-    const bullets = state.lang === "en" ? enList : useZh ? zhList : enList;
-    const note = state.lang === "zh" && !useZh && enList.length > 0;
+  const body = Array.isArray(layout.body) ? layout.body : [];
+  const chunks = [];
+  let bullets = [];
+  body.forEach((part) => {
+    const kind = part && part.t;
+    const picked = pickLinearContent(part.en, part.zh);
+    if (kind === "bullet") {
+      bullets.push(picked);
+      return;
+    }
     if (bullets.length) {
-      return `<ul class="math-bullets">${bullets
-        .map(
-          (item, i) =>
-            `<li>${withEnNote(item, note && i === 0)}</li>`
-        )
-        .join("")}</ul>`;
+      chunks.push(flushBullets(bullets));
+      bullets = [];
+    }
+    if (kind === "formula") {
+      if (picked.text) {
+        chunks.push(`<div class="math-block">${withEnNote(picked.text, picked.note)}</div>`);
+      }
+      return;
+    }
+    if (picked.text) {
+      chunks.push(`<p class="math-prose">${withEnNote(picked.text, picked.note)}</p>`);
+    }
+  });
+  if (bullets.length) chunks.push(flushBullets(bullets));
+  if (!chunks.length) {
+    const statement = pickLinearContent(row.statement_en, row.statement_zh);
+    if (statement.text) {
+      chunks.push(`<p class="math-prose">${withEnNote(statement.text, statement.note)}</p>`);
     }
   }
-  if (type === "formula" && formula.text) {
-    if (lead.text) parts.push(`<p class="math-lead">${withEnNote(lead.text, lead.note)}</p>`);
-    parts.push(`<div class="math-block">${withEnNote(formula.text, formula.note)}</div>`);
-    if (after.text) parts.push(`<p class="math-after">${withEnNote(after.text, after.note)}</p>`);
-    return parts.join("");
+  const note = layout.note;
+  if (note && (note.en || note.zh)) {
+    const picked = pickLinearContent(note.en, note.zh);
+    if (picked.text) {
+      const label = t().noteLabel || (state.lang === "zh" ? "注" : "Note");
+      chunks.push(
+        `<aside class="entry-note"><span class="note-label">${esc(label)}</span> ${withEnNote(
+          picked.text,
+          picked.note
+        )}</aside>`
+      );
+    }
   }
-  const statement = pickLinearContent(row.statement_en, row.statement_zh);
-  return `<p class="math-prose">${withEnNote(statement.text, statement.note)}</p>`;
+  return chunks.join("");
 }
 
 function renderLinear(rows) {
@@ -763,7 +754,6 @@ function renderLinear(rows) {
             ? row.name_zh
             : row.name_zh || row.name_en || "";
       const catName = pickText(row, "category_name_en", "category_name_zh");
-      const statement = pickLinearContent(row.statement_en, row.statement_zh);
       const badge = state.exactHit
         ? `<span class="exact-badge">${esc(ui.exact)}</span>`
         : "";
@@ -779,13 +769,6 @@ function renderLinear(rows) {
           </button>
           <div class="cmd-body entry-body" ${open ? "" : "hidden"}>
             ${entryBody(row)}
-            ${
-              (parseLayout(row.layout_json).layout || "prose") === "prose"
-                ? ""
-                : statement.text
-                  ? `<p class="math-search visually-hidden">${mathHtml(statement.text)}</p>`
-                  : ""
-            }
           </div>
         </article>
       `;
