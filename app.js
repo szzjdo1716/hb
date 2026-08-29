@@ -26,12 +26,18 @@ const I18N = {
     exact: "精确匹配",
     home: "首页",
     hubTitle: "学习手册",
-    hubLede: "先选一个主题。现在 Linux 和 GitHub 可用。",
+    hubLede: "先选一个主题。现在 Linux 和线性代数可用。",
     hubSkip: "跳到主题",
     linuxTile: "Linux 命令手册",
     linuxHint: "打开手册",
+    linearTile: "线性代数手册",
+    linearHint: "打开手册",
     githubTile: "GitHub 入门手册",
     githubHint: "打开手册",
+    catalog: "目录",
+    kindDef: "定义",
+    kindRes: "结论",
+    kindNotation: "记号",
     soon: "稍后",
     footer:
       "用浏览器直接打开本文件即可。查询在你的电脑上用 SQLite（sql.js）完成。man7.org 和 linux.die.net 的手册链接需要联网。",
@@ -62,12 +68,18 @@ const I18N = {
     exact: "Exact match",
     home: "Home",
     hubTitle: "Learning handbook",
-    hubLede: "Pick a topic. Linux and GitHub are available now.",
+    hubLede: "Pick a topic. Linux and linear algebra are available now.",
     hubSkip: "Skip to topics",
     linuxTile: "Linux command reference",
     linuxHint: "Open the handbook",
+    linearTile: "Linear algebra handbook",
+    linearHint: "Open the handbook",
     githubTile: "GitHub starter handbook",
     githubHint: "Open the handbook",
+    catalog: "Contents",
+    kindDef: "Definitions",
+    kindRes: "Results",
+    kindNotation: "Notation",
     soon: "Later",
     footer:
       "Open this file in a browser. Queries run in SQLite (sql.js) on your machine. Manual pages on man7.org and linux.die.net need a network connection.",
@@ -77,6 +89,26 @@ const I18N = {
 };
 
 const SUBJECT_I18N = {
+  linear: {
+    zh: {
+      title: "线性代数手册",
+      lede: "Axler《Linear Algebra Done Right》第 4 版的定义、记号与结论。搜索编号或名称即可。打开本页后无需联网（原书链接除外）。",
+      searchPh: "输入 1.20 或 span 或 张成",
+      searchHint: "输入编号或名称时，只显示这一条。",
+      status: (n, total) => `${n} / ${total} 条 · SQLite`,
+      empty: "没有匹配的条目。",
+      skip: "跳到条目列表",
+    },
+    en: {
+      title: "Linear algebra handbook",
+      lede: "Definitions, notation, and results from Axler’s Linear Algebra Done Right, 4th edition. Search a number or a name. Works offline after this page loads (book links need the network).",
+      searchPh: "Type 1.20 or span or 张成",
+      searchHint: "A number or name shows that card only.",
+      status: (n, total) => `${n} of ${total} · SQLite`,
+      empty: "No entries match that search.",
+      skip: "Skip to entries",
+    },
+  },
   github: {
     zh: {
       title: "GitHub 入门手册",
@@ -99,12 +131,21 @@ const SUBJECT_I18N = {
   },
 };
 
-const HANDBOOK_DATA = window.GITHUB_DATA || window.LINUX_DATA;
-const SUBJECT = window.GITHUB_DATA ? "github" : window.LINUX_DATA ? "linux" : "";
+const HANDBOOK_DATA =
+  window.LINEAR_DATA || window.GITHUB_DATA || window.LINUX_DATA;
+const SUBJECT = window.LINEAR_DATA
+  ? "linear"
+  : window.GITHUB_DATA
+    ? "github"
+    : window.LINUX_DATA
+      ? "linux"
+      : "";
+const IS_LINEAR = SUBJECT === "linear";
 
 const state = {
   db: null,
   category: "",
+  kind: "",
   query: "",
   lang: readLang(),
   open: new Set(),
@@ -189,6 +230,74 @@ function seed(db) {
       name_zh TEXT NOT NULL,
       sort_order INTEGER NOT NULL
     );
+  `);
+
+  const insertCat = db.prepare(
+    "INSERT INTO categories (slug, name_en, name_zh, sort_order) VALUES (?, ?, ?, ?)"
+  );
+  HANDBOOK_DATA.categories.forEach((cat, index) => {
+    insertCat.run([
+      cat.slug,
+      cat.name_en || cat.name || "",
+      cat.name_zh || cat.name || "",
+      cat.sort_order || index + 1,
+    ]);
+  });
+  insertCat.free();
+
+  if (IS_LINEAR) {
+    db.run(`
+      CREATE TABLE entries (
+        id TEXT PRIMARY KEY,
+        kind TEXT NOT NULL,
+        chapter TEXT NOT NULL,
+        number TEXT NOT NULL,
+        name_en TEXT NOT NULL,
+        name_zh TEXT NOT NULL,
+        statement_en TEXT NOT NULL,
+        statement_zh TEXT NOT NULL,
+        layout_json TEXT NOT NULL,
+        include INTEGER NOT NULL
+      );
+      CREATE INDEX idx_entries_ch ON entries(chapter);
+      CREATE INDEX idx_entries_num ON entries(number);
+    `);
+    const insert = db.prepare(
+      `INSERT INTO entries
+        (id, kind, chapter, number, name_en, name_zh, statement_en, statement_zh, layout_json, include)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+    (HANDBOOK_DATA.entries || []).forEach((entry) => {
+      const layout = {
+        layout: entry.layout || "prose",
+        lead_en: entry.lead_en || "",
+        lead_zh: entry.lead_zh || "",
+        formula_en: entry.formula_en || "",
+        formula_zh: entry.formula_zh || "",
+        after_en: entry.after_en || "",
+        after_zh: entry.after_zh || "",
+        rows: entry.rows || [],
+        bullets_en: entry.bullets_en || [],
+        bullets_zh: entry.bullets_zh || [],
+      };
+      insert.run([
+        entry.id,
+        entry.kind,
+        entry.chapter,
+        entry.number,
+        entry.name_en || "",
+        entry.name_zh || "",
+        entry.statement_en || "",
+        entry.statement_zh || "",
+        JSON.stringify(layout),
+        entry.include === false ? 0 : 1,
+      ]);
+    });
+    insert.free();
+    return;
+  }
+
+  db.run(`
     CREATE TABLE commands (
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
@@ -203,20 +312,6 @@ function seed(db) {
     CREATE INDEX idx_commands_name ON commands(name);
     CREATE INDEX idx_commands_cat ON commands(category_slug);
   `);
-
-  const insertCat = db.prepare(
-    "INSERT INTO categories (slug, name_en, name_zh, sort_order) VALUES (?, ?, ?, ?)"
-  );
-  HANDBOOK_DATA.categories.forEach((cat, index) => {
-    insertCat.run([
-      cat.slug,
-      cat.name_en || cat.name || "",
-      cat.name_zh || cat.name || "",
-      index + 1,
-    ]);
-  });
-  insertCat.free();
-
   const insertCmd = db.prepare(
     `INSERT INTO commands
       (name, category_slug, summary_en, summary_zh, example, options_json, links_json, shortcuts_json)
@@ -238,7 +333,10 @@ function seed(db) {
 }
 
 function countAll() {
-  const stmt = state.db.prepare("SELECT COUNT(*) AS n FROM commands");
+  const sql = IS_LINEAR
+    ? "SELECT COUNT(*) AS n FROM entries WHERE include = 1"
+    : "SELECT COUNT(*) AS n FROM commands";
+  const stmt = state.db.prepare(sql);
   stmt.step();
   const n = stmt.getAsObject().n;
   stmt.free();
@@ -257,6 +355,83 @@ function parseQuery(raw) {
   let q = String(raw || "").trim();
   if (q.startsWith("$")) q = q.slice(1).trim();
   return q;
+}
+
+function stripTags(value) {
+  return String(value || "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"');
+}
+
+function mathHtml(value) {
+  return String(value || "").replace(/<\s*\/?\s*script/gi, "");
+}
+
+function queryEntries() {
+  state.exactHit = false;
+  const q = parseQuery(state.query);
+  let sql = `
+    SELECT e.id, e.kind, e.chapter, e.number, e.name_en, e.name_zh,
+           e.statement_en, e.statement_zh, e.layout_json,
+           cat.name_en AS category_name_en, cat.name_zh AS category_name_zh,
+           cat.slug AS category_slug
+    FROM entries e
+    JOIN categories cat ON cat.slug = e.chapter
+    WHERE e.include = 1
+  `;
+  const params = [];
+  if (state.category) {
+    sql += " AND e.chapter = ?";
+    params.push(state.category);
+  }
+  if (state.kind === "definition") {
+    sql += " AND e.kind IN ('definition', 'notation')";
+  } else if (state.kind === "result") {
+    sql += " AND e.kind = 'result'";
+  }
+  sql += " ORDER BY cat.sort_order, e.number";
+  const stmt = state.db.prepare(sql);
+  stmt.bind(params);
+  let rows = rowsFrom(stmt);
+  rows.sort((a, b) => {
+    const [a1, a2] = String(a.number).split(".").map(Number);
+    const [b1, b2] = String(b.number).split(".").map(Number);
+    return a1 - b1 || a2 - b2;
+  });
+  if (!q) return rows;
+
+  const needle = q.toLowerCase();
+  const exactRows = rows.filter((row) => {
+    const names = [
+      String(row.id || ""),
+      String(row.number || ""),
+      stripTags(row.name_en),
+      stripTags(row.name_zh),
+    ].map((s) => s.toLowerCase());
+    return names.includes(needle);
+  });
+  if (exactRows.length) {
+    state.exactHit = exactRows.length === 1;
+    return exactRows;
+  }
+  rows = rows.filter((row) => {
+    const blob = [
+      row.id,
+      row.number,
+      row.kind,
+      stripTags(row.name_en),
+      stripTags(row.name_zh),
+      stripTags(row.statement_en),
+      stripTags(row.statement_zh),
+    ]
+      .join(" ")
+      .toLowerCase();
+    return blob.includes(needle);
+  });
+  return rows;
 }
 
 function queryCommands() {
@@ -344,6 +519,10 @@ function applyChrome() {
     const linuxHint = document.getElementById("tile-linux-hint");
     if (linuxTitle) linuxTitle.textContent = ui.linuxTile;
     if (linuxHint) linuxHint.textContent = ui.linuxHint;
+    const linearTitle = document.getElementById("tile-linear-title");
+    const linearHint = document.getElementById("tile-linear-hint");
+    if (linearTitle) linearTitle.textContent = ui.linearTile;
+    if (linearHint) linearHint.textContent = ui.linearHint;
     const githubTitle = document.getElementById("tile-github-title");
     const githubHint = document.getElementById("tile-github-hint");
     if (githubTitle) githubTitle.textContent = ui.githubTile;
@@ -364,8 +543,15 @@ function applyChrome() {
   if (hint) hint.textContent = ui.searchHint;
   if (categoryNav) categoryNav.setAttribute("aria-label", ui.catsLabel);
   if (emptyEl) emptyEl.textContent = ui.empty;
-  const footer = document.querySelector(".site-footer p");
-  if (footer) footer.textContent = ui.footer;
+  const attrZh = document.getElementById("attr-zh");
+  const attrEn = document.getElementById("attr-en");
+  if (attrZh && attrEn) {
+    attrZh.hidden = state.lang !== "zh";
+    attrEn.hidden = state.lang !== "en";
+  } else {
+    const footer = document.querySelector(".site-footer p");
+    if (footer) footer.textContent = ui.footer;
+  }
   if (langToggle) {
     langToggle.querySelectorAll("[data-lang]").forEach((btn) => {
       btn.setAttribute("aria-pressed", btn.dataset.lang === state.lang ? "true" : "false");
@@ -379,15 +565,26 @@ function renderCategories() {
     `SELECT slug, ${nameCol} AS name FROM categories ORDER BY sort_order`
   );
   const cats = rowsFrom(stmt);
-  const buttons = [{ slug: "", name: t().all }, ...cats]
+  const ui = t();
+  const allLabel = IS_LINEAR ? ui.catalog : ui.all;
+  const buttons = [{ slug: "", name: allLabel }, ...cats]
     .map(
       (cat) =>
         `<button type="button" class="chip" data-slug="${esc(cat.slug)}" aria-pressed="${
           state.category === cat.slug ? "true" : "false"
         }">${esc(cat.name)}</button>`
-    )
-    .join("");
-  categoryNav.innerHTML = buttons;
+    );
+  if (IS_LINEAR) {
+    buttons.push(
+      `<button type="button" class="chip" data-kind="definition" aria-pressed="${
+        state.kind === "definition" ? "true" : "false"
+      }">${esc(ui.kindDef)}</button>`,
+      `<button type="button" class="chip" data-kind="result" aria-pressed="${
+        state.kind === "result" ? "true" : "false"
+      }">${esc(ui.kindRes)}</button>`
+    );
+  }
+  categoryNav.innerHTML = buttons.join("");
 }
 
 function optionRows(json) {
@@ -448,17 +645,135 @@ function linkList(json) {
     .join("");
 }
 
+function kindLabel(kind) {
+  const ui = t();
+  if (kind === "notation") return ui.kindNotation;
+  if (kind === "result") return ui.kindRes;
+  return ui.kindDef;
+}
+
+function parseLayout(json) {
+  try {
+    return JSON.parse(json || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function entryBody(row) {
+  const layout = parseLayout(row.layout_json);
+  const type = layout.layout || "prose";
+  const lead = pickText(layout, "lead_en", "lead_zh");
+  const formula = pickText(layout, "formula_en", "formula_zh");
+  const after = pickText(layout, "after_en", "after_zh");
+  const parts = [];
+  if (type === "properties" && Array.isArray(layout.rows) && layout.rows.length) {
+    if (lead) parts.push(`<p class="math-lead">${mathHtml(lead)}</p>`);
+    parts.push(
+      `<div class="prop-list">${layout.rows
+        .map((item) => {
+          const lab = pickText(item, "label_en", "label_zh");
+          const text = pickText(item, "text_en", "text_zh");
+          return `<div class="prop-row"><span class="prop-label">${mathHtml(
+            lab
+          )}</span><span class="prop-text">${mathHtml(text)}</span></div>`;
+        })
+        .join("")}</div>`
+    );
+    return parts.join("");
+  }
+  if (type === "clauses" && Array.isArray(layout.rows) && layout.rows.length) {
+    if (lead) parts.push(`<p class="math-lead">${mathHtml(lead)}</p>`);
+    parts.push(
+      `<div class="clause-list">${layout.rows
+        .map((item) => {
+          const lab = pickText(item, "label_en", "label_zh");
+          const text = pickText(item, "text_en", "text_zh");
+          return `<div class="clause-row"><span class="clause-mark">${mathHtml(
+            lab
+          )}</span><span class="clause-text">${mathHtml(text)}</span></div>`;
+        })
+        .join("")}</div>`
+    );
+    return parts.join("");
+  }
+  if (type === "bullets") {
+    const bullets =
+      state.lang === "zh"
+        ? layout.bullets_zh && layout.bullets_zh.length
+          ? layout.bullets_zh
+          : layout.bullets_en || []
+        : layout.bullets_en && layout.bullets_en.length
+          ? layout.bullets_en
+          : layout.bullets_zh || [];
+    if (bullets.length) {
+      return `<ul class="math-bullets">${bullets
+        .map((item) => `<li>${mathHtml(item)}</li>`)
+        .join("")}</ul>`;
+    }
+  }
+  if (type === "formula" && formula) {
+    if (lead) parts.push(`<p class="math-lead">${mathHtml(lead)}</p>`);
+    parts.push(`<div class="math-block">${mathHtml(formula)}</div>`);
+    if (after) parts.push(`<p class="math-after">${mathHtml(after)}</p>`);
+    return parts.join("");
+  }
+  const statement = pickText(row, "statement_en", "statement_zh");
+  return `<p class="math-prose">${mathHtml(statement)}</p>`;
+}
+
+function renderLinear(rows) {
+  const ui = t();
+  resultsEl.innerHTML = rows
+    .map((row) => {
+      const open = state.open.has(row.id);
+      const name = pickText(row, "name_en", "name_zh");
+      const catName = pickText(row, "category_name_en", "category_name_zh");
+      const statement = pickText(row, "statement_en", "statement_zh");
+      const badge = state.exactHit
+        ? `<span class="exact-badge">${esc(ui.exact)}</span>`
+        : "";
+      return `
+        <article class="cmd entry" data-name="${esc(row.id)}" data-slug="${esc(
+        row.chapter
+      )}" data-kind="${esc(row.kind)}">
+          <button class="cmd-head" type="button" aria-expanded="${open}">
+            <code class="entry-id">${esc(row.number)}</code>
+            <span class="badge">${esc(kindLabel(row.kind))} · ${esc(catName)}${badge}</span>
+            <span class="chev">${open ? "▾" : "▸"}</span>
+            <p class="sum entry-title">${mathHtml(name)}</p>
+          </button>
+          <div class="cmd-body entry-body" ${open ? "" : "hidden"}>
+            ${entryBody(row)}
+            ${
+              (parseLayout(row.layout_json).layout || "prose") === "prose"
+                ? ""
+                : statement
+                  ? `<p class="math-search visually-hidden">${mathHtml(statement)}</p>`
+                  : ""
+            }
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
 function render() {
   applyChrome();
   renderCategories();
   const ui = t();
-  const rows = queryCommands();
+  const rows = IS_LINEAR ? queryEntries() : queryCommands();
   const total = countAll();
   statusEl.textContent = ui.status(rows.length, total);
   emptyEl.hidden = rows.length !== 0;
   emptyEl.textContent = ui.empty;
 
-  if (rows.length === 1) state.open.add(rows[0].name);
+  if (rows.length === 1) state.open.add(IS_LINEAR ? rows[0].id : rows[0].name);
+  if (IS_LINEAR) {
+    renderLinear(rows);
+    return;
+  }
 
   resultsEl.innerHTML = rows
     .map((row) => {
@@ -512,6 +827,13 @@ function bind() {
 
   if (categoryNav) {
     categoryNav.addEventListener("click", (event) => {
+      const kindBtn = event.target.closest("[data-kind]");
+      if (kindBtn) {
+        const next = kindBtn.dataset.kind || "";
+        state.kind = state.kind === next ? "" : next;
+        render();
+        return;
+      }
       const button = event.target.closest("[data-slug]");
       if (!button) return;
       state.category = button.dataset.slug || "";

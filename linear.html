@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>线性代数手册</title>
+    <link rel="stylesheet" href="style.css?v=8" />
+  </head>
+  <body class="linear-page">
+    <a class="skip-link" href="#results">跳到命令列表</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div>
+          <p class="nav-home"><a href="index.html" id="home-link">首页</a></p>
+          <h1>线性代数手册</h1>
+          <p class="lede">
+            Axler《Linear Algebra Done Right》第 4 版的定义、记号与结论。搜索编号或名称即可。打开本页后无需联网（原书链接除外）。
+          </p>
+        </div>
+        <div class="header-tools">
+          <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+            <button type="button" data-lang="zh" aria-pressed="true">中</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+          <label class="search-wrap">
+            <span class="visually-hidden">搜索命令</span>
+            <input
+              id="search"
+              type="search"
+              placeholder="输入 1.20 或 span 或 张成"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <p class="search-hint" id="search-hint">
+              输入编号或名称时，只显示这一条。
+            </p>
+          </label>
+        </div>
+      </div>
+      <div class="toolbar">
+        <nav id="categories" class="chips" aria-label="分类"></nav>
+        <p class="status" id="status">正在加载 SQLite…</p>
+      </div>
+    </header>
+
+    <main id="results" class="results" aria-live="polite"></main>
+
+    <p class="empty" id="empty" hidden>没有匹配的命令。</p>
+
+    <footer class="site-footer attr-footer">
+      <p id="attr-zh">
+        本页为非商业学习用改编摘录，改编自 Sheldon Axler 所著
+        <cite>Linear Algebra Done Right</cite> 第 4 版。证明、习题、例子已省略；版式面向网页，并非原书影印。
+        许可：<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 4.0</a>。
+        原书：<a href="https://linear.axler.net/" target="_blank" rel="noopener noreferrer">linear.axler.net</a>。
+        中文对照吴俊达、何阳译本，按同一编号匹配。
+      </p>
+      <p id="attr-en" hidden>
+        Non-commercial study page: an adapted excerpt of Sheldon Axler’s
+        <cite>Linear Algebra Done Right</cite>, 4th edition. Proofs, exercises, and examples are omitted; the layout is for the web, not a photocopy of the book.
+        License: <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 4.0</a>.
+        Book: <a href="https://linear.axler.net/" target="_blank" rel="noopener noreferrer">linear.axler.net</a>.
+        Chinese wording follows the Wu Junda / He Yang translation, matched by the same number.
+      </p>
+    </footer>
+
+    <script src="vendor/sql-wasm.js"></script>
+    <script src="vendor/sql-wasm-binary.js"></script>
+    <script src="linear-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
