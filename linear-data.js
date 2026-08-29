@@ -2144,10 +2144,17 @@ window.LINEAR_DATA = {
           "zh": "假设𝑚和𝑛是非负整数．𝑚 × 𝑛矩阵 𝐴是由 F 中元素构成的𝑚行𝑛列的矩形阵列："
         },
         {
-          "t": "formula",
-          "en": "𝐴_{1,1} ⋯ 𝐴_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ 𝐴 = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠",
-          "zh": "𝐴_{1,1} · · · 𝐴_{1,𝑛} ���� ����...... 𝐴 = ． � 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} �",
-          "eq": null
+          "t": "pmatrix-eq",
+          "kind": "single",
+          "label": "𝐴 =",
+          "items": [
+            {
+              "tl": "𝐴_{1,1}",
+              "tr": "𝐴_{1,𝑛}",
+              "bl": "𝐴_{𝑚,1}",
+              "br": "𝐴_{𝑚,𝑛}"
+            }
+          ]
         },
         {
           "t": "p",
@@ -2156,8 +2163,8 @@ window.LINEAR_DATA = {
         }
       ],
       "note": null,
-      "statement_en": "Suppose 𝑚 and 𝑛 are nonnegative integers. An 𝑚-by-𝑛 matrix 𝐴 is a rectangular array of elements of 𝐅 with 𝑚 rows and 𝑛 columns: 𝐴_{1,1} ⋯ 𝐴_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ 𝐴 = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠ The notation 𝐴_{𝑗,𝑘} denotes the entry in row 𝑗, column 𝑘 of 𝐴.",
-      "statement_zh": "假设𝑚和𝑛是非负整数．𝑚 × 𝑛矩阵 𝐴是由 F 中元素构成的𝑚行𝑛列的矩形阵列： 𝐴_{1,1} · · · 𝐴_{1,𝑛} ���� ����...... 𝐴 = ． � 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} � 记号 𝐴_{𝑗,𝑘}表示 𝐴的第 𝑗行第 𝑘列中的元素．"
+      "statement_en": "Suppose 𝑚 and 𝑛 are nonnegative integers. An 𝑚-by-𝑛 matrix 𝐴 is a rectangular array of elements of 𝐅 with 𝑚 rows and 𝑛 columns. The notation 𝐴_{𝑗,𝑘} denotes the entry in row 𝑗, column 𝑘 of 𝐴.",
+      "statement_zh": "假设𝑚和𝑛是非负整数．𝑚 × 𝑛矩阵 𝐴是由 F 中元素构成的𝑚行𝑛列的矩形阵列。记号 𝐴_{𝑗,𝑘}表示 𝐴的第 𝑗行第 𝑘列中的元素．"
     },
     {
       "id": "3.31",
@@ -2203,30 +2210,38 @@ window.LINEAR_DATA = {
       "body": [
         {
           "t": "p",
-          "en": "The sum of two matrices of the same size is the matrix obtained by adding corresponding entries in the matrices: 𝐴_{1,1} ⋯ 𝐴_{1,𝑛} 𝐶_{1,1} ⋯ 𝐶_{1,𝑛} ⎛⎜⎜⎜ ⎞⎟⎟⎟ ⎛⎜ ⎞⎟⎟⎟",
+          "en": "The sum of two matrices of the same size is the matrix obtained by adding corresponding entries in the matrices:",
           "zh": "两个相同大小的矩阵之和，是将两矩阵对应位置上的元素相加所得的矩阵："
         },
         {
-          "t": "formula",
-          "en": "⋮ ⋮ + ⎜⎜ ⋮ ⋮",
-          "zh": "𝐴_{1,1} · · · 𝐴_{1,𝑛} 𝐶_{1,1} · · · 𝐶_{1,𝑛} ���� ���� ���� ����............",
-          "eq": null
-        },
-        {
-          "t": "p",
-          "en": "⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠ ⎝ 𝐶_{𝑚,1} ⋯ 𝐶_{𝑚,𝑛} ⎠",
-          "zh": "+"
-        },
-        {
-          "t": "formula",
-          "en": "𝐴_{1,1} + 𝐶_{1,1} ⋯ 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} + 𝐶_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} ⎠",
-          "zh": "� 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} � � 𝐶_{𝑚,1} · · · 𝐶_{𝑚,𝑛} � 𝐴_{1,1} + 𝐶_{1,1} · · · 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ���� ����...... = ． � 𝐴_{𝑚,1} + 𝐶_{𝑚,1} · · · 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} �",
-          "eq": null
+          "t": "pmatrix-eq",
+          "kind": "add",
+          "ops": ["+", "="],
+          "items": [
+            {
+              "tl": "𝐴_{1,1}",
+              "tr": "𝐴_{1,𝑛}",
+              "bl": "𝐴_{𝑚,1}",
+              "br": "𝐴_{𝑚,𝑛}"
+            },
+            {
+              "tl": "𝐶_{1,1}",
+              "tr": "𝐶_{1,𝑛}",
+              "bl": "𝐶_{𝑚,1}",
+              "br": "𝐶_{𝑚,𝑛}"
+            },
+            {
+              "tl": "𝐴_{1,1}+𝐶_{1,1}",
+              "tr": "𝐴_{1,𝑛}+𝐶_{1,𝑛}",
+              "bl": "𝐴_{𝑚,1}+𝐶_{𝑚,1}",
+              "br": "𝐴_{𝑚,𝑛}+𝐶_{𝑚,𝑛}"
+            }
+          ]
         }
       ],
       "note": null,
-      "statement_en": "The sum of two matrices of the same size is the matrix obtained by adding corresponding entries in the matrices: 𝐴_{1,1} ⋯ 𝐴_{1,𝑛} 𝐶_{1,1} ⋯ 𝐶_{1,𝑛} ⎛⎜⎜⎜ ⎞⎟⎟⎟ ⎛⎜ ⎞⎟⎟⎟ ⋮ ⋮ + ⎜⎜ ⋮ ⋮ ⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠ ⎝ 𝐶_{𝑚,1} ⋯ 𝐶_{𝑚,𝑛} ⎠ 𝐴_{1,1} + 𝐶_{1,1} ⋯ 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} + 𝐶_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} ⎠",
-      "statement_zh": "两个相同大小的矩阵之和，是将两矩阵对应位置上的元素相加所得的矩阵： 𝐴_{1,1} · · · 𝐴_{1,𝑛} 𝐶_{1,1} · · · 𝐶_{1,𝑛} ���� ���� ���� ����............ + � 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} � � 𝐶_{𝑚,1} · · · 𝐶_{𝑚,𝑛} � 𝐴_{1,1} + 𝐶_{1,1} · · · 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ���� ����...... = ． � 𝐴_{𝑚,1} + 𝐶_{𝑚,1} · · · 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} �"
+      "statement_en": "The sum of two matrices of the same size is the matrix obtained by adding corresponding entries in the matrices.",
+      "statement_zh": "两个相同大小的矩阵之和，是将两矩阵对应位置上的元素相加所得的矩阵。"
     },
     {
       "id": "3.35",
@@ -2265,15 +2280,29 @@ window.LINEAR_DATA = {
           "zh": "一个标量和一个矩阵的乘积，是将该矩阵的各元素都乘以该标量所得的矩阵："
         },
         {
-          "t": "formula",
-          "en": "𝐴_{1,1} ⋯ 𝐴_{1,𝑛} 𝜆𝐴_{1,1} ⋯ 𝜆𝐴_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ ⎛⎜ ⎞⎟⎟⎟ 𝜆 ⎜⎜ ⋮ ⋮ = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠ ⎝ 𝜆𝐴_{𝑚,1} ⋯ 𝜆𝐴_{𝑚,𝑛} ⎠",
-          "zh": "𝐴_{1,1} · · · 𝐴_{1,𝑛} 𝜆𝐴_{1,1} · · · 𝜆𝐴_{1,𝑛} ���� ���� ���� ����............ 𝜆 = ． � 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} � � 𝜆𝐴_{𝑚,1} · · · 𝜆𝐴_{𝑚,𝑛} �",
-          "eq": null
+          "t": "pmatrix-eq",
+          "kind": "scale",
+          "left": "𝜆",
+          "ops": ["="],
+          "items": [
+            {
+              "tl": "𝐴_{1,1}",
+              "tr": "𝐴_{1,𝑛}",
+              "bl": "𝐴_{𝑚,1}",
+              "br": "𝐴_{𝑚,𝑛}"
+            },
+            {
+              "tl": "𝜆𝐴_{1,1}",
+              "tr": "𝜆𝐴_{1,𝑛}",
+              "bl": "𝜆𝐴_{𝑚,1}",
+              "br": "𝜆𝐴_{𝑚,𝑛}"
+            }
+          ]
         }
       ],
       "note": null,
-      "statement_en": "The product of a scalar and a matrix is the matrix obtained by multiplying each entry in the matrix by the scalar: 𝐴_{1,1} ⋯ 𝐴_{1,𝑛} 𝜆𝐴_{1,1} ⋯ 𝜆𝐴_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ ⎛⎜ ⎞⎟⎟⎟ 𝜆 ⎜⎜ ⋮ ⋮ = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠ ⎝ 𝜆𝐴_{𝑚,1} ⋯ 𝜆𝐴_{𝑚,𝑛} ⎠",
-      "statement_zh": "一个标量和一个矩阵的乘积，是将该矩阵的各元素都乘以该标量所得的矩阵： 𝐴_{1,1} · · · 𝐴_{1,𝑛} 𝜆𝐴_{1,1} · · · 𝜆𝐴_{1,𝑛} ���� ���� ���� ����............ 𝜆 = ． � 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} � � 𝜆𝐴_{𝑚,1} · · · 𝜆𝐴_{𝑚,𝑛} �"
+      "statement_en": "The product of a scalar and a matrix is the matrix obtained by multiplying each entry in the matrix by the scalar.",
+      "statement_zh": "一个标量和一个矩阵的乘积，是将该矩阵的各元素都乘以该标量所得的矩阵。"
     },
     {
       "id": "3.38",

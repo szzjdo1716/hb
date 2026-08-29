@@ -836,6 +836,75 @@ function pmatrixHtml(tl, tr, bl, br) {
   )}</td><td>⋯</td><td>${mathHtml(br)}</td></tr></tbody></table></span>`;
 }
 
+function pmatrixSpec(tl, tr, bl, br) {
+  return { tl, tr, bl, br };
+}
+
+const HARDCODED_PMATRIX = {
+  "3.29": {
+    kind: "single",
+    label: "𝐴 =",
+    items: [pmatrixSpec("𝐴_{1,1}", "𝐴_{1,𝑛}", "𝐴_{𝑚,1}", "𝐴_{𝑚,𝑛}")],
+  },
+  "3.34": {
+    kind: "add",
+    ops: ["+", "="],
+    items: [
+      pmatrixSpec("𝐴_{1,1}", "𝐴_{1,𝑛}", "𝐴_{𝑚,1}", "𝐴_{𝑚,𝑛}"),
+      pmatrixSpec("𝐶_{1,1}", "𝐶_{1,𝑛}", "𝐶_{𝑚,1}", "𝐶_{𝑚,𝑛}"),
+      pmatrixSpec(
+        "𝐴_{1,1}+𝐶_{1,1}",
+        "𝐴_{1,𝑛}+𝐶_{1,𝑛}",
+        "𝐴_{𝑚,1}+𝐶_{𝑚,1}",
+        "𝐴_{𝑚,𝑛}+𝐶_{𝑚,𝑛}"
+      ),
+    ],
+  },
+  "3.36": {
+    kind: "scale",
+    left: "𝜆",
+    ops: ["="],
+    items: [
+      pmatrixSpec("𝐴_{1,1}", "𝐴_{1,𝑛}", "𝐴_{𝑚,1}", "𝐴_{𝑚,𝑛}"),
+      pmatrixSpec("𝜆𝐴_{1,1}", "𝜆𝐴_{1,𝑛}", "𝜆𝐴_{𝑚,1}", "𝜆𝐴_{𝑚,𝑛}"),
+    ],
+  },
+};
+
+function renderPmatrixEq(part, fallbackId) {
+  const spec =
+    part && Array.isArray(part.items) && part.items.length
+      ? part
+      : HARDCODED_PMATRIX[fallbackId] || HARDCODED_PMATRIX[String(fallbackId || "")];
+  const items = spec && spec.items;
+  if (!items || !items.length) {
+    const hard = HARDCODED_PMATRIX[fallbackId];
+    if (!hard) return "";
+    return renderPmatrixEq(hard, fallbackId);
+  }
+  const bits = [];
+  if (spec.kind === "single" && spec.label) {
+    bits.push(`<span class="pmatrix-op">${mathHtml(spec.label)}</span>`);
+  }
+  if (spec.kind === "scale" && spec.left) {
+    bits.push(`<span class="pmatrix-op">${mathHtml(spec.left)}</span>`);
+  }
+  const ops = spec.ops || [];
+  items.forEach((m, i) => {
+    if (i && ops[i - 1]) {
+      bits.push(`<span class="pmatrix-op">${mathHtml(ops[i - 1])}</span>`);
+    }
+    bits.push(pmatrixHtml(m.tl, m.tr, m.bl, m.br));
+  });
+  const html = bits.join("");
+  if (!html || !/class="pmatrix"/.test(html)) {
+    const hard = HARDCODED_PMATRIX[fallbackId];
+    if (hard && hard !== spec) return renderPmatrixEq(hard, fallbackId);
+    return "";
+  }
+  return `<div class="pmatrix-expr">${html}</div>`;
+}
+
 function extractPairs(chunk) {
   const cell =
     "(?:𝜆|λ)?(?:𝐴|A|𝐶|C|𝐵|B|𝑏)(?:_\\{[^}]+\\})?(?:\\s*\\+\\s*(?:𝐴|A|𝐶|C)(?:_\\{[^}]+\\})?)?";
@@ -1021,6 +1090,13 @@ function entryBody(row) {
     if (bullets.length) {
       chunks.push(flushBullets(bullets));
       bullets = [];
+    }
+    if (kind === "pmatrix-eq") {
+      const html =
+        renderPmatrixEq(part, row.id) ||
+        renderPmatrixEq(HARDCODED_PMATRIX[row.id], row.id);
+      if (html) chunks.push(`<div class="math-block">${html}</div>`);
+      continue;
     }
     const text = picked.text || "";
     const run = isMatrixFragment(text) || (/_\{1,\s*1\}/.test(text) && /(?:⋯|…)/.test(text));
