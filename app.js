@@ -815,43 +815,113 @@ function casesHtml(lhs, whenOne, whenZero, ifWord) {
   )}</td></tr></tbody></table></div>`;
 }
 
-function matrixFence(side, rows) {
-  const left = ["⎛", "⎜", "⎝"];
-  const right = ["⎞", "⎟", "⎠"];
-  const set = side === "l" ? left : right;
-  const chars = [];
-  for (let i = 0; i < rows; i++) {
-    chars.push(i === 0 ? set[0] : i === rows - 1 ? set[2] : set[1]);
-  }
-  return `<span class="matrix-fence" aria-hidden="true">${chars
-    .map((c) => `<span>${c}</span>`)
-    .join("")}</span>`;
+function looksPmatrix(s) {
+  const t = String(s || "");
+  return /[│⎛⎜⎝⎞⎟⎠]/.test(t) || /\)\|\|\(/.test(t);
 }
 
-function wrapMatrixTable(eq, rowsHtml, nRows) {
-  return `<div class="matrix-wrap">${
-    eq ? `<span class="matrix-eq">${mathHtml(eq)}</span>` : ""
-  }<span class="matrix-paren">${matrixFence("l", nRows)}<table class="matrix"><tbody>${rowsHtml}</tbody></table>${matrixFence(
-    "r",
-    nRows
-  )}</span></div>`;
+function stripPmatrixJunk(s) {
+  return String(s || "")
+    .replace(/[│⎛⎜⎝⎞⎟⎠]/g, " ")
+    .replace(/\)\|\|\(/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-function renderMatrix(text) {
-  const raw = String(text || "");
-  if (!/[⎛⎜⎝⎞⎟⎠│]/.test(raw)) return null;
-  const t = raw.replace(/[⎛⎜⎝⎞⎟⎠│]/g, " ").replace(/\s+/g, " ").trim();
-  const m = t.match(
-    /((?:𝐴|A)_\{1,1\})\s*(⋯|…)\s*((?:𝐴|A)_\{1,[^}]+\})\s*(?:𝐴|A)\s*=\s*⋮\s*⋮\.?\s*((?:𝐴|A)_\{[^,]+,1\})\s*(⋯|…)\s*((?:𝐴|A)_\{[^}]+\})/
+function pmatrixHtml(tl, tr, bl, br) {
+  return `<span class="pmatrix"><table><tbody><tr><td>${mathHtml(
+    tl
+  )}</td><td>⋯</td><td>${mathHtml(tr)}</td></tr><tr><td>⋮</td><td></td><td>⋮</td></tr><tr><td>${mathHtml(
+    bl
+  )}</td><td>⋯</td><td>${mathHtml(br)}</td></tr></tbody></table></span>`;
+}
+
+function extractPairs(chunk) {
+  const cell =
+    "(?:𝜆|λ)?(?:𝐴|A|𝐶|C|𝐵|B|𝑏)(?:_\\{[^}]+\\})?(?:\\s*\\+\\s*(?:𝐴|A|𝐶|C)(?:_\\{[^}]+\\})?)?";
+  const re = new RegExp(
+    `(${cell})\\s*(?:⋯|…|·\\s*·\\s*·)\\s*(${cell})`,
+    "g"
   );
-  if (m) {
-    const rows =
-      `<tr><td>${mathHtml(m[1])}</td><td>${esc(m[2])}</td><td>${mathHtml(m[3])}</td></tr>` +
-      `<tr><td>⋮</td><td></td><td>⋮</td></tr>` +
-      `<tr><td>${mathHtml(m[4])}</td><td>${esc(m[5])}</td><td>${mathHtml(m[6])}</td></tr>`;
-    return wrapMatrixTable("𝐴 =", rows, 3);
+  const pairs = [];
+  let m;
+  while ((m = re.exec(chunk))) pairs.push({ a: m[1], b: m[2], raw: m[0] });
+  return pairs;
+}
+
+function parsePmatrixExpr(raw) {
+  const cleaned = stripPmatrixJunk(raw);
+  if (!cleaned) return null;
+  const chunks = cleaned.split(/⋮\s*⋮\.?/);
+  const tops = [];
+  const bots = [];
+  const ops = [];
+  chunks.forEach((chunk) => {
+    const pairs = extractPairs(chunk);
+    let rest = chunk;
+    pairs.forEach((p) => {
+      rest = rest.replace(p.raw, " ");
+    });
+    rest = rest.replace(/[⋯….]+/g, " ").replace(/\s+/g, " ").trim();
+    if (!pairs.length) {
+      if (rest) ops.push(rest);
+      return;
+    }
+    if (tops.length === 0 || bots.length >= tops.length) {
+      pairs.forEach((p) => tops.push(p));
+      if (rest) ops.push(rest);
+      return;
+    }
+    const need = tops.length - bots.length;
+    pairs.slice(0, need).forEach((p) => bots.push(p));
+    pairs.slice(need).forEach((p) => tops.push(p));
+    if (rest) ops.push(rest);
+  });
+  if (!tops.length || tops.length !== bots.length) return null;
+  const pieces = [];
+  const opStr = ops.join(" ");
+  const scalar = /(?:^|\s)(𝜆|λ)(?:\s|$)/.test(opStr);
+  if (scalar) pieces.push(`<span class="pmatrix-op">${mathHtml("𝜆")}</span>`);
+  tops.forEach((top, i) => {
+    if (i) {
+      const op = opStr.includes("=") && i === tops.length - 1 ? "=" : opStr.includes("+") ? "+" : "";
+      if (op) pieces.push(`<span class="pmatrix-op">${esc(op)}</span>`);
+    }
+    pieces.push(pmatrixHtml(top.a, top.b, bots[i].a, bots[i].b));
+  });
+  const labelM = cleaned.match(/^\s*(𝐴|A|𝐶|C|ℳ(?:\([^)]*\))?|𝜆|λ)\s*=/);
+  const firstChunk = chunks[0] || "";
+  const label = firstChunk.match(/(𝐴|A|𝐶|C)\s*=\s*$/);
+  let html = pieces.join("");
+  if (label && tops.length === 1) {
+    html = `<span class="pmatrix-op">${mathHtml(label[1] + " =")}</span>${pieces.join("")}`;
+  } else if (labelM && tops.length === 1 && !scalar) {
+    html = `<span class="pmatrix-op">${mathHtml(labelM[1] + " =")}</span>${pmatrixHtml(
+      tops[0].a,
+      tops[0].b,
+      bots[0].a,
+      bots[0].b
+    )}`;
   }
-  return mathHtml(t);
+  return html;
+}
+
+function renderPmatrix(text) {
+  const raw = String(text || "");
+  if (!looksPmatrix(raw) && !(/⋮/.test(raw) && /⋯/.test(raw) && /_\{1,1\}/.test(raw))) {
+    return null;
+  }
+  const html = parsePmatrixExpr(raw);
+  if (html) return `<div class="pmatrix-expr">${html}</div>`;
+  if (looksPmatrix(raw)) return "";
+  return null;
+}
+
+function englishBeforeMatrix(text) {
+  const src = String(text || "");
+  const idx = src.search(/[⎛⎜⎝│]|[𝐴A𝐶C]_\{\s*1\s*,/);
+  if (idx <= 0) return looksPmatrix(src) ? "" : src;
+  return src.slice(0, idx).replace(/[⎛⎜⎝⎞⎟⎠│]/g, "").trim();
 }
 
 function splitClauses(text) {
@@ -896,7 +966,8 @@ function formulaInner(text, note) {
     const label = t().enOriginal || "英文原句";
     return `${cases} <span class="en-note">${esc(label)}</span>`;
   }
-  const matrix = renderMatrix(text);
+  const matrix = renderPmatrix(text);
+  if (matrix === "") return "";
   if (matrix) {
     if (!note || state.lang !== "zh") return matrix;
     const label = t().enOriginal || "英文原句";
@@ -917,6 +988,7 @@ function formulaInner(text, note) {
 function formulaBlock(part, picked) {
   const eq = part && part.eq;
   const inner = formulaInner(picked.text, picked.note);
+  if (!inner) return "";
   if (eq) {
     return `<div class="math-block has-eq" id="eq-${esc(eq)}"><span class="eq-num">(${esc(
       eq
@@ -925,30 +997,61 @@ function formulaBlock(part, picked) {
   return `<div class="math-block">${inner}</div>`;
 }
 
+function isMatrixFragment(text) {
+  const t = String(text || "");
+  if (looksPmatrix(t)) return true;
+  if (/⋮/.test(t) && /(?:⋯|…|\+)/.test(t)) return true;
+  if (/_\{[𝑚m],\s*1\}/.test(t) && /(?:⋯|…)/.test(t)) return true;
+  return false;
+}
+
 function entryBody(row) {
   const layout = parseLayout(row.layout_json);
   const body = Array.isArray(layout.body) ? layout.body : [];
   const chunks = [];
   let bullets = [];
-  body.forEach((part) => {
+  for (let i = 0; i < body.length; i++) {
+    const part = body[i];
     const kind = part && part.t;
     const picked = pickLinearContent(part.en, part.zh);
     if (kind === "bullet") {
       bullets.push(picked);
-      return;
+      continue;
     }
     if (bullets.length) {
       chunks.push(flushBullets(bullets));
       bullets = [];
     }
-    if (kind === "formula") {
-      if (picked.text) chunks.push(formulaBlock(part, picked));
-      return;
+    const text = picked.text || "";
+    const run = isMatrixFragment(text) || (/_\{1,\s*1\}/.test(text) && /(?:⋯|…)/.test(text));
+    if (!run) {
+      if (kind === "formula") {
+        if (text) chunks.push(formulaBlock(part, picked));
+      } else if (text) {
+        chunks.push(renderClauses(text, picked.note));
+      }
+      continue;
     }
-    if (picked.text) {
-      chunks.push(renderClauses(picked.text, picked.note));
+    const prefix = englishBeforeMatrix(text);
+    if (prefix) chunks.push(renderClauses(prefix, false));
+    let blob = "";
+    let j = i;
+    while (j < body.length) {
+      const nxt = body[j];
+      if (nxt.t === "bullet") break;
+      const pk = pickLinearContent(nxt.en, nxt.zh);
+      const t2 = pk.text || "";
+      if (j > i && !isMatrixFragment(t2) && !looksPmatrix(t2) && !(/_\{[1𝑚m],/.test(t2) && /(?:⋯|…)/.test(t2))) {
+        break;
+      }
+      const idx = t2.search(/[⎛⎜⎝│]|[𝐴A𝐶C]_\{\s*1\s*,/);
+      blob += " " + (idx >= 0 ? t2.slice(idx) : t2);
+      j += 1;
     }
-  });
+    i = j - 1;
+    const html = renderPmatrix(blob);
+    if (html) chunks.push(`<div class="math-block">${html}</div>`);
+  }
   if (bullets.length) chunks.push(flushBullets(bullets));
   if (!chunks.length) {
     const statement = pickLinearContent(row.statement_en, row.statement_zh);

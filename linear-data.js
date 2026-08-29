@@ -2224,12 +2224,9 @@ window.LINEAR_DATA = {
           "eq": null
         }
       ],
-      "note": {
-        "en": "In the next result, the assumption is that the same bases are used for all three linear maps 𝑆 + 𝑇, 𝑆, and 𝑇.",
-        "zh": "在接下来这条结果中，假设对于 𝑆 + 𝑇, 𝑆和𝑇这三个线性映射都选取相同的基．"
-      },
-      "statement_en": "The sum of two matrices of the same size is the matrix obtained by adding corresponding entries in the matrices: 𝐴_{1,1} ⋯ 𝐴_{1,𝑛} 𝐶_{1,1} ⋯ 𝐶_{1,𝑛} ⎛⎜⎜⎜ ⎞⎟⎟⎟ ⎛⎜ ⎞⎟⎟⎟ ⋮ ⋮ + ⎜⎜ ⋮ ⋮ ⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠ ⎝ 𝐶_{𝑚,1} ⋯ 𝐶_{𝑚,𝑛} ⎠ 𝐴_{1,1} + 𝐶_{1,1} ⋯ 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} + 𝐶_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} ⎠ In the next result, the assumption is that the same bases are used for all three linear maps 𝑆 + 𝑇, 𝑆, and 𝑇.",
-      "statement_zh": "两个相同大小的矩阵之和，是将两矩阵对应位置上的元素相加所得的矩阵： 𝐴_{1,1} · · · 𝐴_{1,𝑛} 𝐶_{1,1} · · · 𝐶_{1,𝑛} ���� ���� ���� ����............ + � 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} � � 𝐶_{𝑚,1} · · · 𝐶_{𝑚,𝑛} � 𝐴_{1,1} + 𝐶_{1,1} · · · 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ���� ����...... = ． � 𝐴_{𝑚,1} + 𝐶_{𝑚,1} · · · 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} � 在接下来这条结果中，假设对于 𝑆 + 𝑇, 𝑆和𝑇这三个线性映射都选取相同的基．"
+      "note": null,
+      "statement_en": "The sum of two matrices of the same size is the matrix obtained by adding corresponding entries in the matrices: 𝐴_{1,1} ⋯ 𝐴_{1,𝑛} 𝐶_{1,1} ⋯ 𝐶_{1,𝑛} ⎛⎜⎜⎜ ⎞⎟⎟⎟ ⎛⎜ ⎞⎟⎟⎟ ⋮ ⋮ + ⎜⎜ ⋮ ⋮ ⎝ 𝐴_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} ⎠ ⎝ 𝐶_{𝑚,1} ⋯ 𝐶_{𝑚,𝑛} ⎠ 𝐴_{1,1} + 𝐶_{1,1} ⋯ 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ⎛⎜ ⎞⎟⎟⎟ = ⎜⎜ ⋮ ⋮. ⎝ 𝐴_{𝑚,1} + 𝐶_{𝑚,1} ⋯ 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} ⎠",
+      "statement_zh": "两个相同大小的矩阵之和，是将两矩阵对应位置上的元素相加所得的矩阵： 𝐴_{1,1} · · · 𝐴_{1,𝑛} 𝐶_{1,1} · · · 𝐶_{1,𝑛} ���� ���� ���� ����............ + � 𝐴_{𝑚,1} · · · 𝐴_{𝑚,𝑛} � � 𝐶_{𝑚,1} · · · 𝐶_{𝑚,𝑛} � 𝐴_{1,1} + 𝐶_{1,1} · · · 𝐴_{1,𝑛} + 𝐶_{1,𝑛} ���� ����...... = ． � 𝐴_{𝑚,1} + 𝐶_{𝑚,1} · · · 𝐴_{𝑚,𝑛} + 𝐶_{𝑚,𝑛} �"
     },
     {
       "id": "3.35",

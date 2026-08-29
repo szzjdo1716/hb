@@ -685,41 +685,58 @@ a:focus-visible {
   vertical-align: baseline;
 }
 
-.matrix-wrap {
-  display: inline-flex;
+.pmatrix-expr {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.7rem;
-  white-space: normal;
+  justify-content: center;
+  gap: 0.45rem 0.65rem;
+  max-width: 100%;
 }
 
-.matrix {
+.pmatrix-op {
+  font-size: 1.15em;
+}
+
+.pmatrix {
+  display: inline-flex;
+  align-items: stretch;
+  position: relative;
+  padding: 0.15em 0.7em;
+  vertical-align: middle;
+}
+
+.pmatrix::before,
+.pmatrix::after {
+  content: "";
+  position: absolute;
+  top: 0.08em;
+  bottom: 0.08em;
+  width: 0.42em;
+  border: 2px solid currentColor;
+  pointer-events: none;
+}
+
+.pmatrix::before {
+  left: 0;
+  border-right: none;
+  border-radius: 12px 0 0 12px;
+}
+
+.pmatrix::after {
+  right: 0;
+  border-left: none;
+  border-radius: 0 12px 12px 0;
+}
+
+.pmatrix table {
   border-collapse: collapse;
   font: inherit;
 }
 
-.matrix td {
-  padding: 0.12rem 0.45rem;
+.pmatrix td {
+  padding: 0.08em 0.4em;
   text-align: center;
-}
-
-.matrix-paren {
-  display: inline-flex;
-  align-items: stretch;
-  gap: 0.1rem;
-}
-
-.matrix-fence {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-family: var(--math, "STIX Two Math", "Cambria Math", serif);
-  font-size: 1.35em;
-  line-height: 0.92;
-  user-select: none;
-}
-
-.matrix-wrap .matrix {
-  border: none;
 }
 
 .eq-num {
