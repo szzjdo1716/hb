@@ -9,6 +9,7 @@ const I18N = {
     lede: "工具已经装好，却忘了怎么进去、出来、和卡住时怎么办。顺带记下会搞乱 Terminal 的 PATH 与配置。",
     searchLabel: "搜索",
     searchPh: "输入 vim、python3、:q!、brew …",
+    searchPhShort: "vim 或 :q!",
     searchHint: "只输入名字或那一条命令时，只显示这一条。",
     catsLabel: "分类",
     all: "全部",
@@ -41,12 +42,13 @@ const I18N = {
   },
   en: {
     htmlLang: "en",
-    title: "Enter–Quit handbook",
+    title: "Enter–Quit",
     home: "Home",
     skip: "Skip to tools",
     lede: "The tool is installed; this page is how you open it, leave it, unstick it, and stop PATH/config from breaking Terminal.",
     searchLabel: "Search",
     searchPh: "Type vim, python3, :q!, brew…",
+    searchPhShort: "vim or :q!",
     searchHint: "A name or that exact command shows that tool only.",
     catsLabel: "Categories",
     all: "All",
@@ -80,6 +82,16 @@ const I18N = {
 };
 
 const DATA = window.ENTER_DATA || { categories: [], tools: [] };
+
+const CAT_EN = {
+  shell: "Shell",
+  editor: "Editor",
+  repl: "REPL",
+  compile: "Compile",
+  db: "Database",
+  nb: "Notebook",
+  pkg: "Package",
+};
 
 const state = {
   lang: readLang(),
@@ -133,9 +145,41 @@ function pick(tool, zhKey, enKey) {
 }
 
 function catName(cat) {
+  if (state.lang === "en" && CAT_EN[cat]) return CAT_EN[cat];
   const row = DATA.categories.find((c) => c.id === cat);
   if (!row) return cat;
-  return state.lang === "en" ? row.en : row.zh;
+  return state.lang === "en" ? CAT_EN[row.id] || row.en : row.zh;
+}
+
+function isPhone() {
+  return window.matchMedia("(max-width: 719px)").matches;
+}
+
+function toolbarEl() {
+  return document.getElementById("toolbar") || document.querySelector(".toolbar");
+}
+
+function syncChipToggle() {
+  const btn = document.getElementById("chip-toggle");
+  const bar = toolbarEl();
+  if (!btn) return;
+  const open = Boolean(bar && bar.classList.contains("chips-open"));
+  const label = t().catsLabel;
+  btn.textContent = `${label} ${open ? "▴" : "▾"}`;
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+function closeChipsIfPhone() {
+  if (!isPhone()) return;
+  const bar = toolbarEl();
+  if (bar) bar.classList.remove("chips-open");
+  syncChipToggle();
+}
+
+function searchPlaceholder() {
+  const ui = t();
+  if (isPhone() && ui.searchPhShort) return ui.searchPhShort;
+  return ui.searchPh;
 }
 
 function currentId() {
@@ -265,6 +309,7 @@ function officialLink(tool) {
 
 function applyChrome() {
   const ui = t();
+  const inDetail = document.body.classList.contains("view-detail");
   document.documentElement.lang = ui.htmlLang;
   const skip = document.querySelector(".skip-link");
   const home = document.getElementById("home-link");
@@ -275,27 +320,36 @@ function applyChrome() {
   const footer = document.getElementById("footer");
   if (skip) skip.textContent = ui.skip;
   if (home) home.textContent = ui.home;
-  if (h1) h1.textContent = ui.title;
-  if (lede) lede.textContent = ui.lede;
+  if (!inDetail) {
+    if (h1) h1.textContent = ui.title;
+    if (lede) lede.textContent = ui.lede;
+    document.title = ui.title;
+  }
   if (hint) hint.textContent = ui.searchHint;
   if (searchLabel) searchLabel.textContent = ui.searchLabel;
-  if (searchInput) searchInput.placeholder = ui.searchPh;
+  if (searchInput) searchInput.placeholder = searchPlaceholder();
   if (footer) footer.textContent = ui.footer;
   if (categoryNav) categoryNav.setAttribute("aria-label", ui.catsLabel);
   if (emptyEl) emptyEl.textContent = ui.empty;
-  document.title = ui.title;
+  const headerBack = document.getElementById("header-back");
+  if (headerBack) headerBack.textContent = ui.back;
   if (langToggle) {
     langToggle.querySelectorAll("[data-lang]").forEach((btn) => {
       btn.setAttribute("aria-pressed", btn.dataset.lang === state.lang ? "true" : "false");
     });
   }
+  syncChipToggle();
 }
 
 function renderCategories() {
   const ui = t();
   const buttons = [{ id: "", zh: ui.all, en: ui.all }, ...DATA.categories]
     .map((cat) => {
-      const label = state.lang === "en" ? cat.en : cat.zh;
+      const label = cat.id
+        ? state.lang === "en"
+          ? CAT_EN[cat.id] || cat.en
+          : cat.zh
+        : ui.all;
       const slug = cat.id || "";
       return `<button type="button" class="chip" data-slug="${esc(slug)}" aria-pressed="${
         state.category === slug ? "true" : "false"
@@ -502,6 +556,16 @@ if (searchInput) {
   });
 }
 
+const chipToggle = document.getElementById("chip-toggle");
+if (chipToggle) {
+  chipToggle.addEventListener("click", () => {
+    const bar = toolbarEl();
+    if (!bar) return;
+    bar.classList.toggle("chips-open");
+    syncChipToggle();
+  });
+}
+
 if (categoryNav) {
   categoryNav.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-slug]");
@@ -509,7 +573,20 @@ if (categoryNav) {
     state.category = btn.dataset.slug || "";
     renderCategories();
     renderList();
+    closeChipsIfPhone();
   });
+}
+
+const headerBack = document.getElementById("header-back");
+if (headerBack) {
+  headerBack.addEventListener("click", goList);
+}
+
+if (window.matchMedia) {
+  const mq = window.matchMedia("(max-width: 719px)");
+  const onWidth = () => render();
+  if (mq.addEventListener) mq.addEventListener("change", onWidth);
+  else if (mq.addListener) mq.addListener(onWidth);
 }
 
 if (resultsEl) {
@@ -561,5 +638,15 @@ if (langToggle) {
 
 window.addEventListener("hashchange", render);
 window.addEventListener("popstate", render);
+
+try {
+  const langParam = new URLSearchParams(location.search).get("lang");
+  if (langParam === "en" || langParam === "zh") {
+    state.lang = langParam;
+    saveLang(langParam);
+  }
+} catch {
+  /* ignore */
+}
 
 render();

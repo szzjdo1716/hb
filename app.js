@@ -9,6 +9,7 @@ const I18N = {
     lede: "常用 Linux 命令，保存在本地 SQLite 中。搜索或点分类即可查阅。打开本文件后无需联网（手册链接除外）。",
     searchLabel: "搜索命令",
     searchPh: "输入命令名，例如 ls 或 grep",
+    searchPhShort: "ls 或 grep",
     searchHint: "只输入命令名时，只显示这一条，不会混入相关命令。",
     catsLabel: "分类",
     all: "全部",
@@ -34,6 +35,8 @@ const I18N = {
     linearHint: "打开手册",
     githubTile: "GitHub 入门手册",
     githubHint: "打开手册",
+    enterTile: "进出手册",
+    enterHint: "进入 / 退出 / 卡住 · PATH 与配置",
     catalog: "目录",
     kindDef: "定义",
     kindRes: "结论",
@@ -46,11 +49,12 @@ const I18N = {
   },
   en: {
     htmlLang: "en",
-    title: "Linux Command Reference",
+    title: "Linux commands",
     skip: "Skip to commands",
     lede: "Common commands, stored in a local SQLite database. Search or pick a category. Works without the internet after you open this file.",
     searchLabel: "Search commands",
     searchPh: "Type a command name, e.g. ls or grep",
+    searchPhShort: "ls or grep",
     searchHint: "A command name shows that command only — not related names.",
     catsLabel: "Categories",
     all: "All",
@@ -70,12 +74,14 @@ const I18N = {
     hubTitle: "Learning handbook",
     hubLede: "Pick a topic. Linux and linear algebra are available now.",
     hubSkip: "Skip to topics",
-    linuxTile: "Linux command reference",
+    linuxTile: "Linux commands",
     linuxHint: "Open the handbook",
-    linearTile: "Linear algebra handbook",
+    linearTile: "Linear algebra",
     linearHint: "Open the handbook",
     githubTile: "GitHub starter handbook",
     githubHint: "Open the handbook",
+    enterTile: "Enter–Quit",
+    enterHint: "Open, leave, unstick · PATH and config",
     catalog: "Contents",
     kindDef: "Definitions",
     kindRes: "Results",
@@ -94,6 +100,7 @@ const SUBJECT_I18N = {
       title: "线性代数手册",
       lede: "Axler《Linear Algebra Done Right》第 4 版的定义、记号与结论。搜索编号或名称即可。打开本页后无需联网（原书链接除外）。",
       searchPh: "输入 1.20 或 span 或 张成",
+      searchPhShort: "1.20 或 span",
       searchHint: "输入编号或名称时，只显示这一条。",
       status: (n, total) => `${n} / ${total} 条 · SQLite`,
       empty: "没有匹配的条目。",
@@ -102,9 +109,10 @@ const SUBJECT_I18N = {
       noteLabel: "注",
     },
     en: {
-      title: "Linear algebra handbook",
+      title: "Linear algebra",
       lede: "Definitions, notation, and results from Axler’s Linear Algebra Done Right, 4th edition. Search a number or a name. Works offline after this page loads (book links need the network).",
       searchPh: "Type 1.20 or span or 张成",
+      searchPhShort: "1.20 or span",
       searchHint: "A number or name shows that card only.",
       status: (n, total) => `${n} of ${total} · SQLite`,
       empty: "No entries match that search.",
@@ -117,6 +125,7 @@ const SUBJECT_I18N = {
       title: "GitHub 入门手册",
       lede: "从本机 git 到 GitHub 网页、Pages、iPad 编辑。搜索命令名或主题词即可。打开本页后无需联网（文档链接除外）。",
       searchPh: "输入 git status、push、pages、pr …",
+      searchPhShort: "git status、push",
       searchHint: "只输入命令名或主题名时，只显示这一条。",
       footer:
         "查询在你的电脑上用 SQLite（sql.js）完成。docs.github.com 链接需要联网。Grok Build CLI 不能在 iPad 上运行。",
@@ -126,6 +135,7 @@ const SUBJECT_I18N = {
       title: "GitHub starter handbook",
       lede: "From local git to GitHub website, Pages, and iPad editing. Search a command or topic. Works offline after this page loads (doc links need the network).",
       searchPh: "Type git status, push, pages, pr…",
+      searchPhShort: "git status, push",
       searchHint: "A command or topic name shows that card only.",
       footer:
         "Queries run in SQLite (sql.js) on your machine. docs.github.com links need a network. Grok Build CLI does not run on iPad.",
@@ -168,6 +178,37 @@ function t() {
   const base = I18N[state.lang] || I18N.zh;
   const extra = (SUBJECT_I18N[SUBJECT] && SUBJECT_I18N[SUBJECT][state.lang]) || {};
   return Object.assign({}, base, extra);
+}
+
+function isPhone() {
+  return window.matchMedia("(max-width: 719px)").matches;
+}
+
+function toolbarEl() {
+  return document.getElementById("toolbar") || document.querySelector(".toolbar");
+}
+
+function syncChipToggle() {
+  const btn = document.getElementById("chip-toggle");
+  const bar = toolbarEl();
+  if (!btn) return;
+  const open = Boolean(bar && bar.classList.contains("chips-open"));
+  const label = t().catsLabel;
+  btn.textContent = `${label} ${open ? "▴" : "▾"}`;
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+function closeChipsIfPhone() {
+  if (!isPhone()) return;
+  const bar = toolbarEl();
+  if (bar) bar.classList.remove("chips-open");
+  syncChipToggle();
+}
+
+function searchPlaceholder() {
+  const ui = t();
+  if (isPhone() && ui.searchPhShort) return ui.searchPhShort;
+  return ui.searchPh;
 }
 
 function readLang() {
@@ -623,6 +664,10 @@ function applyChrome() {
     const githubHint = document.getElementById("tile-github-hint");
     if (githubTitle) githubTitle.textContent = ui.githubTile;
     if (githubHint) githubHint.textContent = ui.githubHint;
+    const enterTitle = document.getElementById("tile-enter-title");
+    const enterHint = document.getElementById("tile-enter-hint");
+    if (enterTitle) enterTitle.textContent = ui.enterTile;
+    if (enterHint) enterHint.textContent = ui.enterHint;
     document.querySelectorAll(".tile-soon .soon").forEach((el) => {
       el.textContent = ui.soon;
     });
@@ -634,10 +679,11 @@ function applyChrome() {
   }
   const searchLabel = document.querySelector(".search-wrap .visually-hidden");
   if (searchLabel) searchLabel.textContent = ui.searchLabel;
-  if (searchInput) searchInput.placeholder = ui.searchPh;
+  if (searchInput) searchInput.placeholder = searchPlaceholder();
   const hint = document.getElementById("search-hint");
   if (hint) hint.textContent = ui.searchHint;
   if (categoryNav) categoryNav.setAttribute("aria-label", ui.catsLabel);
+  syncChipToggle();
   if (emptyEl) emptyEl.textContent = ui.empty;
   const attrZh = document.getElementById("attr-zh");
   const attrEn = document.getElementById("attr-en");
@@ -1329,6 +1375,16 @@ function bind() {
     });
   }
 
+  const chipToggle = document.getElementById("chip-toggle");
+  if (chipToggle) {
+    chipToggle.addEventListener("click", () => {
+      const bar = toolbarEl();
+      if (!bar) return;
+      bar.classList.toggle("chips-open");
+      syncChipToggle();
+    });
+  }
+
   if (categoryNav) {
     categoryNav.addEventListener("click", (event) => {
       const kindBtn = event.target.closest("[data-kind]");
@@ -1336,13 +1392,22 @@ function bind() {
         const next = kindBtn.dataset.kind || "";
         state.kind = state.kind === next ? "" : next;
         render();
+        closeChipsIfPhone();
         return;
       }
       const button = event.target.closest("[data-slug]");
       if (!button) return;
       state.category = button.dataset.slug || "";
       render();
+      closeChipsIfPhone();
     });
+  }
+
+  if (window.matchMedia) {
+    const mq = window.matchMedia("(max-width: 719px)");
+    const onWidth = () => applyChrome();
+    if (mq.addEventListener) mq.addEventListener("change", onWidth);
+    else if (mq.addListener) mq.addListener(onWidth);
   }
 
   if (langToggle) {
@@ -1438,6 +1503,12 @@ function openHash(hash) {
 }
 
 async function init() {
+  const params = new URLSearchParams(location.search);
+  const langParam = params.get("lang");
+  if (langParam === "en" || langParam === "zh") {
+    state.lang = langParam;
+    saveLang(langParam);
+  }
   applyChrome();
   bind();
   if (!isHandbook) return;
@@ -1455,17 +1526,11 @@ async function init() {
     const SQL = await initSqlJs({ wasmBinary });
     state.db = new SQL.Database();
     seed(state.db);
-    const params = new URLSearchParams(location.search);
     if (params.has("q")) {
       searchInput.value = params.get("q") || "";
       state.query = searchInput.value.trim();
     }
     if (params.has("cat")) state.category = params.get("cat") || "";
-    const langParam = params.get("lang");
-    if (langParam === "en" || langParam === "zh") {
-      state.lang = langParam;
-      saveLang(langParam);
-    }
     render();
     if (location.hash) openHash(location.hash);
   } catch (err) {

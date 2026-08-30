@@ -2,43 +2,44 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Linux 命令手册</title>
-    <link rel="stylesheet" href="style.css?v=6" />
+    <link rel="stylesheet" href="style.css?v=11" />
   </head>
   <body>
     <a class="skip-link" href="#results">跳到命令列表</a>
 
     <header class="site-header">
       <div class="header-inner">
-        <div>
+        <div class="header-top">
           <p class="nav-home"><a href="index.html" id="home-link">首页</a></p>
-          <h1>Linux 命令手册</h1>
-          <p class="lede">
-            常用 Linux 命令，保存在本地 SQLite 中。搜索或点分类即可查阅。打开本文件后无需联网（手册链接除外）。
-          </p>
-        </div>
-        <div class="header-tools">
-          <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
-            <button type="button" data-lang="zh" aria-pressed="true">中</button>
-            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          <div class="title-line">
+            <h1>Linux 命令手册</h1>
+            <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" data-lang="zh" aria-pressed="true">中</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
           </div>
-          <label class="search-wrap">
-            <span class="visually-hidden">搜索命令</span>
-            <input
-              id="search"
-              type="search"
-              placeholder="输入命令名，例如 ls 或 grep"
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <p class="search-hint" id="search-hint">
-              只输入命令名时，只显示这一条，不会混入相关命令。
-            </p>
-          </label>
         </div>
+        <p class="lede">
+          常用 Linux 命令，保存在本地 SQLite 中。搜索或点分类即可查阅。打开本文件后无需联网（手册链接除外）。
+        </p>
+        <label class="search-wrap">
+          <span class="visually-hidden">搜索命令</span>
+          <input
+            id="search"
+            type="search"
+            placeholder="输入命令名，例如 ls 或 grep"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p class="search-hint" id="search-hint">
+            只输入命令名时，只显示这一条，不会混入相关命令。
+          </p>
+        </label>
       </div>
-      <div class="toolbar">
+      <div class="toolbar" id="toolbar">
+        <button type="button" class="chip-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
         <nav id="categories" class="chips" aria-label="分类"></nav>
         <p class="status" id="status">正在加载 SQLite…</p>
       </div>
@@ -57,6 +58,6 @@
     <script src="vendor/sql-wasm.js"></script>
     <script src="vendor/sql-wasm-binary.js"></script>
     <script src="data.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=10"></script>
   </body>
 </html>
