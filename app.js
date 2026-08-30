@@ -1,4 +1,4 @@
-const LANG_KEY = "hello-web-lang";
+const LANG_KEY = "hb-lang";
 const CMD_TOKEN = /^[A-Za-z0-9._+-]+$/;
 
 const I18N = {
@@ -213,7 +213,8 @@ function searchPlaceholder() {
 function readLang() {
   try {
     const saved = localStorage.getItem(LANG_KEY);
-    if (saved === "en" || saved === "zh") return saved;
+    if (saved === "en") return "en";
+    if (saved === "zh") return "zh";
   } catch {
     /* ignore */
   }
@@ -221,8 +222,9 @@ function readLang() {
 }
 
 function saveLang(lang) {
+  const value = lang === "en" ? "en" : "zh";
   try {
-    localStorage.setItem(LANG_KEY, lang);
+    localStorage.setItem(LANG_KEY, value);
   } catch {
     /* ignore */
   }
