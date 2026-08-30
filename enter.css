@@ -1,4 +1,4 @@
-@import url("style.css?v=13");
+@import url("style.css?v=14");
 
 :root {
   --enter: #5eead4;
@@ -139,10 +139,9 @@
 }
 
 .detail-wrap {
-  max-width: 960px;
   width: 100%;
   margin: 0 auto;
-  padding: 1.1rem max(1.25rem, env(safe-area-inset-right, 0px)) 2.4rem max(1.25rem, env(safe-area-inset-left, 0px));
+  padding: 1.1rem 0 2.4rem;
 }
 
 .back-link,

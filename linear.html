@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>线性代数手册</title>
-    <link rel="stylesheet" href="style.css?v=13" />
+    <link rel="stylesheet" href="style.css?v=14" />
   </head>
   <body class="linear-page">
     <a class="skip-link" href="#results">跳到命令列表</a>
 
     <header class="site-header">
-      <div class="header-inner">
+      <div class="wrap header-inner">
         <div class="header-top">
           <p class="nav-home"><a href="index.html" id="home-link">首页</a></p>
           <div class="title-line">
@@ -37,17 +37,17 @@
             输入编号或名称时，只显示这一条。
           </p>
         </label>
-      </div>
-      <div class="toolbar" id="toolbar">
-        <button type="button" class="chip-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
-        <nav id="categories" class="chips" aria-label="分类"></nav>
-        <p class="status" id="status">正在加载 SQLite…</p>
+        <div class="toolbar" id="toolbar">
+          <button type="button" class="chip-toggle cat-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
+          <nav id="categories" class="chips" aria-label="分类"></nav>
+          <p class="status" id="status">正在加载 SQLite…</p>
+        </div>
       </div>
     </header>
 
-    <main id="results" class="results" aria-live="polite"></main>
+    <main id="results" class="results wrap" aria-live="polite"></main>
 
-    <p class="empty" id="empty" hidden>没有匹配的命令。</p>
+    <p class="empty wrap" id="empty" hidden>没有匹配的命令。</p>
 
     <footer class="site-footer attr-footer">
       <p id="attr-zh">

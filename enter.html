@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>进出手册</title>
-    <link rel="stylesheet" href="enter.css?v=5" />
+    <link rel="stylesheet" href="enter.css?v=6" />
   </head>
   <body class="enter-page view-list">
     <a class="skip-link" href="#results">跳到工具列表</a>
 
     <header class="site-header">
-      <div class="header-inner">
+      <div class="wrap header-inner">
         <div class="header-top">
           <p class="nav-home">
             <a href="index.html" id="home-link" class="list-only">首页</a>
@@ -38,18 +38,18 @@
           />
           <p class="search-hint" id="search-hint">只输入名字或那一条命令时，只显示这一条。</p>
         </label>
-      </div>
-      <div class="toolbar list-only" id="toolbar">
-        <button type="button" class="chip-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
-        <nav id="categories" class="chips" aria-label="分类"></nav>
-        <p class="status" id="status"></p>
+        <div class="toolbar list-only" id="toolbar">
+          <button type="button" class="chip-toggle cat-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
+          <nav id="categories" class="chips" aria-label="分类"></nav>
+          <p class="status" id="status"></p>
+        </div>
       </div>
     </header>
 
-    <main id="results" class="results list-only" aria-live="polite"></main>
-    <p class="empty list-only" id="empty" hidden>没有匹配的工具。</p>
+    <main id="results" class="results wrap list-only" aria-live="polite"></main>
+    <p class="empty wrap list-only" id="empty" hidden>没有匹配的工具。</p>
 
-    <div id="detail" class="detail-wrap detail-only" hidden></div>
+    <div id="detail" class="detail-wrap wrap detail-only" hidden></div>
 
     <footer class="site-footer list-only">
       <p class="footer-keys" id="footer">
