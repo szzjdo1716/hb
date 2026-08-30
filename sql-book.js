@@ -8,11 +8,11 @@ const I18N = {
     skip: "跳到卡片列表",
     lede: "用 notes.db 学 SQL。浏览器里可以试，本机用 sqlite3 或 DB Browser。",
     searchLabel: "搜索",
-    searchPh: "copy, 复制  或  linear combination",
+    searchPh: "select, 连接  或  join",
     catsLabel: "分类",
     all: "全部",
     status: (n, total) => `${n} / ${total} 张卡片`,
-    empty: "没有匹配。试 join / 连接 / select",
+    empty: "没有匹配。试 select / 连接 / join",
     exact: "精确匹配",
     copy: "复制",
     copied: "已复制",
@@ -39,11 +39,11 @@ const I18N = {
     skip: "Skip to cards",
     lede: "Learn SQL in notes.db. Try it in the browser, or use sqlite3 / DB Browser on disk.",
     searchLabel: "Search",
-    searchPh: "copy, rename  or  linear combination",
+    searchPh: "select, join  or  backup",
     catsLabel: "Categories",
     all: "All",
     status: (n, total) => `${n} of ${total} cards`,
-    empty: "No match. Try join / 连接 / select",
+    empty: "No match. Try select / join / backup",
     exact: "Exact match",
     copy: "Copy",
     copied: "Copied",
@@ -165,14 +165,35 @@ function esc(value) {
 }
 
 function pick(card, zhKey, enKey) {
-  if (state.lang === "en") return card[enKey] || card[zhKey] || "";
-  return card[zhKey] || card[enKey] || "";
+  if (state.lang === "en") return card[enKey] || "";
+  return card[zhKey] || "";
+}
+
+function cardName(card) {
+  if (!card) return "";
+  if (state.lang === "en") return card.name_en || card.name || "";
+  return card.name_zh || card.name || "";
 }
 
 function catName(cat) {
   const row = DATA.categories.find((c) => c.id === cat);
   if (!row) return cat;
-  return state.lang === "en" ? row.en : row.zh;
+  return state.lang === "en" ? row.en || "" : row.zh || "";
+}
+
+function codeHtml(text) {
+  return esc(String(text || ""))
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/`/g, "");
+}
+
+function proseHtml(text) {
+  const html = codeHtml(text);
+  if (!html) return "";
+  return html
+    .split(/\n+/)
+    .map((p) => `<p>${p}</p>`)
+    .join("");
 }
 
 function toolbarEl() {
@@ -220,7 +241,7 @@ function cardRecords(cards) {
   return cards.map((card) => {
     const cat = DATA.categories.find((c) => c.id === card.cat) || {};
     return {
-      names: [card.id, card.name, card.title_zh, card.title_en],
+      names: [card.id, card.name, card.name_en, card.name_zh, card.title_zh, card.title_en],
       aliases: lookupAliases(card.id, card.name),
       title: [card.title_zh, card.title_en, card.blurb_zh, card.blurb_en].join(" "),
       chip: [cat.zh, cat.en, card.cat].join(" "),
@@ -310,17 +331,18 @@ function renderCard(card, exact) {
   const ui = t();
   const open = state.open.has(card.id);
   const blurb = pick(card, "blurb_zh", "blurb_en");
+  const name = cardName(card);
   const badge = exact ? `<span class="exact-badge">${esc(ui.exact)}</span>` : "";
   return `<article class="cmd" id="${esc(card.id)}" data-id="${esc(card.id)}" data-cat="${esc(card.cat)}">
     <button type="button" class="cmd-head" aria-expanded="${open ? "true" : "false"}">
-      <code>${esc(card.name)}</code>
+      <code>${esc(name)}</code>
       <span class="badge">${esc(catName(card.cat))}${badge}</span>
       <span class="chev" aria-hidden="true">${open ? "–" : "+"}</span>
-      <p class="sum">${esc(blurb)}</p>
+      <p class="sum">${codeHtml(blurb)}</p>
     </button>
     <div class="cmd-body" ${open ? "" : "hidden"}>
       <h3>${esc(ui.points)}</h3>
-      <div class="prose"><p>${esc(blurb)}</p></div>
+      <div class="prose">${proseHtml(blurb)}</div>
       <h3>${esc(ui.sql)}</h3>
       ${copyBlock(card.sql)}
       <button type="button" class="try-btn" data-try="${esc(card.id)}">${esc(ui.try)}</button>
@@ -341,35 +363,36 @@ function renderList() {
 
 function renderDetail(card) {
   const ui = t();
+  const name = cardName(card);
   const title = pick(card, "title_zh", "title_en");
   const blurb = pick(card, "blurb_zh", "blurb_en");
   const chaos = pick(card, "chaos_zh", "chaos_en");
   const install = pick(card, "install_zh", "install_en");
-  document.title = `${card.name} · ${ui.title}`;
+  document.title = `${name} · ${ui.title}`;
   const h1 = document.getElementById("page-title");
-  if (h1) h1.textContent = card.name;
+  if (h1) h1.textContent = name;
   const lede = document.getElementById("lede");
   if (lede) lede.textContent = title;
   const official = card.official
     ? `<p><a href="${esc(card.official)}" target="_blank" rel="noopener noreferrer">${esc(card.official)}</a></p>`
     : "";
   detailEl.innerHTML = `
-    <p class="detail-tool"><code>${esc(card.name)}</code></p>
-    <p class="detail-title">${esc(title)}</p>
+    <p class="detail-tool"><code>${esc(name)}</code></p>
+    <p class="detail-title">${codeHtml(title)}</p>
     <section class="detail-section">
       <h2>${esc(ui.points)}</h2>
-      <div class="prose"><p>${esc(blurb)}</p></div>
+      <div class="prose">${proseHtml(blurb)}</div>
       ${copyBlock(card.sql)}
       <button type="button" class="try-btn" data-try="${esc(card.id)}">${esc(ui.try)}</button>
     </section>
     <section class="detail-section">
       <h2>${esc(ui.install)}</h2>
-      <div class="prose"><p>${esc(install)}</p></div>
+      <div class="prose">${proseHtml(install)}</div>
       ${official}
     </section>
     <section class="detail-section env-box">
       <h2>${esc(ui.chaos)}</h2>
-      <div class="prose"><p>${esc(chaos)}</p></div>
+      <div class="prose">${proseHtml(chaos)}</div>
     </section>
   `;
 }

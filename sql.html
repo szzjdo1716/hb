@@ -94,6 +94,13 @@
         align-items: center;
         margin-top: 0.55rem;
       }
+      .sql-page .sum code,
+      .sql-page .prose code,
+      .sql-page .detail-title code {
+        font-family: var(--mono);
+        font-size: 0.9em;
+        color: var(--accent-hot);
+      }
     </style>
   </head>
   <body class="enter-page sql-page view-list">
@@ -120,7 +127,7 @@
           <input
             id="search"
             type="search"
-            placeholder="copy, 复制  或  linear combination"
+            placeholder="select, 连接  或  join"
             autocomplete="off"
             spellcheck="false"
           />
@@ -147,7 +154,7 @@
     </section>
 
     <main id="results" class="results wrap list-only" aria-live="polite"></main>
-    <p class="empty wrap list-only" id="empty" hidden>没有匹配。试 join / 连接 / select</p>
+    <p class="empty wrap list-only" id="empty" hidden>没有匹配。试 select / 连接 / join</p>
 
     <div id="detail" class="detail-wrap wrap detail-only" hidden></div>
 
@@ -164,7 +171,7 @@
     <script src="vendor/sql-wasm-binary.js"></script>
     <script src="search-aliases.js"></script>
     <script src="search.js?v=2"></script>
-    <script src="sql-data.js"></script>
-    <script src="sql-book.js?v=3"></script>
+    <script src="sql-data.js?v=2"></script>
+    <script src="sql-book.js?v=4"></script>
   </body>
 </html>
