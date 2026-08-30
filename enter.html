@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>进出手册</title>
+    <link rel="stylesheet" href="enter.css" />
+  </head>
+  <body class="enter-page view-list">
+    <a class="skip-link" href="#results">跳到工具列表</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div>
+          <p class="nav-home"><a href="index.html" id="home-link">首页</a></p>
+          <h1 id="page-title">进出手册</h1>
+          <p class="lede" id="lede">
+            工具已经装好，却忘了怎么进去、出来、和卡住时怎么办。顺带记下会搞乱 Terminal 的 PATH 与配置。
+          </p>
+        </div>
+        <div class="header-tools">
+          <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+            <button type="button" data-lang="zh" aria-pressed="true">中</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+          <label class="search-wrap list-only">
+            <span class="visually-hidden" id="search-label">搜索</span>
+            <input
+              id="search"
+              type="search"
+              placeholder="输入 vim、python3、:q!、brew …"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <p class="search-hint" id="search-hint">只输入名字或那一条命令时，只显示这一条。</p>
+          </label>
+        </div>
+      </div>
+      <div class="toolbar list-only">
+        <nav id="categories" class="chips" aria-label="分类"></nav>
+        <p class="status" id="status"></p>
+      </div>
+    </header>
+
+    <main id="results" class="results list-only" aria-live="polite"></main>
+    <p class="empty list-only" id="empty" hidden>没有匹配的工具。</p>
+
+    <div id="detail" class="detail-wrap detail-only" hidden></div>
+
+    <footer class="site-footer list-only">
+      <p class="footer-keys" id="footer">
+        Ctrl-C 停 · Ctrl-D 离开 · Ctrl-Z 是挂起(fg 拉回) · 乱码 reset &amp;&amp; stty sane
+      </p>
+    </footer>
+
+    <script src="enter-data.js"></script>
+    <script src="enter.js"></script>
+  </body>
+</html>
