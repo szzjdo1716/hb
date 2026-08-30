@@ -248,23 +248,28 @@ a:focus-visible {
 }
 
 .toolbar {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   padding-top: 0.85rem;
   max-width: 100%;
 }
 
-.chip-toggle {
-  display: flex;
+.chip-toggle,
+.categories-toggle {
+  display: inline-flex;
   align-items: center;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  align-self: flex-start;
+  margin: 0.5rem 0;
   min-height: 44px;
-  margin: 0 0 0.5rem;
   font: inherit;
   font-size: 0.92rem;
   font-weight: 650;
   text-align: left;
-  padding: 0.55rem 0.85rem;
-  border-radius: 10px;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
   border: 1px solid var(--line);
   background: var(--bg-raised);
   color: var(--text);
@@ -278,10 +283,25 @@ a:focus-visible {
   width: 100%;
   min-width: 0;
   max-width: 100%;
+  align-self: stretch;
 }
 
 .toolbar.chips-open .chips {
   display: flex;
+}
+
+.toolbar .status {
+  align-self: stretch;
+}
+
+@media (max-width: 720px) {
+  .chip-toggle,
+  .categories-toggle {
+    width: 100%;
+    align-self: stretch;
+    padding: 0.55rem 0.85rem;
+    border-radius: 10px;
+  }
 }
 
 .chip {
