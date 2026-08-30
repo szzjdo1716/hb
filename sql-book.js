@@ -22,6 +22,7 @@ const I18N = {
     try: "试一试",
     run: "运行",
     reset: "重置",
+    download: "下载 notes.db",
     playTitle: "试一试 notes.db",
     chaos: "乱局",
     install: "安装 · PATH",
@@ -52,6 +53,7 @@ const I18N = {
     try: "Try",
     run: "Run",
     reset: "Reset",
+    download: "Download notes.db",
     playTitle: "Try notes.db",
     chaos: "Chaos",
     install: "Install · PATH",
@@ -127,6 +129,8 @@ const sqlOut = document.getElementById("sql-out");
 const sqlFallback = document.getElementById("sql-fallback");
 const sqlRun = document.getElementById("sql-run");
 const sqlReset = document.getElementById("sql-reset");
+const sqlDownload = document.getElementById("sql-download");
+const sqlDownloadErr = document.getElementById("sql-download-err");
 
 function t() {
   return I18N[state.lang] || I18N.zh;
@@ -276,6 +280,7 @@ function applyChrome() {
   if (playTitle) playTitle.textContent = ui.playTitle;
   if (sqlRun) sqlRun.textContent = ui.run;
   if (sqlReset) sqlReset.textContent = ui.reset;
+  if (sqlDownload) sqlDownload.textContent = ui.download;
   if (sqlFallback) sqlFallback.textContent = ui.fallback;
   if (categoryNav) categoryNav.setAttribute("aria-label", ui.catsLabel);
   if (emptyEl) emptyEl.textContent = ui.empty;
@@ -478,6 +483,55 @@ function execSql(sql) {
   }
 }
 
+function showDownloadError(message) {
+  if (!sqlDownloadErr) return;
+  const text = message ? String(message) : "export failed";
+  sqlDownloadErr.hidden = false;
+  sqlDownloadErr.textContent = text;
+}
+
+function clearDownloadError() {
+  if (!sqlDownloadErr) return;
+  sqlDownloadErr.hidden = true;
+  sqlDownloadErr.textContent = "";
+}
+
+function downloadNotesDb() {
+  clearDownloadError();
+  if (!state.db) {
+    showDownloadError(t().fallback);
+    return;
+  }
+  let objectUrl = "";
+  try {
+    const exported = state.db.export();
+    if (exported == null) {
+      showDownloadError("export returned empty");
+      return;
+    }
+    const bytes = new Uint8Array(exported);
+    if (!bytes.byteLength) {
+      showDownloadError("export produced an empty file");
+      return;
+    }
+    const blob = new Blob([bytes], { type: "application/vnd.sqlite3" });
+    objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = "notes.db";
+    a.rel = "noopener";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch (err) {
+    showDownloadError(err && err.message ? err.message : String(err));
+  } finally {
+    if (objectUrl) {
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+    }
+  }
+}
+
 function resetSeed() {
   if (!state.SQL) {
     showPlayError(t().fallback);
@@ -612,6 +666,9 @@ if (sqlRun) {
 }
 if (sqlReset) {
   sqlReset.addEventListener("click", () => resetSeed());
+}
+if (sqlDownload) {
+  sqlDownload.addEventListener("click", () => downloadNotesDb());
 }
 
 window.addEventListener("hashchange", render);

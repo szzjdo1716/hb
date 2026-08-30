@@ -59,10 +59,16 @@
         background: #38bdf8;
         color: #0f172a;
       }
-      #sql-reset {
+      #sql-reset,
+      #sql-download {
         background: var(--bg-raised);
         color: var(--text);
         border: 1px solid var(--line);
+      }
+      #sql-download-err {
+        margin: 0;
+        align-self: center;
+        flex: 1 1 12rem;
       }
       .sql-out {
         overflow-x: auto;
@@ -133,6 +139,8 @@
       <div class="play-actions">
         <button type="button" id="sql-run">运行</button>
         <button type="button" id="sql-reset">重置</button>
+        <button type="button" id="sql-download">下载 notes.db</button>
+        <span class="sql-err" id="sql-download-err" role="status" aria-live="polite" hidden></span>
       </div>
       <div class="sql-out" id="sql-out"></div>
       <p class="sql-err" id="sql-fallback" hidden>用 Terminal sqlite3</p>
@@ -157,6 +165,6 @@
     <script src="search-aliases.js"></script>
     <script src="search.js?v=2"></script>
     <script src="sql-data.js"></script>
-    <script src="sql-book.js?v=2"></script>
+    <script src="sql-book.js?v=3"></script>
   </body>
 </html>
