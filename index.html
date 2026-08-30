@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>学习手册</title>
-    <link rel="stylesheet" href="style.css?v=11" />
+    <link rel="stylesheet" href="style.css?v=15" />
   </head>
   <body class="hub-page">
     <a class="skip-link" href="#hub">跳到主题</a>
 
     <header class="site-header">
-      <div class="header-inner">
+      <div class="wrap header-inner">
         <div class="header-top">
           <div class="title-line">
             <h1>学习手册</h1>
@@ -21,10 +21,23 @@
           </div>
         </div>
         <p class="lede">先选一个主题。现在 Linux 和线性代数可用。</p>
+        <label class="search-wrap">
+          <span class="visually-hidden">搜索手册</span>
+          <input
+            id="search"
+            type="search"
+            placeholder="搜索 copy、多项式、:q!"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
       </div>
     </header>
 
-    <main id="hub" class="hub">
+    <main id="hub-results" class="results wrap" hidden></main>
+    <p class="empty wrap" id="empty" hidden>没有匹配。试 copy / 多项式 / :q!</p>
+
+    <main id="hub" class="hub wrap">
       <a class="tile tile-live" href="linux.html">
         <h2 id="tile-linux-title">Linux 命令手册</h2>
         <p id="tile-linux-hint" class="tile-hint">打开手册</p>
@@ -62,6 +75,12 @@
         <p class="soon">稍后</p>
       </div>
     </main>
-    <script src="app.js?v=12"></script>
+    <script src="search-aliases.js"></script>
+    <script src="search.js"></script>
+    <script src="data.js"></script>
+    <script src="linear-data.js"></script>
+    <script src="enter-data.js"></script>
+    <script src="github-data.js"></script>
+    <script src="app.js?v=13"></script>
   </body>
 </html>

@@ -14,7 +14,7 @@ const I18N = {
     catsLabel: "分类",
     all: "全部",
     status: (n, total) => `${n} / ${total} 个工具`,
-    empty: "没有匹配的工具。",
+    empty: "没有匹配。试 copy / 多项式 / :q!",
     enter: "进入",
     quit: "退出",
     stuck: "卡住",
@@ -53,7 +53,7 @@ const I18N = {
     catsLabel: "Categories",
     all: "All",
     status: (n, total) => `${n} of ${total} tools`,
-    empty: "No tools match that search.",
+    empty: "No match. Try copy / 多项式 / :q!",
     enter: "Enter",
     quit: "Quit",
     stuck: "Stuck",
@@ -234,42 +234,34 @@ function commandSet(tool) {
   return set;
 }
 
+function toolSearchRecords(tools) {
+  const map = window.SEARCH_ALIASES || {};
+  return tools.map((tool) => {
+    const aliases = [].concat(map[tool.id] || [], map[tool.name] || []);
+    const inner = (tool.inner || []).map((row) => row.c).join(" ");
+    const cat = DATA.categories.find((c) => c.id === tool.cat) || {};
+    return {
+      names: [tool.id, tool.name],
+      aliases,
+      title: [tool.title_zh, tool.title_en, tool.blurb_zh, tool.blurb_en].join(" "),
+      chip: [cat.zh, cat.en, tool.cat].join(" "),
+      body: [tool.enter, tool.quit, tool.stuck, inner].join(" "),
+      item: tool,
+    };
+  });
+}
+
 function filterTools() {
-  const q = String(state.query || "").trim();
-  const nq = norm(q);
   state.exactHit = false;
-  const tools = DATA.tools.slice();
-
-  if (nq) {
-    const nameHits = tools.filter(
-      (tool) => norm(tool.id) === nq || norm(tool.name) === nq
-    );
-    if (nameHits.length) {
-      state.exactHit = nameHits.length === 1;
-      return nameHits;
-    }
-    const cmdHits = tools.filter((tool) => commandSet(tool).has(nq));
-    if (cmdHits.length) {
-      state.exactHit = cmdHits.length === 1;
-      return cmdHits;
-    }
-    const prefixHits = tools.filter(
-      (tool) => norm(tool.id).startsWith(nq) || norm(tool.name).startsWith(nq)
-    );
-    if (prefixHits.length === 1) {
-      state.exactHit = true;
-      return prefixHits;
-    }
-    if (prefixHits.length) {
-      return state.category
-        ? prefixHits.filter((tool) => tool.cat === state.category)
-        : prefixHits;
-    }
-    return [];
-  }
-
-  if (state.category) return tools.filter((tool) => tool.cat === state.category);
-  return tools;
+  let tools = DATA.tools.slice();
+  if (state.category) tools = tools.filter((tool) => tool.cat === state.category);
+  const q = String(state.query || "").trim();
+  if (!q) return tools;
+  const rank = window.rankQuery;
+  if (typeof rank !== "function") return tools;
+  const hits = rank(q, toolSearchRecords(tools));
+  state.exactHit = hits.length === 1 && hits[0].why === "exact";
+  return hits.map((hit) => hit.record.item);
 }
 
 function rich(text) {
@@ -645,10 +637,15 @@ window.addEventListener("hashchange", render);
 window.addEventListener("popstate", render);
 
 try {
-  const langParam = new URLSearchParams(location.search).get("lang");
+  const params = new URLSearchParams(location.search);
+  const langParam = params.get("lang");
   if (langParam === "en" || langParam === "zh") {
     state.lang = langParam;
     saveLang(langParam);
+  }
+  if (params.has("q") && searchInput) {
+    searchInput.value = params.get("q") || "";
+    state.query = searchInput.value.trim();
   }
 } catch {
   /* ignore */

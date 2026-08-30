@@ -15,7 +15,10 @@ const I18N = {
     all: "全部",
     loading: "正在加载 SQLite…",
     status: (n, total) => `${n} / ${total} 条命令 · SQLite`,
-    empty: "没有匹配的命令。",
+    empty: "没有匹配。试 copy / 多项式 / :q!",
+    hubSearchPh: "搜索 copy、多项式、:q!",
+    hubSearchPhShort: "copy / 多项式 / :q!",
+    hubSearchLabel: "搜索手册",
     example: "示例",
     keys: "按键",
     options: "常用选项",
@@ -60,7 +63,10 @@ const I18N = {
     all: "All",
     loading: "Loading SQLite…",
     status: (n, total) => `${n} of ${total} commands · SQLite`,
-    empty: "No commands match that search.",
+    empty: "No match. Try copy / 多项式 / :q!",
+    hubSearchPh: "Search copy, 多项式, :q!",
+    hubSearchPhShort: "copy / 多项式 / :q!",
+    hubSearchLabel: "Search handbooks",
     example: "Example",
     keys: "Keys",
     options: "Common options",
@@ -103,7 +109,7 @@ const SUBJECT_I18N = {
       searchPhShort: "1.20 或 span",
       searchHint: "输入编号或名称时，只显示这一条。",
       status: (n, total) => `${n} / ${total} 条 · SQLite`,
-      empty: "没有匹配的条目。",
+      empty: "没有匹配。试 copy / 多项式 / :q!",
       skip: "跳到条目列表",
       enOriginal: "英文原句",
       noteLabel: "注",
@@ -115,7 +121,7 @@ const SUBJECT_I18N = {
       searchPhShort: "1.20 or span",
       searchHint: "A number or name shows that card only.",
       status: (n, total) => `${n} of ${total} · SQLite`,
-      empty: "No entries match that search.",
+      empty: "No match. Try copy / 多项式 / :q!",
       skip: "Skip to entries",
       noteLabel: "Note",
     },
@@ -144,15 +150,19 @@ const SUBJECT_I18N = {
   },
 };
 
-const HANDBOOK_DATA =
-  window.LINEAR_DATA || window.GITHUB_DATA || window.LINUX_DATA;
-const SUBJECT = window.LINEAR_DATA
-  ? "linear"
-  : window.GITHUB_DATA
-    ? "github"
-    : window.LINUX_DATA
-      ? "linux"
-      : "";
+const isHub = Boolean(document.getElementById("hub"));
+const HANDBOOK_DATA = isHub
+  ? null
+  : window.LINEAR_DATA || window.GITHUB_DATA || window.LINUX_DATA;
+const SUBJECT = isHub
+  ? "hub"
+  : window.LINEAR_DATA
+    ? "linear"
+    : window.GITHUB_DATA
+      ? "github"
+      : window.LINUX_DATA
+        ? "linux"
+        : "";
 const IS_LINEAR = SUBJECT === "linear";
 
 const state = {
@@ -165,8 +175,7 @@ const state = {
   exactHit: false,
 };
 
-const isHandbook = Boolean(document.getElementById("results"));
-const isHub = Boolean(document.getElementById("hub"));
+const isHandbook = Boolean(document.getElementById("results")) && !isHub;
 const searchInput = document.getElementById("search");
 const categoryNav = document.getElementById("categories");
 const resultsEl = document.getElementById("results");
@@ -206,8 +215,165 @@ function closeChips() {
 
 function searchPlaceholder() {
   const ui = t();
+  if (isHub) {
+    if (isPhone() && ui.hubSearchPhShort) return ui.hubSearchPhShort;
+    return ui.hubSearchPh || ui.searchPh;
+  }
   if (isPhone() && ui.searchPhShort) return ui.searchPhShort;
   return ui.searchPh;
+}
+
+function hubBookLabel(book) {
+  const ui = t();
+  if (book === "linux") return ui.linuxTile;
+  if (book === "linear") return ui.linearTile;
+  if (book === "enter") return ui.enterTile;
+  if (book === "github") return ui.githubTile;
+  return book;
+}
+
+function hubCatalog() {
+  const records = [];
+  const linux = window.LINUX_DATA;
+  if (linux && linux.commands) {
+    const cats = {};
+    (linux.categories || []).forEach((cat) => {
+      cats[cat.slug] = cat;
+    });
+    linux.commands.forEach((cmd) => {
+      const cat = cats[cmd.category] || {};
+      records.push({
+        names: [cmd.name],
+        aliases: lookupAliases(cmd.name),
+        title: [cmd.summary_en, cmd.summary_zh].join(" "),
+        chip: [cat.name_en, cat.name_zh, cmd.category].join(" "),
+        body: [cmd.example, JSON.stringify(cmd.options || [])].join(" "),
+        book: "linux",
+        href: "linux.html",
+        hash: cmd.name,
+        label: cmd.name,
+        blurb: state.lang === "en" ? cmd.summary_en || cmd.summary_zh : cmd.summary_zh || cmd.summary_en,
+      });
+    });
+  }
+  const linear = window.LINEAR_DATA;
+  if (linear && linear.entries) {
+    const cats = {};
+    (linear.categories || []).forEach((cat) => {
+      cats[cat.slug] = cat;
+    });
+    linear.entries.forEach((entry) => {
+      if (entry.include === false) return;
+      const cat = cats[entry.chapter] || {};
+      const name =
+        state.lang === "en"
+          ? entry.name_en || entry.name_zh
+          : entry.name_zh || entry.name_en;
+      records.push({
+        names: [entry.id, entry.number, stripTags(entry.name_en), stripTags(entry.name_zh)],
+        aliases: lookupAliases(entry.id, entry.number, entry.chapter),
+        title: [stripTags(entry.name_en), stripTags(entry.name_zh)].join(" "),
+        chip: [cat.name_en, cat.name_zh, entry.chapter].join(" "),
+        body: [stripTags(entry.statement_en), stripTags(entry.statement_zh)].join(" "),
+        book: "linear",
+        href: "linear.html",
+        hash: "card-" + entry.id,
+        label: entry.number + "  " + stripTags(name || ""),
+        blurb: stripTags(name || ""),
+      });
+    });
+  }
+  const enter = window.ENTER_DATA;
+  if (enter && enter.tools) {
+    const cats = {};
+    (enter.categories || []).forEach((cat) => {
+      cats[cat.id] = cat;
+    });
+    enter.tools.forEach((tool) => {
+      const cat = cats[tool.cat] || {};
+      const inner = (tool.inner || []).map((row) => row.c).join(" ");
+      records.push({
+        names: [tool.id, tool.name],
+        aliases: lookupAliases(tool.id, tool.name),
+        title: [tool.title_zh, tool.title_en, tool.blurb_zh, tool.blurb_en].join(" "),
+        chip: [cat.zh, cat.en, tool.cat].join(" "),
+        body: [tool.enter, tool.quit, tool.stuck, inner].join(" "),
+        book: "enter",
+        href: "enter.html",
+        hash: tool.id,
+        label: tool.name,
+        blurb: state.lang === "en" ? tool.blurb_en || tool.blurb_zh : tool.blurb_zh || tool.blurb_en,
+      });
+    });
+  }
+  const github = window.GITHUB_DATA;
+  if (github && github.commands) {
+    const cats = {};
+    (github.categories || []).forEach((cat) => {
+      cats[cat.slug] = cat;
+    });
+    github.commands.forEach((cmd) => {
+      const cat = cats[cmd.category] || {};
+      records.push({
+        names: [cmd.name],
+        aliases: lookupAliases(cmd.name),
+        title: [cmd.summary_en, cmd.summary_zh].join(" "),
+        chip: [cat.name_en, cat.name_zh, cmd.category].join(" "),
+        body: [cmd.example, JSON.stringify(cmd.options || [])].join(" "),
+        book: "github",
+        href: "github.html",
+        hash: cmd.name,
+        label: cmd.name,
+        blurb: state.lang === "en" ? cmd.summary_en || cmd.summary_zh : cmd.summary_zh || cmd.summary_en,
+      });
+    });
+  }
+  return records;
+}
+
+function renderHubSearch() {
+  const tiles = document.getElementById("hub");
+  const hitsEl = document.getElementById("hub-results");
+  const empty = document.getElementById("empty");
+  if (!hitsEl || !tiles) return;
+  const q = parseQuery(state.query);
+  const ui = t();
+  if (!q) {
+    hitsEl.hidden = true;
+    hitsEl.innerHTML = "";
+    tiles.hidden = false;
+    if (empty) empty.hidden = true;
+    return;
+  }
+  tiles.hidden = true;
+  const rank = window.rankQuery;
+  const catalog = hubCatalog();
+  const hits = typeof rank === "function" ? rank(q, catalog) : [];
+  if (!hits.length) {
+    hitsEl.hidden = true;
+    hitsEl.innerHTML = "";
+    if (empty) {
+      empty.hidden = false;
+      empty.textContent = ui.empty;
+    }
+    return;
+  }
+  if (empty) empty.hidden = true;
+  hitsEl.hidden = false;
+  hitsEl.innerHTML = hits
+    .map((hit) => {
+      const rec = hit.record;
+      const qParam = encodeURIComponent(q);
+      const hash = encodeURIComponent(rec.hash || rec.names[0] || "");
+      const href = rec.href + "?q=" + qParam + "#" + hash;
+      const badge =
+        hit.why === "exact" ? `<span class="exact-badge">${esc(ui.exact)}</span>` : "";
+      return `<a class="hub-hit" href="${esc(href)}">
+        <span class="hub-hit-book">${esc(hubBookLabel(rec.book))}${badge}</span>
+        <span class="hub-hit-title"><code>${esc(rec.label)}</code> ${esc(rec.blurb || "")}</span>
+      </a>`;
+    })
+    .join("");
 }
 
 function readLang() {
@@ -508,6 +674,58 @@ function mathHtml(value) {
   return linkifyRefs(s);
 }
 
+function aliasList() {
+  return window.SEARCH_ALIASES || {};
+}
+
+function lookupAliases() {
+  const map = aliasList();
+  const keys = Array.prototype.slice.call(arguments);
+  const out = [];
+  keys.forEach((key) => {
+    const list = map[key] || map[String(key || "").toLowerCase()] || [];
+    list.forEach((item) => {
+      if (item && out.indexOf(item) < 0) out.push(item);
+    });
+  });
+  return out;
+}
+
+function commandSearchRecords(rows) {
+  return rows.map((row) => {
+    const name = String(row.name || "");
+    return {
+      names: [name],
+      aliases: lookupAliases(name),
+      title: [row.summary_en, row.summary_zh].join(" "),
+      chip: [row.category_name_en, row.category_name_zh, row.category_slug].join(" "),
+      body: [row.example, row.options_json].join(" "),
+      item: row,
+    };
+  });
+}
+
+function entrySearchRecords(rows) {
+  return rows.map((row) => ({
+    names: [row.id, row.number, stripTags(row.name_en), stripTags(row.name_zh)],
+    aliases: lookupAliases(row.id, row.number, row.chapter, row.category_slug),
+    title: [stripTags(row.name_en), stripTags(row.name_zh)].join(" "),
+    chip: [row.category_name_en, row.category_name_zh, row.chapter].join(" "),
+    body: [stripTags(row.statement_en), stripTags(row.statement_zh)].join(" "),
+    item: row,
+  }));
+}
+
+function rankedItems(q, records) {
+  const rank = window.rankQuery;
+  if (typeof rank !== "function") {
+    return records.map((rec) => rec.item);
+  }
+  const hits = rank(q, records);
+  state.exactHit = hits.length === 1 && hits[0].why === "exact";
+  return hits.map((hit) => hit.record.item);
+}
+
 function queryEntries() {
   state.exactHit = false;
   const q = parseQuery(state.query);
@@ -540,44 +758,12 @@ function queryEntries() {
     return a1 - b1 || a2 - b2;
   });
   if (!q) return rows;
-
-  const needle = q.toLowerCase();
-  const exactRows = rows.filter((row) => {
-    const names = [
-      String(row.id || ""),
-      String(row.number || ""),
-      stripTags(row.name_en),
-      stripTags(row.name_zh),
-    ].map((s) => s.toLowerCase());
-    return names.includes(needle);
-  });
-  if (exactRows.length) {
-    state.exactHit = exactRows.length === 1;
-    return exactRows;
-  }
-  rows = rows.filter((row) => {
-    const blob = [
-      row.id,
-      row.number,
-      row.kind,
-      stripTags(row.name_en),
-      stripTags(row.name_zh),
-      stripTags(row.statement_en),
-      stripTags(row.statement_zh),
-    ]
-      .join(" ")
-      .toLowerCase();
-    return blob.includes(needle);
-  });
-  return rows;
+  return rankedItems(q, entrySearchRecords(rows));
 }
 
 function queryCommands() {
   state.exactHit = false;
   const q = parseQuery(state.query);
-  const names = knownNames();
-  const tokens = q ? q.split(/\s+/).filter(Boolean) : [];
-  const first = tokens[0] || "";
 
   let sql = `
     SELECT c.name, c.summary_en, c.summary_zh, c.example, c.options_json, c.links_json, c.shortcuts_json,
@@ -593,51 +779,12 @@ function queryCommands() {
     params.push(state.category);
   }
 
-  if (q) {
-    if (names.has(q.toLowerCase())) {
-      sql += " AND c.name = ? COLLATE NOCASE";
-      params.push(q);
-    } else if (SUBJECT !== "github" && names.has(first.toLowerCase())) {
-      sql += " AND c.name = ? COLLATE NOCASE";
-      params.push(first);
-    } else if (SUBJECT !== "github" && tokens.length === 1 && CMD_TOKEN.test(q)) {
-      sql += " AND c.name LIKE ? COLLATE NOCASE";
-      params.push(prefixNeedle(q));
-    }
-  }
-
   sql += " ORDER BY c.name COLLATE NOCASE";
   const stmt = state.db.prepare(sql);
   stmt.bind(params);
-  let rows = rowsFrom(stmt);
-
-  const usedNameExact = q && names.has(q.toLowerCase());
-  const usedLinuxFirst =
-    q && SUBJECT !== "github" && names.has(first.toLowerCase());
-  const usedLinuxPrefix =
-    q && SUBJECT !== "github" && tokens.length === 1 && CMD_TOKEN.test(q);
-  if (q && !usedNameExact && !usedLinuxFirst && !usedLinuxPrefix) {
-    const needle = q.toLowerCase();
-    rows = rows.filter((row) => {
-      const inName = String(row.name || "").toLowerCase().includes(needle);
-      const summary = pickText(row, "summary_en", "summary_zh").toLowerCase();
-      let options = [];
-      try {
-        options = JSON.parse(row.options_json);
-      } catch {
-        options = [];
-      }
-      const optText = options.map(optionMeaning).join(" ").toLowerCase();
-      return inName || summary.includes(needle) || optText.includes(needle);
-    });
-  }
-
-  state.exactHit =
-    Boolean(q) &&
-    rows.length === 1 &&
-    names.has(q.toLowerCase()) &&
-    rows[0].name.toLowerCase() === q.toLowerCase();
-  return rows;
+  const rows = rowsFrom(stmt);
+  if (!q) return rows;
+  return rankedItems(q, commandSearchRecords(rows));
 }
 
 function applyChrome() {
@@ -679,7 +826,7 @@ function applyChrome() {
     if (lede) lede.textContent = ui.lede;
   }
   const searchLabel = document.querySelector(".search-wrap .visually-hidden");
-  if (searchLabel) searchLabel.textContent = ui.searchLabel;
+  if (searchLabel) searchLabel.textContent = isHub ? ui.hubSearchLabel || ui.searchLabel : ui.searchLabel;
   if (searchInput) searchInput.placeholder = searchPlaceholder();
   const hint = document.getElementById("search-hint");
   if (hint) hint.textContent = ui.searchHint;
@@ -1335,7 +1482,7 @@ function render() {
         ? `<span class="exact-badge">${esc(ui.exact)}</span>`
         : "";
       return `
-        <article class="cmd" data-name="${esc(row.name)}" data-slug="${esc(row.category_slug)}">
+        <article class="cmd" id="${esc(row.name)}" data-name="${esc(row.name)}" data-slug="${esc(row.category_slug)}">
           <button class="cmd-head" type="button" aria-expanded="${open}">
             <code>${esc(row.name)}</code>
             <span class="badge">${esc(catName)}${badge}</span>
@@ -1364,6 +1511,11 @@ function render() {
 }
 
 function refresh() {
+  if (isHub) {
+    applyChrome();
+    renderHubSearch();
+    return;
+  }
   if (isHandbook && state.db) render();
   else applyChrome();
 }
@@ -1372,7 +1524,8 @@ function bind() {
   if (searchInput) {
     searchInput.addEventListener("input", () => {
       state.query = searchInput.value.trim();
-      render();
+      if (isHub) renderHubSearch();
+      else render();
     });
   }
 
@@ -1487,19 +1640,42 @@ function bind() {
 }
 
 function openHash(hash) {
-  const raw = String(hash || "").replace(/^#/, "");
-  const m = /^(card|eq)-(\d{1,2}\.\d{1,3})$/.exec(raw);
-  if (!m || !searchInput) return;
-  let id = m[2];
-  if (m[1] === "eq") {
-    const map = (HANDBOOK_DATA && HANDBOOK_DATA.eq_map) || {};
-    id = map[id] || id;
+  let raw = String(hash || "").replace(/^#/, "");
+  if (!raw) return;
+  try {
+    raw = decodeURIComponent(raw);
+  } catch {
+    /* keep */
   }
-  searchInput.value = id;
-  state.query = id;
+  const m = /^(card|eq)-(\d{1,2}\.\d{1,3})$/.exec(raw);
+  if (m) {
+    let id = m[2];
+    if (m[1] === "eq") {
+      const map = (HANDBOOK_DATA && HANDBOOK_DATA.eq_map) || {};
+      id = map[id] || id;
+    }
+    if (!state.query && searchInput) {
+      searchInput.value = id;
+      state.query = id;
+    }
+    state.open.add(id);
+    render();
+    const el = document.getElementById(raw) || document.getElementById(`card-${id}`);
+    if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
+    return;
+  }
+  if (!searchInput) return;
+  const id = raw.replace(/^card-/, "");
   state.open.add(id);
+  if (!state.query) {
+    searchInput.value = id;
+    state.query = id;
+  }
   render();
-  const el = document.getElementById(raw) || document.getElementById(`card-${id}`);
+  const el =
+    document.getElementById(raw) ||
+    document.getElementById(id) ||
+    document.querySelector(`[data-name="${CSS.escape ? CSS.escape(id) : id}"]`);
   if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
 }
 
@@ -1512,6 +1688,10 @@ async function init() {
   }
   applyChrome();
   bind();
+  if (isHub) {
+    renderHubSearch();
+    return;
+  }
   if (!isHandbook) return;
   if (statusEl) statusEl.textContent = t().loading;
   try {
