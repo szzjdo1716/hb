@@ -64,16 +64,46 @@ const I18N = {
 };
 
 const DATA = window.SQL_DATA || { categories: [], cards: [] };
-const SEED_SQL = [
-  "DROP TABLE IF EXISTS notes_log;",
-  "DROP VIEW IF EXISTS sql_notes;",
-  "DROP TABLE IF EXISTS tags;",
-  "DROP TABLE IF EXISTS notes;",
-  "CREATE TABLE notes (id INTEGER PRIMARY KEY, title TEXT NOT NULL, tag TEXT);",
-  "INSERT INTO notes (id, title, tag) VALUES (1, 'learn SELECT', 'sql'), (2, 'backup the file', 'ops'), (3, 'join later', 'sql');",
-  "CREATE TABLE tags (id INTEGER PRIMARY KEY, name TEXT NOT NULL);",
-  "INSERT INTO tags (id, name) VALUES (1, 'sql'), (2, 'ops');",
-].join("\n");
+const SEED_SQL = `
+DROP TABLE IF EXISTS note_tags;
+DROP TABLE IF EXISTS notes;
+DROP TABLE IF EXISTS tags;
+
+CREATE TABLE tags (
+  id   INTEGER PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE
+);
+CREATE TABLE notes (
+  id    INTEGER PRIMARY KEY,
+  title TEXT NOT NULL,
+  body  TEXT
+);
+CREATE TABLE note_tags (
+  note_id INTEGER NOT NULL REFERENCES notes(id),
+  tag_id  INTEGER NOT NULL REFERENCES tags(id),
+  PRIMARY KEY (note_id, tag_id)
+);
+
+INSERT INTO tags (id, name) VALUES
+  (1,'sql'), (2,'ops'), (3,'cli'), (4,'backup'), (5,'join');
+
+INSERT INTO notes (id, title, body) VALUES
+  (1,'learn SELECT', 'Read rows from a table'),
+  (2,'backup the file', 'Keep a copy of the db'),
+  (3,'join later', 'Two tables in one query'),
+  (4,'count by tag', 'GROUP BY comes later'),
+  (5,'update one row', 'Always use WHERE'),
+  (6,'sqlite3 in Terminal', 'File on disk, not this tab'),
+  (7,'index on tag', 'Faster WHERE tag = ...'),
+  (8,'view sql_notes', 'Saved SELECT'),
+  (9,'trigger demo', 'After INSERT'),
+  (10,'practice JOIN', 'notes ↔ tags');
+
+INSERT INTO note_tags (note_id, tag_id) VALUES
+  (1,1), (2,2), (2,4), (3,1), (3,5),
+  (4,1), (5,1), (6,3), (7,1), (8,1),
+  (9,1), (10,5), (10,1);
+`;
 
 const state = {
   lang: readLang(),
@@ -432,7 +462,7 @@ function execSql(sql) {
   }
   const text = String(sql || "").trim();
   if (!text) {
-    sqlOut.innerHTML = "";
+    showPlayError("empty query");
     return;
   }
   try {
@@ -472,16 +502,15 @@ function tryCard(id) {
   execSql(sqlInput.value);
 }
 
-function wasmFailed() {
+function wasmFailed(err) {
   if (sqlFallback) sqlFallback.hidden = false;
-  if (sqlRun) sqlRun.disabled = true;
-  if (sqlReset) sqlReset.disabled = true;
-  showPlayError(t().fallback);
+  const msg = err && err.message ? err.message : err ? String(err) : t().fallback;
+  showPlayError(msg);
 }
 
 async function initPlayground() {
   if (typeof initSqlJs !== "function" || !window.SQL_WASM_BASE64) {
-    wasmFailed();
+    wasmFailed("sql-wasm missing: keep vendor/sql-wasm.js and vendor/sql-wasm-binary.js next to this page");
     return;
   }
   try {
@@ -489,7 +518,7 @@ async function initPlayground() {
     state.SQL = await initSqlJs({ wasmBinary });
     resetSeed();
   } catch (err) {
-    wasmFailed();
+    wasmFailed(err);
   }
 }
 
