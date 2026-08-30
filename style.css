@@ -664,6 +664,15 @@ a:focus-visible {
   outline-color: #f59e0b;
 }
 
+.tile-sql {
+  border-top-color: #34d399;
+}
+
+.tile-sql:hover,
+.tile-sql:focus-visible {
+  outline-color: #34d399;
+}
+
 .tile-soon {
   opacity: 0.55;
   cursor: default;

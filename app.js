@@ -40,6 +40,8 @@ const I18N = {
     githubHint: "打开手册",
     enterTile: "进出手册",
     enterHint: "进入 / 退出 / 卡住 · PATH 与配置",
+    sqlTile: "数据库入门",
+    sqlHint: "用 notes.db 学 SQL · 浏览器可试",
     catalog: "目录",
     kindDef: "定义",
     kindRes: "结论",
@@ -88,6 +90,8 @@ const I18N = {
     githubHint: "Open the handbook",
     enterTile: "Enter–Quit",
     enterHint: "Open, leave, unstick. PATH and config.",
+    sqlTile: "SQL with SQLite",
+    sqlHint: "Learn SQL in notes.db · try in the browser",
     catalog: "Contents",
     kindDef: "Definitions",
     kindRes: "Results",
@@ -229,6 +233,7 @@ function hubBookLabel(book) {
   if (book === "linear") return ui.linearTile;
   if (book === "enter") return ui.enterTile;
   if (book === "github") return ui.githubTile;
+  if (book === "sql") return ui.sqlTile;
   return book;
 }
 
@@ -325,6 +330,28 @@ function hubCatalog() {
         hash: cmd.name,
         label: cmd.name,
         blurb: state.lang === "en" ? cmd.summary_en || cmd.summary_zh : cmd.summary_zh || cmd.summary_en,
+      });
+    });
+  }
+  const sqlBook = window.SQL_DATA;
+  if (sqlBook && sqlBook.cards) {
+    const cats = {};
+    (sqlBook.categories || []).forEach((cat) => {
+      cats[cat.id] = cat;
+    });
+    sqlBook.cards.forEach((card) => {
+      const cat = cats[card.cat] || {};
+      records.push({
+        names: [card.id, card.name, card.title_zh, card.title_en],
+        aliases: lookupAliases(card.id, card.name),
+        title: [card.title_zh, card.title_en, card.blurb_zh, card.blurb_en].join(" "),
+        chip: [cat.zh, cat.en, card.cat].join(" "),
+        body: [card.sql, card.try_sql].join(" "),
+        book: "sql",
+        href: "sql.html",
+        hash: card.id,
+        label: card.name,
+        blurb: state.lang === "en" ? card.blurb_en || card.blurb_zh : card.blurb_zh || card.blurb_en,
       });
     });
   }
@@ -816,6 +843,10 @@ function applyChrome() {
     const enterHint = document.getElementById("tile-enter-hint");
     if (enterTitle) enterTitle.textContent = ui.enterTile;
     if (enterHint) enterHint.textContent = ui.enterHint;
+    const sqlTitle = document.getElementById("tile-sql-title");
+    const sqlHint = document.getElementById("tile-sql-hint");
+    if (sqlTitle) sqlTitle.textContent = ui.sqlTile;
+    if (sqlHint) sqlHint.textContent = ui.sqlHint;
     document.querySelectorAll(".tile-soon .soon").forEach((el) => {
       el.textContent = ui.soon;
     });
