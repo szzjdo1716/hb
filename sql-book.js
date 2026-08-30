@@ -23,6 +23,7 @@ const I18N = {
     run: "运行",
     reset: "重置",
     download: "下载 notes.db",
+    openHint: "下载后用 DB Browser 打开该文件",
     playTitle: "试一试 notes.db",
     chaos: "乱局",
     install: "安装 · PATH",
@@ -54,6 +55,7 @@ const I18N = {
     run: "Run",
     reset: "Reset",
     download: "Download notes.db",
+    openHint: "After download, open that file in DB Browser",
     playTitle: "Try notes.db",
     chaos: "Chaos",
     install: "Install · PATH",
@@ -302,6 +304,8 @@ function applyChrome() {
   if (sqlRun) sqlRun.textContent = ui.run;
   if (sqlReset) sqlReset.textContent = ui.reset;
   if (sqlDownload) sqlDownload.textContent = ui.download;
+  const openHint = document.getElementById("sql-open-hint");
+  if (openHint) openHint.textContent = ui.openHint;
   if (sqlFallback) sqlFallback.textContent = ui.fallback;
   if (categoryNav) categoryNav.setAttribute("aria-label", ui.catsLabel);
   if (emptyEl) emptyEl.textContent = ui.empty;
@@ -373,9 +377,10 @@ function renderDetail(card) {
   if (h1) h1.textContent = name;
   const lede = document.getElementById("lede");
   if (lede) lede.textContent = title;
-  const official = card.official
-    ? `<p><a href="${esc(card.official)}" target="_blank" rel="noopener noreferrer">${esc(card.official)}</a></p>`
-    : "";
+  const official =
+    card.official && !(install || "").includes(card.official)
+      ? `<p><a href="${esc(card.official)}" target="_blank" rel="noopener noreferrer">${esc(card.official)}</a></p>`
+      : "";
   detailEl.innerHTML = `
     <p class="detail-tool"><code>${esc(name)}</code></p>
     <p class="detail-title">${codeHtml(title)}</p>

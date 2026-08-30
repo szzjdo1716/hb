@@ -101,6 +101,11 @@
         font-size: 0.9em;
         color: var(--accent-hot);
       }
+      .play-hint {
+        margin: 0 0 0.45rem;
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
     </style>
   </head>
   <body class="enter-page sql-page view-list">
@@ -149,6 +154,7 @@
         <button type="button" id="sql-download">下载 notes.db</button>
         <span class="sql-err" id="sql-download-err" role="status" aria-live="polite" hidden></span>
       </div>
+      <p class="play-hint" id="sql-open-hint">下载后用 DB Browser 打开该文件</p>
       <div class="sql-out" id="sql-out"></div>
       <p class="sql-err" id="sql-fallback" hidden>用 Terminal sqlite3</p>
     </section>
@@ -171,7 +177,7 @@
     <script src="vendor/sql-wasm-binary.js"></script>
     <script src="search-aliases.js"></script>
     <script src="search.js?v=2"></script>
-    <script src="sql-data.js?v=2"></script>
-    <script src="sql-book.js?v=4"></script>
+    <script src="sql-data.js?v=3"></script>
+    <script src="sql-book.js?v=5"></script>
   </body>
 </html>
