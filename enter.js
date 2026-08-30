@@ -169,11 +169,14 @@ function syncChipToggle() {
   btn.setAttribute("aria-expanded", open ? "true" : "false");
 }
 
-function closeChipsIfPhone() {
-  if (!isPhone()) return;
+function closeChips() {
   const bar = toolbarEl();
   if (bar) bar.classList.remove("chips-open");
   syncChipToggle();
+}
+
+function plainBlurb(tool) {
+  return pick(tool, "blurb_zh", "blurb_en").replace(/`/g, "");
 }
 
 function searchPlaceholder() {
@@ -361,7 +364,7 @@ function renderCategories() {
 function renderCard(tool, exact) {
   const ui = t();
   const open = state.open.has(tool.id);
-  const blurb = pick(tool, "blurb_zh", "blurb_en");
+  const blurb = plainBlurb(tool);
   const exactBadge = exact
     ? `<span class="exact-badge">${esc(ui.exact)}</span>`
     : "";
@@ -409,7 +412,7 @@ function fileList(files) {
 function renderDetail(tool) {
   const ui = t();
   const title = pick(tool, "title_zh", "title_en");
-  const blurb = pick(tool, "blurb_zh", "blurb_en");
+  const blurb = plainBlurb(tool);
   const env = tool.env || {};
   document.title = `${tool.name} · ${ui.title}`;
   const h1 = document.getElementById("page-title");
@@ -573,7 +576,7 @@ if (categoryNav) {
     state.category = btn.dataset.slug || "";
     renderCategories();
     renderList();
-    closeChipsIfPhone();
+    closeChips();
   });
 }
 

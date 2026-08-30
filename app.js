@@ -81,7 +81,7 @@ const I18N = {
     githubTile: "GitHub starter handbook",
     githubHint: "Open the handbook",
     enterTile: "Enter–Quit",
-    enterHint: "Open, leave, unstick · PATH and config",
+    enterHint: "Open, leave, unstick. PATH and config.",
     catalog: "Contents",
     kindDef: "Definitions",
     kindRes: "Results",
@@ -198,8 +198,7 @@ function syncChipToggle() {
   btn.setAttribute("aria-expanded", open ? "true" : "false");
 }
 
-function closeChipsIfPhone() {
-  if (!isPhone()) return;
+function closeChips() {
   const bar = toolbarEl();
   if (bar) bar.classList.remove("chips-open");
   syncChipToggle();
@@ -1392,14 +1391,14 @@ function bind() {
         const next = kindBtn.dataset.kind || "";
         state.kind = state.kind === next ? "" : next;
         render();
-        closeChipsIfPhone();
+        closeChips();
         return;
       }
       const button = event.target.closest("[data-slug]");
       if (!button) return;
       state.category = button.dataset.slug || "";
       render();
-      closeChipsIfPhone();
+      closeChips();
     });
   }
 
