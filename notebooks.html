@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>笔记本</title>
+    <link rel="stylesheet" href="style.css?v=17" />
+    <style>
+      .notebooks-page a:not(.skip-link):not(.nb-open),
+      .notebooks-page a:not(.skip-link):not(.nb-open):link,
+      .notebooks-page a:not(.skip-link):not(.nb-open):visited {
+        color: var(--accent-hot);
+      }
+      .notebooks-page a:not(.skip-link):not(.nb-open):visited {
+        color: #38bdf8;
+      }
+      .notebooks-page a:not(.skip-link):not(.nb-open):hover,
+      .notebooks-page a:not(.skip-link):not(.nb-open):focus-visible {
+        color: #bae6fd;
+        text-decoration: underline;
+      }
+      .nb-main {
+        padding-top: 1.2rem;
+        padding-bottom: 2rem;
+      }
+      .nb-main h2 {
+        margin: 1.15rem 0 0.35rem;
+        font-size: 1rem;
+        font-weight: 650;
+      }
+      .nb-main p,
+      .nb-main li {
+        margin: 0.35rem 0;
+      }
+      .nb-main ul {
+        margin: 0.25rem 0 0.6rem;
+        padding-left: 1.2rem;
+      }
+      .nb-open {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        margin: 0.7rem 0 0.4rem;
+        padding: 0.45rem 1.15rem;
+        border-radius: 10px;
+        background: #38bdf8;
+        color: #0f172a;
+        font-weight: 650;
+        text-decoration: none;
+      }
+      .nb-open:hover,
+      .nb-open:focus-visible {
+        background: #7dd3fc;
+        color: #0f172a;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body class="notebooks-page">
+    <a class="skip-link" href="#main">跳到正文</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="header-top">
+          <p class="nav-home">
+            <a href="index.html" id="home-link">首页</a>
+          </p>
+          <div class="title-line">
+            <h1 id="page-title">笔记本</h1>
+            <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" data-lang="zh" aria-pressed="true">中</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
+        </div>
+        <p class="lede" id="lede">
+          这是浏览器里的 Jupyter。内核是 Python（Pyodide）。不是 bash，不是 Julia，也不是你电脑上的 Python。第一次加载可能较慢。
+        </p>
+      </div>
+    </header>
+
+    <main id="main" class="wrap nb-main">
+      <p>
+        <a
+          class="nb-open"
+          id="open-btn"
+          href="https://jupyterlite.github.io/demo/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >打开 JupyterLite</a
+        >
+      </p>
+
+      <h2 id="when-title">何时用</h2>
+      <p id="when-body">在手机或电脑浏览器里试 Python，不用安装。</p>
+
+      <h2 id="not-title">何时不用</h2>
+      <p id="not-body">
+        Linux 命令、Grok Build、Grok Bot、本站的 SQL 笔记本。那些请用
+        <a href="linux.html">Linux</a>、
+        <a href="grok.html">Grok</a>、
+        <a href="sql.html">SQL</a>。
+      </p>
+
+      <h2 id="links-title">详情</h2>
+      <ul class="nb-links">
+        <li>
+          <a href="https://jupyterlite.github.io/demo/" target="_blank" rel="noopener noreferrer"
+            >https://jupyterlite.github.io/demo/</a
+          >
+        </li>
+        <li>
+          <a href="https://jupyterlite.github.io/demo/lab/" target="_blank" rel="noopener noreferrer"
+            >https://jupyterlite.github.io/demo/lab/</a
+          >
+          <span id="lab-note">（Lab，新标签打开，不内嵌）</span>
+        </li>
+        <li>
+          <a href="https://github.com/jupyterlite/jupyterlite" target="_blank" rel="noopener noreferrer"
+            >https://github.com/jupyterlite/jupyterlite</a
+          >
+        </li>
+        <li>
+          <a href="https://pyodide.org" target="_blank" rel="noopener noreferrer">https://pyodide.org</a>
+        </li>
+      </ul>
+    </main>
+
+    <footer class="site-footer wrap">
+      <p id="footer">本页只链到官网演示，不内嵌 JupyterLite，也不附带 Pyodide。</p>
+    </footer>
+
+    <script>
+      const LANG_KEY = "hb-lang";
+      const I18N = {
+        zh: {
+          htmlLang: "zh-CN",
+          title: "笔记本",
+          home: "首页",
+          skip: "跳到正文",
+          lede: "这是浏览器里的 Jupyter。内核是 Python（Pyodide）。不是 bash，不是 Julia，也不是你电脑上的 Python。第一次加载可能较慢。",
+          open: "打开 JupyterLite",
+          whenTitle: "何时用",
+          whenBody: "在手机或电脑浏览器里试 Python，不用安装。",
+          notTitle: "何时不用",
+          notBody:
+            'Linux 命令、Grok Build、Grok Bot、本站的 SQL 笔记本。那些请用 <a href="linux.html">Linux</a>、<a href="grok.html">Grok</a>、<a href="sql.html">SQL</a>。',
+          linksTitle: "详情",
+          labNote: "（Lab，新标签打开，不内嵌）",
+          footer: "本页只链到官网演示，不内嵌 JupyterLite，也不附带 Pyodide。",
+        },
+        en: {
+          htmlLang: "en",
+          title: "Notebooks",
+          home: "Home",
+          skip: "Skip to content",
+          lede: "This is Jupyter in the browser. The kernel is Python (Pyodide). Not bash, not Julia, not the Python on this device. The first load can be slow.",
+          open: "Open JupyterLite",
+          whenTitle: "When to use",
+          whenBody: "Try Python in a phone or desktop browser with no install.",
+          notTitle: "When not",
+          notBody:
+            'Linux commands, Grok Build, Grok Bot, or this site’s SQL notebook. Use <a href="linux.html">Linux</a>, <a href="grok.html">Grok</a>, and <a href="sql.html">SQL</a> instead.',
+          linksTitle: "Details",
+          labNote: "(Lab — new tab, not embedded)",
+          footer: "This page only links to the official demo. It does not embed JupyterLite or ship Pyodide.",
+        },
+      };
+
+      const state = { lang: readLang() };
+
+      function readLang() {
+        try {
+          const params = new URLSearchParams(location.search);
+          const langParam = params.get("lang");
+          if (langParam === "en" || langParam === "zh") {
+            saveLang(langParam);
+            return langParam;
+          }
+          const saved = localStorage.getItem(LANG_KEY);
+          if (saved === "en") return "en";
+          if (saved === "zh") return "zh";
+        } catch {
+          /* ignore */
+        }
+        return "zh";
+      }
+
+      function saveLang(lang) {
+        const value = lang === "en" ? "en" : "zh";
+        try {
+          localStorage.setItem(LANG_KEY, value);
+        } catch {
+          /* ignore */
+        }
+      }
+
+      function apply() {
+        const ui = I18N[state.lang] || I18N.zh;
+        document.documentElement.lang = ui.htmlLang;
+        document.title = ui.title;
+        const skip = document.querySelector(".skip-link");
+        const home = document.getElementById("home-link");
+        const h1 = document.getElementById("page-title");
+        const lede = document.getElementById("lede");
+        const openBtn = document.getElementById("open-btn");
+        const whenTitle = document.getElementById("when-title");
+        const whenBody = document.getElementById("when-body");
+        const notTitle = document.getElementById("not-title");
+        const notBody = document.getElementById("not-body");
+        const linksTitle = document.getElementById("links-title");
+        const labNote = document.getElementById("lab-note");
+        const footer = document.getElementById("footer");
+        if (skip) skip.textContent = ui.skip;
+        if (home) home.textContent = ui.home;
+        if (h1) h1.textContent = ui.title;
+        if (lede) lede.textContent = ui.lede;
+        if (openBtn) openBtn.textContent = ui.open;
+        if (whenTitle) whenTitle.textContent = ui.whenTitle;
+        if (whenBody) whenBody.textContent = ui.whenBody;
+        if (notTitle) notTitle.textContent = ui.notTitle;
+        if (notBody) notBody.innerHTML = ui.notBody;
+        if (linksTitle) linksTitle.textContent = ui.linksTitle;
+        if (labNote) labNote.textContent = ui.labNote;
+        if (footer) footer.textContent = ui.footer;
+        document.querySelectorAll("#lang-toggle [data-lang]").forEach((btn) => {
+          btn.setAttribute("aria-pressed", btn.dataset.lang === state.lang ? "true" : "false");
+        });
+      }
+
+      const langToggle = document.getElementById("lang-toggle");
+      if (langToggle) {
+        langToggle.addEventListener("click", (event) => {
+          const btn = event.target.closest("[data-lang]");
+          if (!btn) return;
+          state.lang = btn.dataset.lang === "en" ? "en" : "zh";
+          saveLang(state.lang);
+          apply();
+        });
+      }
+
+      apply();
+    </script>
+  </body>
+</html>

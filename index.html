@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>学习手册</title>
     <link rel="stylesheet" href="style.css?v=17" />
+    <style>
+      .hub-en { display: none; }
+      html[lang="en"] .hub-en { display: inline; }
+      html[lang="en"] .hub-zh { display: none; }
+      .tile-notebooks { border-top-color: #fb923c; }
+      .tile-notebooks:hover,
+      .tile-notebooks:focus-visible { outline: 1px solid #fb923c; }
+      .tile-notebooks .tile-hint { white-space: normal; }
+    </style>
   </head>
   <body class="hub-page">
     <a class="skip-link" href="#hub">跳到主题</a>
@@ -70,10 +79,14 @@
         <h2>R</h2>
         <p class="soon">稍后</p>
       </div>
-      <div class="tile tile-soon" aria-disabled="true">
-        <h2>Notebook</h2>
-        <p class="soon">稍后</p>
-      </div>
+      <a class="tile tile-live tile-notebooks" href="notebooks.html">
+        <h2 id="tile-notebooks-title">
+          <span class="hub-zh">笔记本</span><span class="hub-en">Notebooks</span>
+        </h2>
+        <p id="tile-notebooks-hint" class="tile-hint">
+          <span class="hub-zh">在浏览器打开 JupyterLite（Python）</span><span class="hub-en">Open JupyterLite in the browser (Python)</span>
+        </p>
+      </a>
     </main>
     <script src="search-aliases.js"></script>
     <script src="search.js?v=2"></script>
