@@ -12,7 +12,11 @@
       .tile-notebooks { border-top-color: #fb923c; }
       .tile-notebooks:hover,
       .tile-notebooks:focus-visible { outline: 1px solid #fb923c; }
-      .tile-notebooks .tile-hint { white-space: normal; }
+      .tile-notebooks .tile-hint,
+      .tile-julia .tile-hint { white-space: normal; }
+      .tile-julia { border-top-color: #9558b2; }
+      .tile-julia:hover,
+      .tile-julia:focus-visible { outline: 1px solid #9558b2; }
     </style>
   </head>
   <body class="hub-page">
@@ -29,7 +33,7 @@
             </div>
           </div>
         </div>
-        <p class="lede">选一个主题。Linux、线性代数、GitHub、进出手册、SQL、Grok 已开放；其余制作中。</p>
+        <p class="lede">选一个主题。Linux、线性代数、GitHub、进出手册、SQL、Grok、Julia 已开放；其余制作中。</p>
         <label class="search-wrap">
           <span class="visually-hidden">搜索手册</span>
           <input
@@ -71,10 +75,10 @@
         <h2 id="tile-grok-title">Grok</h2>
         <p id="tile-grok-hint" class="tile-hint">Build CLI 与 Bot 入门</p>
       </a>
-      <div class="tile tile-soon" aria-disabled="true">
-        <h2>Julia</h2>
-        <p class="soon">稍后</p>
-      </div>
+      <a class="tile tile-live tile-julia" href="julia.html">
+        <h2 id="tile-julia-title">Julia 入门</h2>
+        <p id="tile-julia-hint" class="tile-hint">安装到 REPL、数组与字符串（练习另页）</p>
+      </a>
       <div class="tile tile-soon" aria-disabled="true">
         <h2>R</h2>
         <p class="soon">稍后</p>
@@ -96,6 +100,7 @@
     <script src="github-data.js"></script>
     <script src="sql-data.js"></script>
     <script src="grok-data.js"></script>
-    <script src="app.js?v=17"></script>
+    <script src="julia-data.js"></script>
+    <script src="app.js?v=18"></script>
   </body>
 </html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Julia 练习</title>
+    <link rel="stylesheet" href="enter.css?v=8" />
+    <style>
+      .julia-page .cmd[data-cat="basics"] { border-top-color: #34d399; }
+      .julia-page .cmd[data-cat="collections"] { border-top-color: #a78bfa; }
+      .julia-page .cmd[data-cat="strings"] { border-top-color: #fbbf24; }
+      .julia-page .cmd[data-cat="pkg"] { border-top-color: #fb923c; }
+      .dummy-steps {
+        margin: 0.6rem 0 1rem;
+        padding-left: 1.3rem;
+      }
+      .dummy-steps li { margin: 0.35rem 0; }
+      .search-col { width: 100%; }
+      .paste-hint {
+        margin: 0.35rem 0 0.7rem;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .lab-jump {
+        margin: 0.45rem 0 0;
+        font-weight: 650;
+      }
+      .sql-sticky {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 40;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.75rem calc(0.45rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(15, 23, 42, 0.94);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--line);
+      }
+      .sql-sticky[hidden] { display: none !important; }
+      .sql-sticky button {
+        font: inherit;
+        font-weight: 650;
+        min-height: 44px;
+        padding: 0.4rem 0.9rem;
+        border: 0;
+        border-radius: 10px;
+        background: #38bdf8;
+        color: #0f172a;
+        cursor: pointer;
+      }
+      .julia-page.sql-has-sticky { padding-bottom: 5.25rem; }
+      .julia-page .sum code,
+      .julia-page .prose code {
+        font-family: var(--mono);
+        font-size: 0.9em;
+        color: var(--accent-hot);
+      }
+      .julia-page a:not(.skip-link),
+      .julia-page a:not(.skip-link):link,
+      .julia-page a:not(.skip-link):visited {
+        color: var(--accent-hot);
+      }
+      .julia-page a:not(.skip-link):visited {
+        color: #38bdf8;
+      }
+      .julia-page a:not(.skip-link):hover,
+      .julia-page a:not(.skip-link):focus-visible {
+        color: #bae6fd;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body class="enter-page julia-page view-list" data-page="practice">
+    <a class="skip-link" href="#results">跳到卡片列表</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="header-top">
+          <p class="nav-home">
+            <a href="index.html" id="home-link" class="list-only">首页</a>
+            <a href="julia-practice.html" id="header-back" class="detail-only">返回列表</a>
+          </p>
+          <div class="title-line">
+            <h1 id="page-title">Julia 练习</h1>
+            <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" data-lang="zh" aria-pressed="true">中</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
+        </div>
+        <p class="lede" id="lede">
+          每条先复制，贴到 julia>，再按 Enter。答案在详情里。
+        </p>
+        <p class="lab-jump list-only">
+          <a href="julia.html" id="jump-link">回入门</a>
+        </p>
+        <div class="search-col list-only">
+          <label class="search-wrap">
+            <span class="visually-hidden" id="search-label">搜索</span>
+            <input
+              id="search"
+              type="search"
+              placeholder="mean, Dict, oak, 13"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </label>
+          <div class="toolbar" id="toolbar">
+            <button type="button" class="chip-toggle cat-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
+            <nav id="categories" class="chips" aria-label="分类"></nav>
+            <p class="status" id="status"></p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="results" class="results wrap list-only" aria-live="polite"></main>
+    <p class="empty wrap list-only" id="empty" hidden>没有匹配。试 mean / Dict / oak</p>
+
+    <div id="detail" class="detail-wrap wrap detail-only" hidden></div>
+
+    <nav class="sql-sticky" id="sql-sticky" hidden>
+      <button type="button" id="sql-back-list">返回列表</button>
+    </nav>
+
+    <footer class="site-footer">
+      <p id="footer">
+        原创教学例子。不是任何书籍的复制。
+        <a href="https://julialang.org" target="_blank" rel="noopener noreferrer">julialang.org</a>
+        ·
+        <a href="https://docs.julialang.org" target="_blank" rel="noopener noreferrer">docs.julialang.org</a>
+      </p>
+    </footer>
+
+    <script src="search-aliases.js"></script>
+    <script src="search.js?v=2"></script>
+    <script src="julia-data.js"></script>
+    <script src="julia-page.js"></script>
+  </body>
+</html>
