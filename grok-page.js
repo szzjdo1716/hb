@@ -22,6 +22,7 @@ const I18N = {
     points: "要点",
     official: "官网",
     community: "社区",
+    shotCap: "来自官方页面的示意图",
     whenTable: "怎么选",
     missing: "没有这张卡片。",
     footer: "摘要自 x.ai 公开页，不是文档原文。 x.ai/build · x.ai/bot · docs.x.ai/build/overview",
@@ -47,6 +48,7 @@ const I18N = {
     points: "Points",
     official: "Official",
     community: "Community",
+    shotCap: "Illustration from the official site",
     whenTable: "How to choose",
     missing: "No such card.",
     footer:
@@ -226,7 +228,23 @@ function moreLink(card) {
 
 function shotHtml(card) {
   if (!card.image) return "";
-  return `<img class="grok-shot" src="${esc(card.image)}" alt="${esc(cardName(card))}" />`;
+  const cap = t().shotCap;
+  return `<figure class="grok-figure">
+      <img class="grok-shot" src="${esc(card.image)}" alt="" onerror="var f=this.closest('figure'); if(f) f.remove();" />
+      <figcaption>${esc(cap)}</figcaption>
+    </figure>`;
+}
+
+function stepsHtml(card) {
+  const rows = card.steps;
+  if (!rows || !rows.length) return "";
+  const items = rows
+    .map((row) => {
+      const text = state.lang === "en" ? row.en || row.zh : row.zh || row.en;
+      return `<li>${codeHtml(text)}</li>`;
+    })
+    .join("");
+  return `<ol class="dummy-steps">${items}</ol>`;
 }
 
 function communityTag(card) {
@@ -340,6 +358,7 @@ function renderCard(card, exact) {
       <h3>${esc(ui.points)}</h3>
       <div class="prose">${proseHtml(blurb)}</div>
       ${shotHtml(card)}
+      ${stepsHtml(card)}
       ${cmds}
       ${moreLink(card)}
     </div>
@@ -377,6 +396,7 @@ function renderDetail(card) {
       <h2>${esc(section)}</h2>
       <div class="prose">${proseHtml(blurb)}</div>
       <div class="prose">${proseHtml(detail)}</div>
+      ${stepsHtml(card)}
       ${whenTableHtml(card)}
       ${cmds}
       ${officialLinks(card)}
