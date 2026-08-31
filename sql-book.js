@@ -22,6 +22,9 @@ const I18N = {
     try: "试一试",
     run: "运行",
     reset: "重置",
+    running: "运行中…",
+    loadingChinook: "正在加载 Chinook…",
+    toPlay: "回练习框",
     download: "下载 chinook.db",
     openHint: "下载后用 DB Browser 打开该文件",
     playTitle: "试一试 chinook.db",
@@ -54,6 +57,9 @@ const I18N = {
     try: "Try",
     run: "Run",
     reset: "Reset",
+    running: "Running…",
+    loadingChinook: "Loading Chinook…",
+    toPlay: "To playground",
     download: "Download chinook.db",
     openHint: "After download, open that file in DB Browser",
     playTitle: "Try chinook.db",
@@ -80,6 +86,9 @@ const state = {
   db: null,
   SQL: null,
   chinookBytes: null,
+  chinookLoad: null,
+  busy: false,
+  playFocus: false,
 };
 
 const searchInput = document.getElementById("search");
@@ -266,9 +275,16 @@ function applyChrome() {
     footer.innerHTML = esc(ui.footer.split("sqlite.org")[0]).trim() + " " + links;
   }
   if (playTitle) playTitle.textContent = ui.playTitle;
-  if (sqlRun) sqlRun.textContent = ui.run;
-  if (sqlReset) sqlReset.textContent = ui.reset;
+  if (!state.busy) {
+    if (sqlRun) sqlRun.textContent = ui.run;
+    if (sqlReset) sqlReset.textContent = ui.reset;
+  }
   if (sqlDownload) sqlDownload.textContent = ui.download;
+  const stickyBack = document.getElementById("sql-back-list");
+  const stickyPlay = document.getElementById("sql-to-play");
+  if (stickyBack) stickyBack.textContent = ui.back;
+  if (stickyPlay) stickyPlay.textContent = ui.toPlay;
+  syncSticky();
   const openHint = document.getElementById("sql-open-hint");
   if (openHint) openHint.textContent = ui.openHint;
   if (sqlFallback) sqlFallback.textContent = ui.fallback;
@@ -375,6 +391,7 @@ function showListView() {
   applyChrome();
   renderCategories();
   renderList();
+  syncSticky();
 }
 
 function showDetailView(card) {
@@ -383,6 +400,7 @@ function showDetailView(card) {
   detailEl.hidden = false;
   applyChrome();
   renderDetail(card);
+  syncSticky();
 }
 
 function render() {
@@ -404,6 +422,7 @@ function render() {
 
 function goList(event) {
   if (event) event.preventDefault();
+  state.playFocus = false;
   const url = new URL(location.href);
   url.hash = "";
   history.pushState({}, "", url.pathname + url.search);
@@ -564,7 +583,22 @@ function runOneStatement(sql) {
   }
 }
 
+function ensureOpenDb() {
+  if (state.db) return;
+  if (state.chinookBytes && state.SQL) {
+    openChinook(state.chinookBytes);
+    return;
+  }
+  throw new Error(t().fallback);
+}
+
 function execSql(sql) {
+  try {
+    ensureOpenDb();
+  } catch (err) {
+    showPlayError(err && err.message ? err.message : String(err));
+    return;
+  }
   if (!state.db) {
     showPlayError(t().fallback);
     return;
@@ -714,6 +748,21 @@ async function fetchChinookBytes() {
   throw new Error("chinook.db missing: " + errors.join(" · "));
 }
 
+function loadChinookBytes() {
+  if (state.chinookBytes) return Promise.resolve(state.chinookBytes);
+  if (state.chinookLoad) return state.chinookLoad;
+  state.chinookLoad = fetchChinookBytes()
+    .then((bytes) => {
+      state.chinookBytes = bytes;
+      return bytes;
+    })
+    .catch((err) => {
+      state.chinookLoad = null;
+      throw err;
+    });
+  return state.chinookLoad;
+}
+
 function openChinook(bytes) {
   if (!state.SQL) throw new Error(t().fallback);
   if (state.db) state.db.close();
@@ -737,12 +786,93 @@ function resetChinook() {
   }
 }
 
+function spinHtml(label) {
+  return `<span class="sql-spin" aria-hidden="true"></span>${esc(label)}`;
+}
+
+function showLoadingChinook() {
+  if (!sqlOut) return;
+  sqlOut.innerHTML = `<p class="sql-msg">${spinHtml(t().loadingChinook)}</p>`;
+}
+
+function syncSticky() {
+  const bar = document.getElementById("sql-sticky");
+  if (!bar) return;
+  const show = document.body.classList.contains("view-detail") || state.playFocus;
+  bar.hidden = !show;
+  document.body.classList.toggle("sql-has-sticky", show);
+}
+
+function goPlayground(event) {
+  if (event) event.preventDefault();
+  state.playFocus = true;
+  syncSticky();
+  const play = document.getElementById("playground");
+  if (play) play.scrollIntoView({ block: "start" });
+}
+
+function onStickyBack(event) {
+  if (event) event.preventDefault();
+  if (currentId()) {
+    state.playFocus = false;
+    goList(event);
+    return;
+  }
+  state.playFocus = false;
+  syncSticky();
+  const list = document.getElementById("results");
+  if (list) list.scrollIntoView({ block: "start" });
+}
+
+function setBusy(on, kind) {
+  state.busy = Boolean(on);
+  const ui = t();
+  [sqlRun, sqlReset, sqlDownload].forEach((btn) => {
+    if (btn) btn.disabled = state.busy;
+  });
+  if (state.busy) {
+    const html = spinHtml(ui.running);
+    if (kind === "reset" && sqlReset) sqlReset.innerHTML = html;
+    else if (sqlRun) sqlRun.innerHTML = html;
+    if (sqlOut) sqlOut.setAttribute("aria-busy", "true");
+    return;
+  }
+  if (sqlRun) sqlRun.textContent = ui.run;
+  if (sqlReset) sqlReset.textContent = ui.reset;
+  if (sqlDownload) sqlDownload.textContent = ui.download;
+  if (sqlOut) sqlOut.removeAttribute("aria-busy");
+}
+
+function afterPaint(fn) {
+  requestAnimationFrame(() => {
+    window.setTimeout(fn, 0);
+  });
+}
+
+function runBusy(kind, fn) {
+  if (state.busy) return;
+  setBusy(true, kind);
+  afterPaint(() => {
+    try {
+      fn();
+    } catch (err) {
+      showPlayError(err && err.message ? err.message : String(err));
+    } finally {
+      setBusy(false);
+    }
+  });
+}
+
 function tryCard(id) {
   const card = findCard(id);
   if (!card || !sqlInput) return;
   const sql = card.try_sql || card.sql || "";
   sqlInput.value = sql;
-  sqlInput.scrollIntoView({ block: "nearest" });
+  state.playFocus = true;
+  syncSticky();
+  const play = document.getElementById("playground");
+  if (play) play.scrollIntoView({ block: "start" });
+  else sqlInput.scrollIntoView({ block: "nearest" });
   collapseSqlEditor();
 }
 
@@ -757,10 +887,13 @@ async function initPlayground() {
     wasmFailed("sql-wasm missing: keep vendor/sql-wasm.js and vendor/sql-wasm-binary.js next to this page");
     return;
   }
+  showLoadingChinook();
   try {
-    const wasmBinary = Uint8Array.from(atob(window.SQL_WASM_BASE64), (ch) => ch.charCodeAt(0));
-    state.SQL = await initSqlJs({ wasmBinary });
-    state.chinookBytes = await fetchChinookBytes();
+    if (!state.SQL) {
+      const wasmBinary = Uint8Array.from(atob(window.SQL_WASM_BASE64), (ch) => ch.charCodeAt(0));
+      state.SQL = await initSqlJs({ wasmBinary });
+    }
+    await loadChinookBytes();
     resetChinook();
   } catch (err) {
     wasmFailed(err);
@@ -797,6 +930,10 @@ if (categoryNav) {
 
 const headerBack = document.getElementById("header-back");
 if (headerBack) headerBack.addEventListener("click", goList);
+const stickyBack = document.getElementById("sql-back-list");
+if (stickyBack) stickyBack.addEventListener("click", onStickyBack);
+const stickyPlay = document.getElementById("sql-to-play");
+if (stickyPlay) stickyPlay.addEventListener("click", goPlayground);
 
 if (resultsEl) {
   resultsEl.addEventListener("click", (event) => {
@@ -853,10 +990,14 @@ if (langToggle) {
 }
 
 if (sqlRun) {
-  sqlRun.addEventListener("click", () => execSql(sqlInput ? sqlInput.value : ""));
+  sqlRun.addEventListener("click", () => {
+    runBusy("run", () => execSql(sqlInput ? sqlInput.value : ""));
+  });
 }
 if (sqlReset) {
-  sqlReset.addEventListener("click", () => resetChinook());
+  sqlReset.addEventListener("click", () => {
+    runBusy("reset", () => resetChinook());
+  });
 }
 if (sqlDownload) {
   sqlDownload.addEventListener("click", () => downloadChinookDb());
