@@ -441,16 +441,127 @@ function showPlayError(message) {
   sqlOut.innerHTML = `<p class="sql-err">${esc(message)}</p>`;
 }
 
-function renderTable(columns, rows) {
-  if (!columns.length) {
-    sqlOut.innerHTML = `<p class="sql-msg">${rows.length ? esc(String(rows.length)) : "ok"}</p>`;
-    return;
-  }
+function playStatusHtml(message, isError) {
+  return `<p class="${isError ? "sql-err" : "sql-msg"}">${esc(message)}</p>`;
+}
+
+function currentTableHtml() {
+  if (!sqlOut) return "";
+  const table = sqlOut.querySelector("table");
+  return table ? table.outerHTML : "";
+}
+
+function tableHtml(columns, rows) {
   const head = columns.map((col) => `<th>${esc(col)}</th>`).join("");
   const body = rows
     .map((row) => `<tr>${row.map((cell) => `<td>${esc(cell == null ? "" : cell)}</td>`).join("")}</tr>`)
     .join("");
-  sqlOut.innerHTML = `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+  return `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+}
+
+function matchSqlWord(text, i, word) {
+  const n = word.length;
+  if (text.slice(i, i + n).toUpperCase() !== word) return false;
+  const before = i === 0 ? " " : text[i - 1];
+  const after = i + n >= text.length ? " " : text[i + n];
+  return !/[A-Za-z0-9_]/.test(before) && !/[A-Za-z0-9_]/.test(after);
+}
+
+function isTriggerBegin(text, i) {
+  const after = text.slice(i + 5).trimStart().toUpperCase();
+  if (/^(TRANSACTION|DEFERRED|IMMEDIATE|EXCLUSIVE)\b/.test(after)) return false;
+  if (after.charAt(0) === ";") return false;
+  return true;
+}
+
+function splitSqlStatements(sql) {
+  const text = String(sql || "");
+  const out = [];
+  let cur = "";
+  let i = 0;
+  let inSingle = false;
+  let beginDepth = 0;
+  while (i < text.length) {
+    const ch = text[i];
+    const nxt = text[i + 1];
+    if (inSingle) {
+      cur += ch;
+      if (ch === "'") {
+        if (nxt === "'") {
+          cur += nxt;
+          i += 2;
+          continue;
+        }
+        inSingle = false;
+      }
+      i += 1;
+      continue;
+    }
+    if (ch === "-" && nxt === "-") {
+      cur += ch + nxt;
+      i += 2;
+      while (i < text.length && text[i] !== "\n") {
+        cur += text[i];
+        i += 1;
+      }
+      continue;
+    }
+    if (ch === "/" && nxt === "*") {
+      cur += "/*";
+      i += 2;
+      while (i < text.length && !(text[i] === "*" && text[i + 1] === "/")) {
+        cur += text[i];
+        i += 1;
+      }
+      if (i < text.length) {
+        cur += "*/";
+        i += 2;
+      }
+      continue;
+    }
+    if (ch === "'") {
+      inSingle = true;
+      cur += ch;
+      i += 1;
+      continue;
+    }
+    if (matchSqlWord(text, i, "BEGIN") && isTriggerBegin(text, i)) {
+      beginDepth += 1;
+      cur += text.slice(i, i + 5);
+      i += 5;
+      continue;
+    }
+    if (beginDepth && matchSqlWord(text, i, "END")) {
+      beginDepth -= 1;
+      cur += text.slice(i, i + 3);
+      i += 3;
+      continue;
+    }
+    if (ch === ";" && beginDepth === 0) {
+      const stmt = cur.trim();
+      if (stmt) out.push(stmt);
+      cur = "";
+      i += 1;
+      continue;
+    }
+    cur += ch;
+    i += 1;
+  }
+  const tail = cur.trim();
+  if (tail) out.push(tail);
+  return out;
+}
+
+function runOneStatement(sql) {
+  const stmt = state.db.prepare(sql);
+  try {
+    const columns = stmt.getColumnNames() || [];
+    const values = [];
+    while (stmt.step()) values.push(stmt.get());
+    return { columns, values };
+  } finally {
+    stmt.free();
+  }
 }
 
 function execSql(sql) {
@@ -463,17 +574,29 @@ function execSql(sql) {
     showPlayError("empty query");
     return;
   }
-  try {
-    const result = state.db.exec(text);
-    if (!result.length) {
-      sqlOut.innerHTML = `<p class="sql-msg">ok</p>`;
+  const statements = splitSqlStatements(text);
+  if (!statements.length) {
+    showPlayError("empty query");
+    return;
+  }
+  let lastSelect = null;
+  for (let i = 0; i < statements.length; i++) {
+    try {
+      const result = runOneStatement(statements[i]);
+      if (result.columns.length) lastSelect = result;
+    } catch (err) {
+      showPlayError(err && err.message ? err.message : String(err));
       return;
     }
-    const last = result[result.length - 1];
-    renderTable(last.columns || [], last.values || []);
-  } catch (err) {
-    showPlayError(err.message || String(err));
   }
+  if (!sqlOut) return;
+  if (lastSelect) {
+    sqlOut.innerHTML =
+      playStatusHtml("OK, " + lastSelect.values.length + " rows", false) +
+      tableHtml(lastSelect.columns, lastSelect.values);
+    return;
+  }
+  sqlOut.innerHTML = playStatusHtml("OK", false) + currentTableHtml();
 }
 
 function showDownloadError(message) {
@@ -620,7 +743,6 @@ function tryCard(id) {
   const sql = card.try_sql || card.sql || "";
   sqlInput.value = sql;
   sqlInput.scrollIntoView({ block: "nearest" });
-  execSql(sql);
   collapseSqlEditor();
 }
 
