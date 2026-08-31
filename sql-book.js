@@ -6,7 +6,7 @@ const I18N = {
     title: "数据库入门",
     home: "首页",
     skip: "跳到卡片列表",
-    lede: "用 notes.db 学 SQL。浏览器里可以试，本机用 sqlite3 或 DB Browser。",
+    lede: "用 chinook.db 学 SQL。浏览器里可以试，本机用 sqlite3 或 DB Browser。",
     searchLabel: "搜索",
     searchPh: "select, 连接  或  join",
     catsLabel: "分类",
@@ -22,9 +22,9 @@ const I18N = {
     try: "试一试",
     run: "运行",
     reset: "重置",
-    download: "下载 notes.db",
+    download: "下载 chinook.db",
     openHint: "下载后用 DB Browser 打开该文件",
-    playTitle: "试一试 notes.db",
+    playTitle: "试一试 chinook.db",
     chaos: "乱局",
     install: "安装 · PATH",
     sql: "SQL",
@@ -38,7 +38,7 @@ const I18N = {
     title: "SQL with SQLite",
     home: "Home",
     skip: "Skip to cards",
-    lede: "Learn SQL in notes.db. Try it in the browser, or use sqlite3 / DB Browser on disk.",
+    lede: "Learn SQL in chinook.db. Try it in the browser, or use sqlite3 / DB Browser on disk.",
     searchLabel: "Search",
     searchPh: "select, join  or  backup",
     catsLabel: "Categories",
@@ -54,9 +54,9 @@ const I18N = {
     try: "Try",
     run: "Run",
     reset: "Reset",
-    download: "Download notes.db",
+    download: "Download chinook.db",
     openHint: "After download, open that file in DB Browser",
-    playTitle: "Try notes.db",
+    playTitle: "Try chinook.db",
     chaos: "Chaos",
     install: "Install · PATH",
     sql: "SQL",
@@ -68,46 +68,8 @@ const I18N = {
 };
 
 const DATA = window.SQL_DATA || { categories: [], cards: [] };
-const SEED_SQL = `
-DROP TABLE IF EXISTS note_tags;
-DROP TABLE IF EXISTS notes;
-DROP TABLE IF EXISTS tags;
-
-CREATE TABLE tags (
-  id   INTEGER PRIMARY KEY,
-  name TEXT NOT NULL UNIQUE
-);
-CREATE TABLE notes (
-  id    INTEGER PRIMARY KEY,
-  title TEXT NOT NULL,
-  body  TEXT
-);
-CREATE TABLE note_tags (
-  note_id INTEGER NOT NULL REFERENCES notes(id),
-  tag_id  INTEGER NOT NULL REFERENCES tags(id),
-  PRIMARY KEY (note_id, tag_id)
-);
-
-INSERT INTO tags (id, name) VALUES
-  (1,'sql'), (2,'ops'), (3,'cli'), (4,'backup'), (5,'join');
-
-INSERT INTO notes (id, title, body) VALUES
-  (1,'learn SELECT', 'Read rows from a table'),
-  (2,'backup the file', 'Keep a copy of the db'),
-  (3,'join later', 'Two tables in one query'),
-  (4,'count by tag', 'GROUP BY comes later'),
-  (5,'update one row', 'Always use WHERE'),
-  (6,'sqlite3 in Terminal', 'File on disk, not this tab'),
-  (7,'index on tag', 'Faster WHERE tag = ...'),
-  (8,'view sql_notes', 'Saved SELECT'),
-  (9,'trigger demo', 'After INSERT'),
-  (10,'practice JOIN', 'notes ↔ tags');
-
-INSERT INTO note_tags (note_id, tag_id) VALUES
-  (1,1), (2,2), (2,4), (3,1), (3,5),
-  (4,1), (5,1), (6,3), (7,1), (8,1),
-  (9,1), (10,5), (10,1);
-`;
+const DEFAULT_SQL = "SELECT Name FROM artists LIMIT 10;";
+const CHINOOK_REMOTE = "https://szzjdo1716.github.io/hb/data/chinook.db";
 
 const state = {
   lang: readLang(),
@@ -117,6 +79,7 @@ const state = {
   exactHit: false,
   db: null,
   SQL: null,
+  chinookBytes: null,
 };
 
 const searchInput = document.getElementById("search");
@@ -133,6 +96,8 @@ const sqlRun = document.getElementById("sql-run");
 const sqlReset = document.getElementById("sql-reset");
 const sqlDownload = document.getElementById("sql-download");
 const sqlDownloadErr = document.getElementById("sql-download-err");
+const sqlBox = document.getElementById("sql-box");
+const sqlClip = document.getElementById("sql-clip");
 
 function t() {
   return I18N[state.lang] || I18N.zh;
@@ -524,7 +489,7 @@ function clearDownloadError() {
   sqlDownloadErr.textContent = "";
 }
 
-function downloadNotesDb() {
+function downloadChinookDb() {
   clearDownloadError();
   if (!state.db) {
     showDownloadError(t().fallback);
@@ -546,7 +511,7 @@ function downloadNotesDb() {
     objectUrl = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = objectUrl;
-    a.download = "notes.db";
+    a.download = "chinook.db";
     a.rel = "noopener";
     document.body.appendChild(a);
     a.click();
@@ -560,17 +525,90 @@ function downloadNotesDb() {
   }
 }
 
-function resetSeed() {
+function sqlLines(text) {
+  return String(text || "").replace(/\s+$/, "").split("\n");
+}
+
+function collapseSqlEditor() {
+  if (!sqlInput) return;
+  sqlInput.classList.remove("is-open");
+  const lines = sqlLines(sqlInput.value);
+  if (!sqlClip || !sqlBox || lines.length <= 3) {
+    if (sqlClip) sqlClip.hidden = true;
+    if (sqlBox) sqlBox.classList.remove("is-clipped");
+    return;
+  }
+  sqlClip.textContent = `${lines[0]}\n...\n${lines[lines.length - 1]}`;
+  sqlClip.hidden = false;
+  sqlBox.classList.add("is-clipped");
+}
+
+function expandSqlEditor() {
+  if (sqlBox) sqlBox.classList.remove("is-clipped");
+  if (sqlClip) sqlClip.hidden = true;
+  if (sqlInput) {
+    sqlInput.classList.add("is-open");
+    sqlInput.focus();
+  }
+}
+
+function setSqlText(text, run) {
+  if (sqlInput) sqlInput.value = text;
+  collapseSqlEditor();
+  if (run) execSql(text);
+}
+
+function chinookUrls() {
+  const urls = [];
+  try {
+    urls.push(new URL("data/chinook.db", document.baseURI || location.href).href);
+  } catch {
+    /* ignore */
+  }
+  urls.push("data/chinook.db");
+  urls.push(CHINOOK_REMOTE);
+  return urls.filter((url, i, all) => url && all.indexOf(url) === i);
+}
+
+async function fetchChinookBytes() {
+  const urls = chinookUrls();
+  const errors = [];
+  for (let i = 0; i < urls.length; i++) {
+    const url = urls[i];
+    try {
+      const res = await fetch(url, { cache: "force-cache" });
+      if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
+      const buf = await res.arrayBuffer();
+      if (!buf.byteLength) throw new Error(`${url} empty`);
+      const head = new Uint8Array(buf, 0, Math.min(16, buf.byteLength));
+      const magic = String.fromCharCode.apply(null, head);
+      if (!magic.startsWith("SQLite format 3")) throw new Error(`${url} is not sqlite`);
+      return new Uint8Array(buf);
+    } catch (err) {
+      errors.push(err && err.message ? err.message : String(err));
+    }
+  }
+  throw new Error("chinook.db missing: " + errors.join(" · "));
+}
+
+function openChinook(bytes) {
+  if (!state.SQL) throw new Error(t().fallback);
+  if (state.db) state.db.close();
+  state.db = new state.SQL.Database(new Uint8Array(bytes));
+}
+
+function resetChinook() {
   if (!state.SQL) {
     showPlayError(t().fallback);
     return;
   }
+  if (!state.chinookBytes) {
+    showPlayError("chinook.db missing");
+    return;
+  }
   try {
-    if (state.db) state.db.close();
-    state.db = new state.SQL.Database();
-    state.db.run(SEED_SQL);
-    if (sqlInput) sqlInput.value = "SELECT * FROM notes;";
-    execSql("SELECT * FROM notes;");
+    openChinook(state.chinookBytes);
+    setSqlText(DEFAULT_SQL, true);
   } catch (err) {
     showPlayError(err.message || String(err));
   }
@@ -579,9 +617,11 @@ function resetSeed() {
 function tryCard(id) {
   const card = findCard(id);
   if (!card || !sqlInput) return;
-  sqlInput.value = card.try_sql || card.sql || "";
+  const sql = card.try_sql || card.sql || "";
+  sqlInput.value = sql;
   sqlInput.scrollIntoView({ block: "nearest" });
-  execSql(sqlInput.value);
+  execSql(sql);
+  collapseSqlEditor();
 }
 
 function wasmFailed(err) {
@@ -598,7 +638,8 @@ async function initPlayground() {
   try {
     const wasmBinary = Uint8Array.from(atob(window.SQL_WASM_BASE64), (ch) => ch.charCodeAt(0));
     state.SQL = await initSqlJs({ wasmBinary });
-    resetSeed();
+    state.chinookBytes = await fetchChinookBytes();
+    resetChinook();
   } catch (err) {
     wasmFailed(err);
   }
@@ -693,11 +734,25 @@ if (sqlRun) {
   sqlRun.addEventListener("click", () => execSql(sqlInput ? sqlInput.value : ""));
 }
 if (sqlReset) {
-  sqlReset.addEventListener("click", () => resetSeed());
+  sqlReset.addEventListener("click", () => resetChinook());
 }
 if (sqlDownload) {
-  sqlDownload.addEventListener("click", () => downloadNotesDb());
+  sqlDownload.addEventListener("click", () => downloadChinookDb());
 }
+if (sqlInput) {
+  sqlInput.addEventListener("focus", () => expandSqlEditor());
+  sqlInput.addEventListener("blur", () => collapseSqlEditor());
+}
+if (sqlClip) {
+  sqlClip.addEventListener("mousedown", (event) => {
+    event.preventDefault();
+    expandSqlEditor();
+  });
+}
+document.addEventListener("pointerdown", (event) => {
+  if (!sqlBox || sqlBox.contains(event.target)) return;
+  collapseSqlEditor();
+});
 
 window.addEventListener("hashchange", render);
 window.addEventListener("popstate", render);

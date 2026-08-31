@@ -24,10 +24,15 @@
         text-transform: uppercase;
         color: var(--muted);
       }
-      .playground textarea {
+      .sql-box {
+        position: relative;
+      }
+      .playground textarea,
+      .sql-clip {
         display: block;
+        box-sizing: border-box;
         width: 100%;
-        min-height: 6.5rem;
+        height: calc(1.45em * 3 + 1.4rem);
         font-family: var(--mono);
         font-size: 16px;
         line-height: 1.45;
@@ -36,8 +41,27 @@
         border-radius: 10px;
         background: #020617;
         color: var(--text);
-        resize: vertical;
       }
+      .playground textarea {
+        resize: none;
+        overflow: hidden;
+      }
+      .playground textarea.is-open {
+        height: min(42vh, calc(1.45em * 12 + 1.4rem));
+        overflow: auto;
+      }
+      .sql-clip {
+        display: none;
+        margin: 0;
+        white-space: pre-wrap;
+        overflow: hidden;
+        cursor: text;
+        text-align: left;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+      .sql-box.is-clipped .sql-clip { display: block; }
+      .sql-box.is-clipped textarea { display: none; }
       .play-actions {
         display: flex;
         flex-wrap: wrap;
@@ -72,7 +96,10 @@
       }
       .sql-out {
         overflow-x: auto;
+        overflow-y: auto;
         max-width: 100%;
+        max-height: 17.5rem;
+        -webkit-overflow-scrolling: touch;
       }
       .sql-out table {
         width: 100%;
@@ -126,7 +153,7 @@
             </div>
           </div>
         </div>
-        <p class="lede" id="lede">用 notes.db 学 SQL。浏览器里可以试，本机用 sqlite3 或 DB Browser。</p>
+        <p class="lede" id="lede">用 chinook.db 学 SQL。浏览器里可以试，本机用 sqlite3 或 DB Browser。</p>
         <label class="search-wrap list-only">
           <span class="visually-hidden" id="search-label">搜索</span>
           <input
@@ -146,12 +173,15 @@
     </header>
 
     <section class="playground" id="playground">
-      <h2 id="play-title">试一试 notes.db</h2>
-      <textarea id="sql-input" spellcheck="false">SELECT * FROM notes;</textarea>
+      <h2 id="play-title">试一试 chinook.db</h2>
+      <div class="sql-box" id="sql-box">
+        <textarea id="sql-input" rows="3" spellcheck="false">SELECT Name FROM artists LIMIT 10;</textarea>
+        <button type="button" class="sql-clip" id="sql-clip" hidden></button>
+      </div>
       <div class="play-actions">
         <button type="button" id="sql-run">运行</button>
         <button type="button" id="sql-reset">重置</button>
-        <button type="button" id="sql-download">下载 notes.db</button>
+        <button type="button" id="sql-download">下载 chinook.db</button>
         <span class="sql-err" id="sql-download-err" role="status" aria-live="polite" hidden></span>
       </div>
       <p class="play-hint" id="sql-open-hint">下载后用 DB Browser 打开该文件</p>
@@ -177,7 +207,7 @@
     <script src="vendor/sql-wasm-binary.js"></script>
     <script src="search-aliases.js"></script>
     <script src="search.js?v=2"></script>
-    <script src="sql-data.js?v=3"></script>
-    <script src="sql-book.js?v=5"></script>
+    <script src="sql-data.js?v=4"></script>
+    <script src="sql-book.js?v=6"></script>
   </body>
 </html>
