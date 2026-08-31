@@ -13,10 +13,14 @@
       .tile-notebooks:hover,
       .tile-notebooks:focus-visible { outline: 1px solid #fb923c; }
       .tile-notebooks .tile-hint,
-      .tile-julia .tile-hint { white-space: normal; }
+      .tile-julia .tile-hint,
+      .tile-r .tile-hint { white-space: normal; }
       .tile-julia { border-top-color: #9558b2; }
       .tile-julia:hover,
       .tile-julia:focus-visible { outline: 1px solid #9558b2; }
+      .tile-r { border-top-color: #276dc3; }
+      .tile-r:hover,
+      .tile-r:focus-visible { outline: 1px solid #276dc3; }
     </style>
   </head>
   <body class="hub-page">
@@ -33,7 +37,7 @@
             </div>
           </div>
         </div>
-        <p class="lede">选一个主题。Linux、线性代数、GitHub、进出手册、SQL、Grok、Julia 已开放；其余制作中。</p>
+        <p class="lede">选一个主题。下列手册均可打开。</p>
         <label class="search-wrap">
           <span class="visually-hidden">搜索手册</span>
           <input
@@ -79,10 +83,10 @@
         <h2 id="tile-julia-title">Julia 入门</h2>
         <p id="tile-julia-hint" class="tile-hint">安装到 REPL、数组与字符串（练习另页）</p>
       </a>
-      <div class="tile tile-soon" aria-disabled="true">
-        <h2>R</h2>
-        <p class="soon">稍后</p>
-      </div>
+      <a class="tile tile-live tile-r" href="r.html">
+        <h2 id="tile-r-title">R 入门</h2>
+        <p id="tile-r-hint" class="tile-hint">安装到向量与数据框（练习另页）</p>
+      </a>
       <a class="tile tile-live tile-notebooks" href="notebooks.html">
         <h2 id="tile-notebooks-title">
           <span class="hub-zh">笔记本</span><span class="hub-en">Notebooks</span>
@@ -101,6 +105,7 @@
     <script src="sql-data.js"></script>
     <script src="grok-data.js"></script>
     <script src="julia-data.js"></script>
-    <script src="app.js?v=18"></script>
+    <script src="r-data.js"></script>
+    <script src="app.js?v=19"></script>
   </body>
 </html>

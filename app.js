@@ -30,11 +30,13 @@ const I18N = {
     exact: "精确匹配",
     home: "首页",
     hubTitle: "学习手册",
-    hubLede: "选一个主题。Linux、线性代数、GitHub、进出手册、SQL、Grok、Julia 已开放；其余制作中。",
+    hubLede: "选一个主题。下列手册均可打开。",
     grokTile: "Grok",
     grokHint: "Build CLI 与 Bot 入门",
     juliaTile: "Julia 入门",
     juliaHint: "安装到 REPL、数组与字符串（练习另页）",
+    rTile: "R 入门",
+    rHint: "安装到向量与数据框（练习另页）",
     hubSkip: "跳到主题",
     linuxTile: "Linux 命令手册",
     linuxHint: "打开手册",
@@ -84,11 +86,13 @@ const I18N = {
     exact: "Exact match",
     home: "Home",
     hubTitle: "Learning handbook",
-    hubLede: "Pick a topic. Linux, linear algebra, GitHub, Enter–Quit, SQL, Grok, and Julia are ready. Others are in progress.",
+    hubLede: "Pick a topic. Every handbook below is open.",
     grokTile: "Grok",
     grokHint: "Build CLI and Bot tutorial",
     juliaTile: "Julia essentials",
     juliaHint: "Install, REPL, arrays and strings (practice on a second page)",
+    rTile: "R essentials",
+    rHint: "Install, vectors, data frames (practice on a second page)",
     hubSkip: "Skip to topics",
     linuxTile: "Linux commands",
     linuxHint: "Open the handbook",
@@ -244,6 +248,7 @@ function hubBookLabel(book) {
   if (book === "sql") return ui.sqlTile;
   if (book === "grok") return ui.grokTile;
   if (book === "julia") return ui.juliaTile;
+  if (book === "r") return ui.rTile;
   return book;
 }
 
@@ -413,6 +418,33 @@ function hubCatalog() {
     };
     addJulia(juliaBook.lab, "julia.html");
     addJulia(juliaBook.practice, "julia-practice.html");
+  }
+  const rBook = window.R_DATA;
+  if (rBook) {
+    const addR = (bundle, href) => {
+      if (!bundle || !bundle.cards) return;
+      const cats = {};
+      (bundle.categories || []).forEach((cat) => {
+        cats[cat.id] = cat;
+      });
+      bundle.cards.forEach((card) => {
+        const cat = cats[card.cat] || {};
+        records.push({
+          names: [card.id, card.name, card.name_en, card.name_zh, card.title_zh, card.title_en],
+          aliases: lookupAliases(card.id, card.name),
+          title: [card.title_zh, card.title_en, card.blurb_zh, card.blurb_en].join(" "),
+          chip: [cat.zh, cat.en, card.cat].join(" "),
+          body: [(card.cmds || []).join(" "), card.detail_zh, card.detail_en, card.answer_zh, card.answer_en].join(" "),
+          book: "r",
+          href,
+          hash: card.id,
+          label: card.name,
+          blurb: state.lang === "en" ? card.blurb_en || card.blurb_zh : card.blurb_zh || card.blurb_en,
+        });
+      });
+    };
+    addR(rBook.lab, "r.html");
+    addR(rBook.practice, "r-practice.html");
   }
   return records;
 }
@@ -914,6 +946,10 @@ function applyChrome() {
     const juliaHint = document.getElementById("tile-julia-hint");
     if (juliaTitle) juliaTitle.textContent = ui.juliaTile;
     if (juliaHint) juliaHint.textContent = ui.juliaHint;
+    const rTitle = document.getElementById("tile-r-title");
+    const rHint = document.getElementById("tile-r-hint");
+    if (rTitle) rTitle.textContent = ui.rTile;
+    if (rHint) rHint.textContent = ui.rHint;
     document.querySelectorAll(".tile-soon .soon").forEach((el) => {
       el.textContent = ui.soon;
     });
