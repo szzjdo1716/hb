@@ -20,4 +20,10 @@ window.SEARCH_ALIASES = {
   INSERT: ["插入", "insert"],
   JOIN: ["连接", "join"],
   "主键": ["primary key", "主键"],
+  "grok-build": ["build", "cli", "终端", "install", "安装"],
+  "grok-bot": ["bot", "插件", "plugin", "应用"],
+  "build-install-unix": ["curl", "install", "安装", "mac", "linux"],
+  "build-install-win": ["windows", "irm", "powershell", "安装"],
+  "bot-plugins": ["plugin", "插件", "gmail", "x"],
+  "bot-download": ["download", "下载", "ios", "mac", "windows"],
 };

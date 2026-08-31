@@ -30,7 +30,9 @@ const I18N = {
     exact: "精确匹配",
     home: "首页",
     hubTitle: "学习手册",
-    hubLede: "选一个主题。Linux、线性代数、GitHub、进出手册、SQL 已开放；其余制作中。",
+    hubLede: "选一个主题。Linux、线性代数、GitHub、进出手册、SQL、Grok 已开放；其余制作中。",
+    grokTile: "Grok",
+    grokHint: "Build CLI 与 Bot 入门",
     hubSkip: "跳到主题",
     linuxTile: "Linux 命令手册",
     linuxHint: "打开手册",
@@ -80,7 +82,9 @@ const I18N = {
     exact: "Exact match",
     home: "Home",
     hubTitle: "Learning handbook",
-    hubLede: "Pick a topic. Linux, linear algebra, GitHub, Enter–Quit, and SQL are ready. Others are in progress.",
+    hubLede: "Pick a topic. Linux, linear algebra, GitHub, Enter–Quit, SQL, and Grok are ready. Others are in progress.",
+    grokTile: "Grok",
+    grokHint: "Build CLI and Bot tutorial",
     hubSkip: "Skip to topics",
     linuxTile: "Linux commands",
     linuxHint: "Open the handbook",
@@ -234,6 +238,7 @@ function hubBookLabel(book) {
   if (book === "enter") return ui.enterTile;
   if (book === "github") return ui.githubTile;
   if (book === "sql") return ui.sqlTile;
+  if (book === "grok") return ui.grokTile;
   return book;
 }
 
@@ -349,6 +354,28 @@ function hubCatalog() {
         body: [card.sql, card.try_sql].join(" "),
         book: "sql",
         href: "sql.html",
+        hash: card.id,
+        label: card.name,
+        blurb: state.lang === "en" ? card.blurb_en || card.blurb_zh : card.blurb_zh || card.blurb_en,
+      });
+    });
+  }
+  const grokBook = window.GROK_DATA;
+  if (grokBook && grokBook.cards) {
+    const cats = {};
+    (grokBook.categories || []).forEach((cat) => {
+      cats[cat.id] = cat;
+    });
+    grokBook.cards.forEach((card) => {
+      const cat = cats[card.cat] || {};
+      records.push({
+        names: [card.id, card.name, card.name_en, card.title_zh, card.title_en],
+        aliases: lookupAliases(card.id, card.name),
+        title: [card.title_zh, card.title_en, card.blurb_zh, card.blurb_en].join(" "),
+        chip: [cat.zh, cat.en, card.cat].join(" "),
+        body: [(card.cmds || []).join(" "), card.detail_zh, card.detail_en].join(" "),
+        book: "grok",
+        href: "grok.html",
         hash: card.id,
         label: card.name,
         blurb: state.lang === "en" ? card.blurb_en || card.blurb_zh : card.blurb_zh || card.blurb_en,
@@ -847,6 +874,10 @@ function applyChrome() {
     const sqlHint = document.getElementById("tile-sql-hint");
     if (sqlTitle) sqlTitle.textContent = ui.sqlTile;
     if (sqlHint) sqlHint.textContent = ui.sqlHint;
+    const grokTitle = document.getElementById("tile-grok-title");
+    const grokHint = document.getElementById("tile-grok-hint");
+    if (grokTitle) grokTitle.textContent = ui.grokTile;
+    if (grokHint) grokHint.textContent = ui.grokHint;
     document.querySelectorAll(".tile-soon .soon").forEach((el) => {
       el.textContent = ui.soon;
     });

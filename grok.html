@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Grok 入门</title>
+    <link rel="stylesheet" href="enter.css?v=8" />
+    <style>
+      .grok-page .cmd[data-cat="what"] { border-top-color: #c084fc; }
+      .grok-page .cmd[data-cat="when"] { border-top-color: #38bdf8; }
+      .grok-page .cmd[data-cat="build"] { border-top-color: #34d399; }
+      .grok-page .cmd[data-cat="bot"] { border-top-color: #fb923c; }
+      .grok-page .cmd[data-cat="quota"] { border-top-color: #fbbf24; }
+      .grok-page .cmd[data-cat="chaos"] { border-top-color: #fda4af; }
+      .grok-page .cmd[data-cat="cases"] { border-top-color: #67e8f9; }
+      .grok-shot {
+        display: block;
+        width: 100%;
+        max-width: 36rem;
+        margin: 0.7rem 0 0;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+      }
+      .community {
+        margin-left: 0.35rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        color: #fbbf24;
+      }
+      .when-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.5rem 0 1rem;
+        font-size: 0.92rem;
+      }
+      .when-table th,
+      .when-table td {
+        text-align: left;
+        vertical-align: top;
+        padding: 0.4rem 0.55rem 0.4rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .when-table th { color: var(--muted); }
+      .sql-sticky {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 40;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.75rem calc(0.45rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(15, 23, 42, 0.94);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--line);
+      }
+      .sql-sticky[hidden] { display: none !important; }
+      .sql-sticky button {
+        font: inherit;
+        font-weight: 650;
+        min-height: 44px;
+        padding: 0.4rem 0.9rem;
+        border: 0;
+        border-radius: 10px;
+        background: #38bdf8;
+        color: #0f172a;
+        cursor: pointer;
+      }
+      .grok-page.sql-has-sticky { padding-bottom: 5.25rem; }
+      .grok-page .sum code,
+      .grok-page .prose code {
+        font-family: var(--mono);
+        font-size: 0.9em;
+        color: var(--accent-hot);
+      }
+    </style>
+  </head>
+  <body class="enter-page grok-page view-list">
+    <a class="skip-link" href="#results">跳到卡片列表</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="header-top">
+          <p class="nav-home">
+            <a href="index.html" id="home-link" class="list-only">首页</a>
+            <a href="grok.html" id="header-back" class="detail-only">返回列表</a>
+          </p>
+          <div class="title-line">
+            <h1 id="page-title">Grok 入门</h1>
+            <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" data-lang="zh" aria-pressed="true">中</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
+        </div>
+        <p class="lede" id="lede">
+          Grok Build 在你的终端改本机文件。Grok Bot 是应用里的云电脑队友。grok.com 聊天是第三件事。
+        </p>
+        <label class="search-wrap list-only">
+          <span class="visually-hidden" id="search-label">搜索</span>
+          <input
+            id="search"
+            type="search"
+            placeholder="build, 安装, 插件"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
+        <div class="toolbar list-only" id="toolbar">
+          <button type="button" class="chip-toggle cat-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
+          <nav id="categories" class="chips" aria-label="分类"></nav>
+          <p class="status" id="status"></p>
+        </div>
+      </div>
+    </header>
+
+    <main id="results" class="results wrap list-only" aria-live="polite"></main>
+    <p class="empty wrap list-only" id="empty" hidden>没有匹配。试 build / 安装 / 插件</p>
+
+    <div id="detail" class="detail-wrap wrap detail-only" hidden></div>
+
+    <nav class="sql-sticky" id="sql-sticky" hidden>
+      <button type="button" id="sql-back-list">返回列表</button>
+    </nav>
+
+    <footer class="site-footer">
+      <p id="footer">
+        摘要自 x.ai 公开页，不是文档原文。
+        <a href="https://x.ai/build" target="_blank" rel="noopener noreferrer">x.ai/build</a>
+        ·
+        <a href="https://x.ai/bot" target="_blank" rel="noopener noreferrer">x.ai/bot</a>
+        ·
+        <a href="https://docs.x.ai/build/overview" target="_blank" rel="noopener noreferrer">docs.x.ai/build/overview</a>
+      </p>
+    </footer>
+
+    <script src="search-aliases.js"></script>
+    <script src="search.js?v=2"></script>
+    <script src="grok-data.js"></script>
+    <script src="grok-page.js"></script>
+  </body>
+</html>

@@ -673,6 +673,15 @@ a:focus-visible {
   outline-color: #34d399;
 }
 
+.tile-grok {
+  border-top-color: #c084fc;
+}
+
+.tile-grok:hover,
+.tile-grok:focus-visible {
+  outline-color: #c084fc;
+}
+
 .tile-soon {
   opacity: 0.55;
   cursor: default;
