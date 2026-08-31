@@ -32,7 +32,8 @@
       .nb-main li {
         margin: 0.35rem 0;
       }
-      .nb-main ul {
+      .nb-main ul,
+      .nb-main ol {
         margin: 0.25rem 0 0.6rem;
         padding-left: 1.2rem;
       }
@@ -85,10 +86,10 @@
         <a
           class="nb-open"
           id="open-btn"
-          href="https://jupyterlite.github.io/demo/"
+          href="https://jupyterlite.github.io/demo/repl/index.html?kernel=python"
           target="_blank"
           rel="noopener noreferrer"
-          >打开 JupyterLite</a
+          >最简单：Python 一行试试</a
         >
       </p>
 
@@ -104,27 +105,21 @@
       </p>
 
       <h2 id="links-title">详情</h2>
-      <ul class="nb-links">
-        <li>
-          <a href="https://jupyterlite.github.io/demo/" target="_blank" rel="noopener noreferrer"
-            >https://jupyterlite.github.io/demo/</a
-          >
-        </li>
-        <li>
-          <a href="https://jupyterlite.github.io/demo/lab/" target="_blank" rel="noopener noreferrer"
-            >https://jupyterlite.github.io/demo/lab/</a
-          >
-          <span id="lab-note">（Lab，新标签打开，不内嵌）</span>
-        </li>
-        <li>
-          <a href="https://github.com/jupyterlite/jupyterlite" target="_blank" rel="noopener noreferrer"
-            >https://github.com/jupyterlite/jupyterlite</a
-          >
-        </li>
-        <li>
-          <a href="https://pyodide.org" target="_blank" rel="noopener noreferrer">https://pyodide.org</a>
-        </li>
-      </ul>
+      <ol class="nb-steps">
+        <li id="step-1">等到页面显示 Python（第一次加载可能要一分钟）。</li>
+        <li id="step-2">点输入框，输入 2+2</li>
+        <li id="step-3">Shift+Enter（或点 Run）。应该看到 4。</li>
+        <li id="step-4">别管文件列表。不要选 JavaScript 内核。</li>
+      </ol>
+      <p>
+        <a
+          id="lab-link"
+          href="https://jupyterlite.github.io/demo/lab/index.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          >完整 JupyterLab（文件、多内核，容易晕）</a
+        >
+      </p>
     </main>
 
     <footer class="site-footer wrap">
@@ -140,14 +135,18 @@
           home: "首页",
           skip: "跳到正文",
           lede: "这是浏览器里的 Jupyter。内核是 Python（Pyodide）。不是 bash，不是 Julia，也不是你电脑上的 Python。第一次加载可能较慢。",
-          open: "打开 JupyterLite",
+          open: "最简单：Python 一行试试",
           whenTitle: "何时用",
           whenBody: "在手机或电脑浏览器里试 Python，不用安装。",
           notTitle: "何时不用",
           notBody:
             'Linux 命令、Grok Build、Grok Bot、本站的 SQL 笔记本。那些请用 <a href="linux.html">Linux</a>、<a href="grok.html">Grok</a>、<a href="sql.html">SQL</a>。',
           linksTitle: "详情",
-          labNote: "（Lab，新标签打开，不内嵌）",
+          step1: "等到页面显示 Python（第一次加载可能要一分钟）。",
+          step2: "点输入框，输入 2+2",
+          step3: "Shift+Enter（或点 Run）。应该看到 4。",
+          step4: "别管文件列表。不要选 JavaScript 内核。",
+          lab: "完整 JupyterLab（文件、多内核，容易晕）",
           footer: "本页只链到官网演示，不内嵌 JupyterLite，也不附带 Pyodide。",
         },
         en: {
@@ -156,14 +155,18 @@
           home: "Home",
           skip: "Skip to content",
           lede: "This is Jupyter in the browser. The kernel is Python (Pyodide). Not bash, not Julia, not the Python on this device. The first load can be slow.",
-          open: "Open JupyterLite",
+          open: "Simplest: Python REPL",
           whenTitle: "When to use",
           whenBody: "Try Python in a phone or desktop browser with no install.",
           notTitle: "When not",
           notBody:
             'Linux commands, Grok Build, Grok Bot, or this site’s SQL notebook. Use <a href="linux.html">Linux</a>, <a href="grok.html">Grok</a>, and <a href="sql.html">SQL</a> instead.',
           linksTitle: "Details",
-          labNote: "(Lab — new tab, not embedded)",
+          step1: "Wait until it says Python (first load can take a minute).",
+          step2: "Click the input box. Type 2+2",
+          step3: "Shift+Enter (or Run). You should see 4.",
+          step4: "Ignore any file list. Do not pick JavaScript kernel.",
+          lab: "Full JupyterLab (files and kernels — easy to get lost)",
           footer: "This page only links to the official demo. It does not embed JupyterLite or ship Pyodide.",
         },
       };
@@ -210,7 +213,11 @@
         const notTitle = document.getElementById("not-title");
         const notBody = document.getElementById("not-body");
         const linksTitle = document.getElementById("links-title");
-        const labNote = document.getElementById("lab-note");
+        const step1 = document.getElementById("step-1");
+        const step2 = document.getElementById("step-2");
+        const step3 = document.getElementById("step-3");
+        const step4 = document.getElementById("step-4");
+        const labLink = document.getElementById("lab-link");
         const footer = document.getElementById("footer");
         if (skip) skip.textContent = ui.skip;
         if (home) home.textContent = ui.home;
@@ -222,7 +229,11 @@
         if (notTitle) notTitle.textContent = ui.notTitle;
         if (notBody) notBody.innerHTML = ui.notBody;
         if (linksTitle) linksTitle.textContent = ui.linksTitle;
-        if (labNote) labNote.textContent = ui.labNote;
+        if (step1) step1.textContent = ui.step1;
+        if (step2) step2.textContent = ui.step2;
+        if (step3) step3.textContent = ui.step3;
+        if (step4) step4.textContent = ui.step4;
+        if (labLink) labLink.textContent = ui.lab;
         if (footer) footer.textContent = ui.footer;
         document.querySelectorAll("#lang-toggle [data-lang]").forEach((btn) => {
           btn.setAttribute("aria-pressed", btn.dataset.lang === state.lang ? "true" : "false");
