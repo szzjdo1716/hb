@@ -5,8 +5,10 @@ window.GROK_DATA = {
     { id: "build", zh: "Build", en: "Build" },
     { id: "bot", zh: "Bot", en: "Bot" },
     { id: "quota", zh: "额度", en: "Quota" },
+    { id: "plans", zh: "套餐", en: "Plans" },
     { id: "chaos", zh: "乱局", en: "Chaos" },
     { id: "cases", zh: "用例", en: "Use cases" },
+    { id: "tips", zh: "技巧", en: "Tips" },
   ],
   cards: [
     {
@@ -371,6 +373,108 @@ window.GROK_DATA = {
       detail_en: "When the pool is empty, wait for refresh or upgrade. Do not bet on a free tier on the same login.",
     },
     {
+      id: "plans-what",
+      cat: "plans",
+      name: "套餐是什么",
+      name_en: "What the paid tier is",
+      title_zh: "grok.com 付费档：Chat、Build、App Builder、Imagine 共用每周池",
+      title_en: "grok.com paid tier: Chat, Build, App Builder, Imagine share one weekly pool",
+      blurb_zh: "grok.com 付费档给的是每周用量池。网页聊天、Build、App Builder、Imagine 抽同一条。",
+      blurb_en: "The grok.com paid tier is a weekly usage pool. Chat, Build, App Builder, and Imagine draw from that same bar.",
+      cmds: ["https://x.ai/pricing"],
+      official: "https://x.ai/pricing",
+      extra_links: [{ href: "https://grok.com/plans", zh: "grok.com 套餐", en: "grok.com plans" }],
+      detail_zh:
+        "截至 2026 年 8 月 31 日。价格以当天官网为准，本页不抄数字。\n这不是 X 上的 Premium 油箱，也不是 CLI 顶栏的 500K。",
+      detail_en:
+        "As of 31 Aug 2026. Prices: see the official page the same day — this page does not copy the numbers.\nThis is not the X Premium tank, and not the CLI header 500K.",
+    },
+    {
+      id: "plans-links",
+      cat: "plans",
+      name: "套餐链接",
+      name_en: "Plan links",
+      title_zh: "价格以当天官网为准",
+      title_en: "Prices: see the official page the same day",
+      blurb_zh: "看套餐和当天价格，只打开这两页。不要抄博客上的数字。",
+      blurb_en: "For plans and the price that day, open these two pages. Do not copy numbers from blogs.",
+      cmds: ["https://x.ai/pricing", "https://grok.com/plans"],
+      official: "https://x.ai/pricing",
+      extra_links: [{ href: "https://grok.com/plans", zh: "grok.com 套餐", en: "grok.com plans" }],
+      detail_zh:
+        "https://x.ai/pricing 是官网定价。https://grok.com/plans 是 grok.com 套餐页。\n截至 2026 年 8 月 31 日。",
+      detail_en:
+        "https://x.ai/pricing is the official pricing page. https://grok.com/plans is the grok.com plans page.\nAs of 31 Aug 2026.",
+    },
+    {
+      id: "plans-tiers",
+      cat: "plans",
+      name: "档位",
+      name_en: "Tiers",
+      title_zh: "Lite、SuperGrok、SuperGrok Plus、SuperGrok Heavy",
+      title_en: "Lite, SuperGrok, SuperGrok Plus, SuperGrok Heavy",
+      blurb_zh: "grok.com 档位：Lite、SuperGrok、SuperGrok Plus、SuperGrok Heavy。X Premium / Premium+ 是 X 上的 Grok，不是第二条 grok.com 油箱。",
+      blurb_en: "grok.com tiers: Lite, SuperGrok, SuperGrok Plus, SuperGrok Heavy. X Premium / Premium+ is Grok-on-X, not a second grok.com tank.",
+      cmds: ["https://x.ai/pricing"],
+      official: "https://x.ai/pricing",
+      extra_links: [{ href: "https://grok.com/plans", zh: "grok.com 套餐", en: "grok.com plans" }],
+      detail_zh:
+        "截至 2026 年 8 月 31 日（价格以当天官网为准）：\n官网比较表里的个人档是 SuperGrok Lite、SuperGrok、SuperGrok Plus、SuperGrok Heavy。Lite 就是 SuperGrok Lite 的简称。\nX Premium / Premium+ 买的是 X 里的 Grok，不会再给你一条独立的 grok.com 每周池。\n额外额度加在同一登录上，不是另开一个账号。\n没有家庭套餐。",
+      detail_en:
+        "As of 31 Aug 2026 (prices: see the official page the same day):\nThe consumer grok.com row is SuperGrok Lite, SuperGrok, SuperGrok Plus, SuperGrok Heavy. Lite is SuperGrok Lite.\nX Premium / Premium+ is Grok-on-X, not a second grok.com tank.\nExtra credits land on the SAME login — not a second account.\nNo family plan.",
+    },
+    {
+      id: "plans-share",
+      cat: "plans",
+      name: "额度怎么分",
+      name_en: "How the meters split",
+      title_zh: "CLI 顶栏只算这一窗口；Bot 常有自己的条",
+      title_en: "CLI header is this window only; Bot often has its own meter",
+      blurb_zh: "CLI 顶栏例如 160K/500K 只表示这个窗口，不是每周条。Bot 常有自己的计量。SuperGrok 到 100% ≠ 同一登录还能免费用 10 次聊天。",
+      blurb_en: "A CLI header such as 160K/500K is THIS window only, not the weekly bar. Bot often has its own meter. SuperGrok at 100% is not free 10 chats on the same login.",
+      cmds: ["https://grok.com"],
+      official: "https://x.ai/pricing",
+      extra_links: [
+        { href: "https://grok.com/plans", zh: "grok.com 套餐", en: "grok.com plans" },
+        { href: "https://x.ai/news/introducing-grok-bot", zh: "Bot 官方介绍", en: "Official Bot intro" },
+      ],
+      detail_zh:
+        "CLI 顶栏的 160K/500K 只表示这个窗口能记住的上下文，不是 grok.com 每周条。\nBot：官方介绍写过自带用量、不计入 grok.com / Cursor 套餐。若某张卡只是社区观察、官网没写，会标 社区。\n截至 2026 年 8 月 31 日：SuperGrok 用到 100% ≠ 同一登录掉回免费 10 次聊天。",
+      detail_en:
+        "160K/500K in the CLI header is this window’s context, not the weekly grok.com bar.\nBot: the official intro says Bot has its own usage, separate from grok.com / Cursor plans. If a card is only a community observation, it is labeled 社区.\nAs of 31 Aug 2026: SuperGrok at 100% is not free 10 chats on the same login.",
+    },
+    {
+      id: "plans-choose",
+      cat: "plans",
+      name: "怎么选",
+      name_en: "How to choose",
+      title_zh: "每周都顶满 → 一档 Plus，不要两个 SuperGrok 账号",
+      title_en: "Hit SuperGrok every week → one Plus, not two SuperGrok accounts",
+      blurb_zh: "每周都把 SuperGrok 用满：买一档 Plus，不要开两个 SuperGrok 账号。只有部分很重的周：SuperGrok + 同一登录上的额外额度。",
+      blurb_en: "If you hit SuperGrok every week: one Plus, not two SuperGrok accounts. If only some weeks are heavy: SuperGrok + extra credits on the same login.",
+      cmds: ["https://x.ai/pricing"],
+      official: "https://x.ai/pricing",
+      extra_links: [{ href: "https://grok.com/plans", zh: "grok.com 套餐", en: "grok.com plans" }],
+      when_rows: [
+        {
+          job_zh: "每周都把 SuperGrok 用满",
+          job_en: "You hit SuperGrok every week",
+          pick_zh: "开一档 Plus，不要两个 SuperGrok 账号",
+          pick_en: "One Plus, not two SuperGrok accounts",
+        },
+        {
+          job_zh: "只有部分很重的周",
+          job_en: "Only some weeks are heavy",
+          pick_zh: "SuperGrok + 同一登录上的额外额度",
+          pick_en: "SuperGrok + extra credits on the same login",
+        },
+      ],
+      detail_zh:
+        "截至 2026 年 8 月 31 日。价格以当天官网为准。\n两个 SuperGrok 账号不会把额度加成一条，只会让你付两份。",
+      detail_en:
+        "As of 31 Aug 2026. Prices: see the official page the same day.\nTwo SuperGrok logins do not merge into one bigger tank; you just pay twice.",
+    },
+    {
       id: "chaos-folder",
       cat: "chaos",
       name: "文件夹错了",
@@ -497,6 +601,75 @@ window.GROK_DATA = {
         "社区想法：Bot 当编排，Build 改本机仓库。\n现在只要记住：没有 Build 登录就做不到。\n以后加更多 用例 时不必改 Build 安装那几张卡。",
       detail_en:
         "Community idea: Bot orchestrates, Build edits the local repo.\nFor now: no Build login, no handoff.\nLater 用例 can grow without rewriting the Build install cards.",
+    },
+    {
+      id: "tips-new-chat",
+      cat: "tips",
+      name: "窗口大了就新开",
+      name_en: "New chat when the window is large",
+      title_zh: "顶栏大约超过 130K/500K 时，下一次粘贴会把旧 token 再送一遍",
+      title_en: "When the header is about 130K/500K, the next paste re-sends the old tokens",
+      blurb_zh: "Grok Build 顶栏大约超过 130K/500K 时，下一次粘贴会把旧 token 再送一遍，grok.com 每周条会猛跳。",
+      blurb_en: "When Grok Build’s header exceeds about 130K/500K, the next paste re-sends all old tokens and the weekly grok.com bar jumps.",
+      cmds: ["/quit"],
+      official: "https://docs.x.ai/build/overview",
+      steps: [
+        {
+          zh: "退出：Ctrl+Q，或在 `>` 后输入 `/quit`。",
+          en: "Quit: Ctrl+Q, or type `/quit` at the `>` prompt.",
+        },
+        {
+          zh: "在同一个文件夹再打开 Grok Build（系统外壳里再运行 `grok`）。",
+          en: "Open Grok Build again in the same folder (run `grok` from the system shell).",
+        },
+        {
+          zh: "贴大约五行摘要 + 这次的新任务。不要把整段旧对话再贴回去。",
+          en: "Paste a 5-line recap + the NEW job. Do not paste the whole old conversation back in.",
+        },
+        {
+          zh: "只有还在修它刚写的那些文件时，才继续用同一个 `>`。",
+          en: "Keep the same `>` only if you are still fixing the files it just wrote.",
+        },
+      ],
+      detail_zh:
+        "窗口越大，每一次 Run 越容易把旧 token 再送一遍，每周条跳得越快。\n新任务、新主题：退出再开。继续修刚写的文件：可以留在同一个 `>`。",
+      detail_en:
+        "The fatter the window, the more every new Run re-sends old tokens, and the weekly bar jumps faster.\nNew job or new subject: quit and reopen. Still fixing the files it just wrote: you may keep the same `>`.",
+    },
+    {
+      id: "tips-two-meters",
+      cat: "tips",
+      name: "两条计量",
+      name_en: "Two meters",
+      title_zh: "grok.com 每周 % ≠ CLI 的 500K 窗口",
+      title_en: "Weekly % on grok.com ≠ the 500K CLI window",
+      blurb_zh: "grok.com 上的每周 % 不是 CLI 的 500K 窗口。两条都会耗；窗口又肥，每一次 Run 都更贵。",
+      blurb_en: "Weekly % on grok.com is not the 500K CLI window. Both can drain; a fat window makes every new Run expensive.",
+      cmds: ["https://grok.com"],
+      official: "https://grok.com",
+      extra_links: [{ href: "https://docs.x.ai/build/overview", zh: "Build 文档", en: "Build docs" }],
+      detail_zh:
+        "grok.com 每周条：Chat / Build / App Builder / Imagine 共用。\nCLI 500K：只是这一窗口的上下文。\n窗口肥了，即使每周条还没满，每一次新 Run 也会更贵。",
+      detail_en:
+        "The grok.com weekly bar is shared by Chat / Build / App Builder / Imagine.\nThe CLI 500K is only this window’s context.\nA fat window makes every new Run expensive even when the weekly bar is not empty.",
+    },
+    {
+      id: "tips-recap",
+      cat: "tips",
+      name: "开场摘要模板",
+      name_en: "Recap template",
+      title_zh: "新窗口先贴这几行",
+      title_en: "Paste these lines in a new window",
+      blurb_zh: "项目文件夹；要改哪一页；不要改无关的手册；只用官网链接。",
+      blurb_en: "Project folder; what page to edit; do not change unrelated books; official links only.",
+      cmds: [
+        "项目文件夹：\n要改的页面：\n不要改无关的手册。\n只用官网链接。\n\nProject folder:\nPage to edit:\nDo not change unrelated books.\nOfficial links only.",
+      ],
+      official: "https://docs.x.ai/build/overview",
+      detail_zh:
+        "退出后再开时，把上面盒子复制到新的 `>`，补上文件夹和文件名，再加上这次的新任务。\n只说这一次要改什么。不要把旧窗口的整段对话贴回来。",
+      detail_en:
+        "After quit, paste the box into a new `>`, fill in the folder and file, then the NEW job.\nSay only this job. Do not paste the whole old window back in.",
     },
   ],
 };
