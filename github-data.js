@@ -11,6 +11,23 @@ window.GITHUB_DATA = {
   ],
   commands: [
     {
+      name: "git vs GitHub",
+      category: "setup",
+      summary_en: "git is a program on the computer. GitHub is a website. git commit saves a snapshot on this Mac — no GitHub account needed. git push and git pull send or get snapshots via GitHub.",
+      summary_zh: "git 是电脑上的程序。GitHub 是网站。git commit 把快照保存在这台 Mac 上，不需要 GitHub 账号。git push 和 git pull 经 GitHub 送出或取回快照。",
+      example: "xcode-select --install\n# Ubuntu/Debian:\nsudo apt install build-essential git\n# Fedora:\nsudo dnf groupinstall \"Development Tools\"\nsudo dnf install git",
+      options: [
+        { flag: "Mac git", meaning_en: "Use Apple git from Xcode Command Line Tools (about 1–2 GB). Install: xcode-select --install. Full Xcode app is much bigger — skip it for git.", meaning_zh: "用苹果的 git：Xcode 命令行工具（大约 1–2 GB）。安装：xcode-select --install。完整 Xcode 很大，只为 git 不必装。" },
+        { flag: "make / compile", meaning_en: "make and compile on a Mac also come from those tools. Homebrew is extra, not from Apple.", meaning_zh: "Mac 上的 make 和编译也来自这套工具。Homebrew 是额外的，不是苹果自带。" },
+        { flag: "Linux", meaning_en: "Ubuntu/Debian: install build-essential and git. Fedora: Development Tools and git.", meaning_zh: "Ubuntu/Debian 安装 build-essential 和 git。Fedora 安装 Development Tools 和 git。" },
+        { flag: "two computers", meaning_en: "git pull when you sit down, git push when files change. Cursor/Build chat does not travel with git.", meaning_zh: "坐下先 git pull，文件改了再 git push。Cursor/Build 的对话不会随 git 走。" },
+      ],
+      links: [
+        { label: "git-scm.com", url: "https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" },
+        { label: "docs.github.com", url: "https://docs.github.com/en/get-started/using-git/about-git" },
+      ],
+    },
+    {
       name: "git config",
       category: "setup",
       summary_en: "Sets your commit author name and email. This is a label on commits, not your GitHub login.",
