@@ -14,13 +14,21 @@
       .tile-notebooks:focus-visible { outline: 1px solid #fb923c; }
       .tile-notebooks .tile-hint,
       .tile-julia .tile-hint,
-      .tile-r .tile-hint { white-space: normal; }
+      .tile-r .tile-hint,
+      .tile-slangs .tile-hint,
+      .tile-emoji .tile-hint { white-space: normal; }
       .tile-julia { border-top-color: #9558b2; }
       .tile-julia:hover,
       .tile-julia:focus-visible { outline: 1px solid #9558b2; }
       .tile-r { border-top-color: #276dc3; }
       .tile-r:hover,
       .tile-r:focus-visible { outline: 1px solid #276dc3; }
+      .tile-slangs { border-top-color: #f472b6; }
+      .tile-slangs:hover,
+      .tile-slangs:focus-visible { outline: 1px solid #f472b6; }
+      .tile-emoji { border-top-color: #fbbf24; }
+      .tile-emoji:hover,
+      .tile-emoji:focus-visible { outline: 1px solid #fbbf24; }
     </style>
   </head>
   <body class="hub-page">
@@ -95,6 +103,22 @@
           <span class="hub-zh">在浏览器打开 JupyterLite（Python）</span><span class="hub-en">Open JupyterLite in the browser (Python)</span>
         </p>
       </a>
+      <a class="tile tile-live tile-slangs" href="slangs.html">
+        <h2 id="tile-slangs-title">
+          <span class="hub-zh">Slangs on X</span><span class="hub-en">Slangs on X</span>
+        </h2>
+        <p id="tile-slangs-hint" class="tile-hint">
+          <span class="hub-zh">说法、中英一行、一条例句</span><span class="hub-en">Term, one bilingual line, one sample</span>
+        </p>
+      </a>
+      <a class="tile tile-live tile-emoji" href="emoji.html">
+        <h2 id="tile-emoji-title">
+          <span class="hub-zh">日常表情</span><span class="hub-en">Everyday emoji</span>
+        </h2>
+        <p id="tile-emoji-hint" class="tile-hint">
+          <span class="hub-zh">300 个日常表情</span><span class="hub-en">300 everyday emoji</span>
+        </p>
+      </a>
     </main>
     <script src="search-aliases.js"></script>
     <script src="search.js?v=2"></script>
@@ -106,6 +130,8 @@
     <script src="grok-data.js"></script>
     <script src="julia-data.js"></script>
     <script src="r-data.js"></script>
-    <script src="app.js?v=19"></script>
+    <script src="slangs-data.js"></script>
+    <script src="emoji-data.js"></script>
+    <script src="app.js?v=20"></script>
   </body>
 </html>

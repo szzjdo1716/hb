@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Slangs on X</title>
+    <link rel="stylesheet" href="style.css?v=17" />
+    <style>
+      .slang-page .cmd[data-slug="slang"] { border-top-color: #f472b6; }
+      .slang-page .cmd[data-slug="phrase"] { border-top-color: #38bdf8; }
+      .slang-page .cmd[data-slug="cultural"] { border-top-color: #fbbf24; }
+      .slang-page .cmd[data-slug="acronym"] { border-top-color: #34d399; }
+      .lex-page .cmd-head code,
+      .lex-page .sum,
+      .lex-page .sample-line {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .lex-page .cmd-head.static { cursor: default; }
+      .lex-page .sample-line {
+        margin: 0.4rem 0;
+        padding: 0.55rem 0.75rem;
+        background: #020617;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+      }
+      .lex-page .cmd-body p { margin: 0.35rem 0; }
+    </style>
+  </head>
+  <body class="lex-page slang-page" data-book="slangs">
+    <a class="skip-link" href="#results">跳到词条</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="header-top">
+          <p class="nav-home"><a href="index.html" id="home-link">首页</a></p>
+          <div class="title-line">
+            <h1 id="page-title">Slangs on X</h1>
+            <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" data-lang="zh" aria-pressed="true">中</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
+        </div>
+        <p class="lede" id="lede">每条一个说法、一行中英、一句例子。没有外链。</p>
+        <label class="search-wrap">
+          <span class="visually-hidden" id="search-label">搜索俚语</span>
+          <input
+            id="search"
+            type="search"
+            placeholder="based, 有种, cooked"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p class="search-hint" id="search-hint">中文或英文都可以。</p>
+        </label>
+        <div class="toolbar" id="toolbar">
+          <button type="button" class="chip-toggle cat-toggle" id="chip-toggle" aria-expanded="false" aria-controls="categories">分类 ▾</button>
+          <nav id="categories" class="chips" aria-label="分类"></nav>
+          <p class="status" id="status"></p>
+        </div>
+      </div>
+    </header>
+
+    <main id="results" class="results wrap" aria-live="polite"></main>
+    <p class="empty wrap" id="empty" hidden>没有匹配。试 based / 有种 / cooked</p>
+
+    <footer class="site-footer wrap">
+      <p id="footer">每条只有说法、一行中英、一句例子。本页没有外链。</p>
+    </footer>
+
+    <script src="search-aliases.js"></script>
+    <script src="search.js?v=2"></script>
+    <script src="slangs-data.js"></script>
+    <script src="lexicon-page.js"></script>
+  </body>
+</html>
