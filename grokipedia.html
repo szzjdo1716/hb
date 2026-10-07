@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Grokipedia</title>
+    <link rel="stylesheet" href="style.css?v=17" />
+    <style>
+      .grokipedia-page a:not(.skip-link):not(.gp-open),
+      .grokipedia-page a:not(.skip-link):not(.gp-open):link,
+      .grokipedia-page a:not(.skip-link):not(.gp-open):visited {
+        color: var(--accent-hot);
+      }
+      .grokipedia-page a:not(.skip-link):not(.gp-open):visited {
+        color: #5eead4;
+      }
+      .grokipedia-page a:not(.skip-link):not(.gp-open):hover,
+      .grokipedia-page a:not(.skip-link):not(.gp-open):focus-visible {
+        color: #ccfbf1;
+        text-decoration: underline;
+      }
+      .gp-main {
+        padding-top: 1.2rem;
+        padding-bottom: 2rem;
+      }
+      .gp-main p {
+        margin: 0.35rem 0;
+      }
+      .gp-open {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        margin: 0.7rem 0 0.4rem;
+        padding: 0.45rem 1.15rem;
+        border-radius: 10px;
+        background: #14b8a6;
+        color: #042f2e;
+        font-weight: 650;
+        text-decoration: none;
+      }
+      .gp-open:hover,
+      .gp-open:focus-visible {
+        background: #5eead4;
+        color: #042f2e;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body class="grokipedia-page">
+    <a class="skip-link" href="#main">跳到正文</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="header-top">
+          <p class="nav-home">
+            <a href="index.html" id="home-link">首页</a>
+          </p>
+          <div class="title-line">
+            <h1 id="page-title">Grokipedia</h1>
+            <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" data-lang="zh" aria-pressed="true">中</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
+        </div>
+        <p class="lede" id="lede">
+          xAI 百科。10月6日的个人副本在希捷硬盘上有 5,003,963 个可用页面。本站不托管这些页面。
+        </p>
+      </div>
+    </header>
+
+    <main id="main" class="wrap gp-main">
+      <p>
+        <a
+          class="gp-open"
+          id="open-btn"
+          href="https://grokipedia.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >打开 grokipedia.com</a
+        >
+      </p>
+    </main>
+
+    <footer class="site-footer wrap">
+      <p id="footer">本页只链到 grokipedia.com。百科页面不复制进本站。10月6日的个人副本留在希捷硬盘上。</p>
+    </footer>
+
+    <script>
+      const LANG_KEY = "hb-lang";
+      const I18N = {
+        zh: {
+          htmlLang: "zh-CN",
+          title: "Grokipedia",
+          home: "首页",
+          skip: "跳到正文",
+          lede: "xAI 百科。10月6日的个人副本在希捷硬盘上有 5,003,963 个可用页面。本站不托管这些页面。",
+          open: "打开 grokipedia.com",
+          footer: "本页只链到 grokipedia.com。百科页面不复制进本站。10月6日的个人副本留在希捷硬盘上。",
+        },
+        en: {
+          htmlLang: "en",
+          title: "Grokipedia",
+          home: "Home",
+          skip: "Skip to content",
+          lede: "xAI encyclopedia. The 6 Oct personal dump has 5,003,963 usable pages on the Seagate, not hosted here.",
+          open: "Open grokipedia.com",
+          footer: "This page only links to grokipedia.com. Encyclopedia pages are not copied here. The 6 Oct personal dump stays on the Seagate.",
+        },
+      };
+
+      const state = { lang: readLang() };
+
+      function readLang() {
+        try {
+          const params = new URLSearchParams(location.search);
+          const langParam = params.get("lang");
+          if (langParam === "en" || langParam === "zh") {
+            saveLang(langParam);
+            return langParam;
+          }
+          const saved = localStorage.getItem(LANG_KEY);
+          if (saved === "en") return "en";
+          if (saved === "zh") return "zh";
+        } catch {
+          /* ignore */
+        }
+        return "zh";
+      }
+
+      function saveLang(lang) {
+        const value = lang === "en" ? "en" : "zh";
+        try {
+          localStorage.setItem(LANG_KEY, value);
+        } catch {
+          /* ignore */
+        }
+      }
+
+      function apply() {
+        const ui = I18N[state.lang] || I18N.zh;
+        document.documentElement.lang = ui.htmlLang;
+        document.title = ui.title;
+        const skip = document.querySelector(".skip-link");
+        const home = document.getElementById("home-link");
+        const h1 = document.getElementById("page-title");
+        const lede = document.getElementById("lede");
+        const openBtn = document.getElementById("open-btn");
+        const footer = document.getElementById("footer");
+        if (skip) skip.textContent = ui.skip;
+        if (home) home.textContent = ui.home;
+        if (h1) h1.textContent = ui.title;
+        if (lede) lede.textContent = ui.lede;
+        if (openBtn) openBtn.textContent = ui.open;
+        if (footer) footer.textContent = ui.footer;
+        document.querySelectorAll("#lang-toggle [data-lang]").forEach((btn) => {
+          btn.setAttribute("aria-pressed", btn.dataset.lang === state.lang ? "true" : "false");
+        });
+      }
+
+      const langToggle = document.getElementById("lang-toggle");
+      if (langToggle) {
+        langToggle.addEventListener("click", (event) => {
+          const btn = event.target.closest("[data-lang]");
+          if (!btn) return;
+          state.lang = btn.dataset.lang === "en" ? "en" : "zh";
+          saveLang(state.lang);
+          apply();
+        });
+      }
+
+      apply();
+    </script>
+  </body>
+</html>
