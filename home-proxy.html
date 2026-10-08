@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Home proxy</title>
+    <title>家用代理</title>
     <link rel="stylesheet" href="style.css?v=17" />
     <style>
+      html:not([lang="zh-CN"]) .hp-zh { display: none; }
+      html[lang="zh-CN"] .hp-en { display: none; }
       .hp-main {
         padding-top: 1.2rem;
         padding-bottom: 2rem;
@@ -77,99 +79,171 @@
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#main" id="skip-link">Skip to chapters</a>
+    <a class="skip-link" href="#main" id="skip-link">
+      <span class="hp-en">Skip to chapters</span><span class="hp-zh">跳到章节</span>
+    </a>
 
     <header class="site-header">
       <div class="wrap header-inner">
         <div class="header-top">
           <p class="nav-home">
-            <a href="index.html" id="home-link">Home</a>
+            <a href="index.html" id="home-link">
+              <span class="hp-en">Home</span><span class="hp-zh">首页</span>
+            </a>
           </p>
           <div class="title-line">
-            <h1 id="page-title">Home proxy</h1>
+            <h1 id="page-title">
+              <span class="hp-en">Home VPN/Proxy</span><span class="hp-zh">家用代理</span>
+            </h1>
+            <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language">
+              <button type="button" data-lang="zh" aria-pressed="true">中</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
           </div>
         </div>
         <p class="lede" id="lede">
-          Teaching copy. No real keys, no real addresses. Almost no IT background. Security first: a slow, careful setup beats a clever one.
+          <span class="hp-en">Teaching copy. No real keys, no real addresses. Almost no IT background. Security first: a slow, careful setup beats a clever one.</span>
+          <span class="hp-zh">教学稿。真钥匙和真地址都不会出现在这里。读者可以几乎不懂电脑。先把安全做对，慢慢来，比图快更要紧。</span>
         </p>
       </div>
     </header>
 
     <main id="main" class="wrap hp-main">
-      <p>Replace every <code>YOUR_...</code> value with your own. Do not publish the filled-in copy.</p>
-
-      <h2>How to read this</h2>
       <p>
-        The recommended path is <strong>one Mac that you control</strong>, awake on power, lid open, FileVault left on.
-        Intel and Apple silicon share that path. Windows and a Raspberry Pi are separate short variants at the end. Do not mix their commands into the Mac steps.
+        <span class="hp-en">Replace every <code>YOUR_...</code> value with your own. Do not publish the filled-in copy.</span>
+        <span class="hp-zh">每个 <code>YOUR_...</code> 都换成你自己的，换完的那份留在家里，不要发出去。</span>
       </p>
-      <p>Click a heading in the contents, then open only that part.</p>
 
-      <h2>Contents</h2>
+      <h2><span class="hp-en">How to read this</span><span class="hp-zh">先看怎么读</span></h2>
+      <div class="hp-en">
+        <p>
+          The recommended path is <strong>one Mac that you control</strong>, awake on power, lid open, FileVault left on.
+          Intel and Apple silicon share that path. Windows and a Raspberry Pi are separate short variants at the end. Do not mix their commands into the Mac steps.
+        </p>
+        <p>Click a heading in the contents, then open only that part.</p>
+      </div>
+      <div class="hp-zh">
+        <p>
+          就按这一条走：<strong>一台你自己能管的 Mac</strong>，插着电，盖子开着，FileVault 保持打开。
+          Intel 和 Apple 芯片共用后面的 Mac 步骤。Windows 和树莓派写在最后，是另外两条短说明，命令不要掺进 Mac 里。
+        </p>
+        <p>目录里点一节，只展开那一节。</p>
+      </div>
+
+      <h2><span class="hp-en">Contents</span><span class="hp-zh">目录</span></h2>
       <ol class="hp-contents" id="contents">
-        <li><a href="#ch-1">What this is</a></li>
-        <li><a href="#ch-2">Rules before any command</a></li>
-        <li><a href="#ch-3">Words you will see</a></li>
-        <li><a href="#ch-4">Prepare</a></li>
-        <li><a href="#ch-5">Install on a Mac</a></li>
-        <li><a href="#ch-6">Write the config</a></li>
-        <li><a href="#ch-7">Start and test on the Mac</a></li>
-        <li><a href="#ch-8">Keep the Mac available</a></li>
-        <li><a href="#ch-9">Router</a></li>
-        <li><a href="#ch-10">Test from outside</a></li>
-        <li><a href="#ch-11">Phone app</a></li>
-        <li><a href="#ch-12">If the address changes</a></li>
-        <li><a href="#ch-13">If the link leaks</a></li>
-        <li><a href="#ch-14">Windows variant</a></li>
-        <li><a href="#ch-15">Raspberry Pi with Ubuntu variant</a></li>
-        <li><a href="#ch-16">If it breaks</a></li>
+        <li><a href="#ch-1"><span class="hp-en">What this is</span><span class="hp-zh">家里这台电脑在干什么</span></a></li>
+        <li><a href="#ch-2"><span class="hp-en">Rules before any command</span><span class="hp-zh">下命令之前先记住</span></a></li>
+        <li><a href="#ch-3"><span class="hp-en">Words you will see</span><span class="hp-zh">这几个词什么意思</span></a></li>
+        <li><a href="#ch-4"><span class="hp-en">Prepare</span><span class="hp-zh">开工前先备齐</span></a></li>
+        <li><a href="#ch-5"><span class="hp-en">Install on a Mac</span><span class="hp-zh">Mac 上怎么装</span></a></li>
+        <li><a href="#ch-6"><span class="hp-en">Write the config</span><span class="hp-zh">配置写在哪个文件</span></a></li>
+        <li><a href="#ch-7"><span class="hp-en">Start and test on the Mac</span><span class="hp-zh">先在 Mac 上跑通</span></a></li>
+        <li><a href="#ch-8"><span class="hp-en">Keep the Mac available</span><span class="hp-zh">别让这台 Mac 睡死</span></a></li>
+        <li><a href="#ch-9"><span class="hp-en">Router</span><span class="hp-zh">路由器只开这一扇门</span></a></li>
+        <li><a href="#ch-10"><span class="hp-en">Test from outside</span><span class="hp-zh">换个网络再测一次</span></a></li>
+        <li><a href="#ch-11"><span class="hp-en">Phone app</span><span class="hp-zh">手机上那一行自己拼</span></a></li>
+        <li><a href="#ch-12"><span class="hp-en">If the address changes</span><span class="hp-zh">家里的地址变了怎么办</span></a></li>
+        <li><a href="#ch-13"><span class="hp-en">If the link leaks</span><span class="hp-zh">链接被人看到了</span></a></li>
+        <li><a href="#ch-14"><span class="hp-en">Windows variant</span><span class="hp-zh">如果是 Windows</span></a></li>
+        <li><a href="#ch-15"><span class="hp-en">Raspberry Pi with Ubuntu variant</span><span class="hp-zh">如果是装 Ubuntu 的树莓派</span></a></li>
+        <li><a href="#ch-16"><span class="hp-en">If it breaks</span><span class="hp-zh">连不上时对一下</span></a></li>
       </ol>
 
       <details class="hp-chapter" id="ch-1">
-        <summary>1. What this is</summary>
+        <summary><span class="hp-en">1. What this is</span><span class="hp-zh">1. 家里这台电脑在干什么</span></summary>
         <div class="hp-body">
-          <p>You want your phone to reach the open internet through a computer you trust, in a house you trust. That computer runs a small program called Xray. The phone app talks only to that computer. The computer then opens normal sites for you.</p>
-          <p>This guide uses VLESS and REALITY on port <strong>8443</strong>. Port 443 was closed from outside on one AT&amp;T home line. That fact is local. Another house may differ. Do not assume 443 is blocked everywhere, and do not publish which port you chose.</p>
-          <p><strong>Anyone who has your finished link can use that house’s internet.</strong> Their actions will appear to come from that house.</p>
+          <div class="hp-en">
+            <p>You want your phone to reach the open internet through a computer you trust, in a house you trust. That computer runs a small program called Xray. The phone app talks only to that computer. The computer then opens normal sites for you.</p>
+            <p>This guide uses VLESS and REALITY on port <strong>8443</strong>. Port 443 was closed from outside on one AT&amp;T home line. That fact is local. Another house may differ. Do not assume 443 is blocked everywhere, and do not publish which port you chose.</p>
+            <p><strong>Anyone who has your finished link can use that house’s internet.</strong> Their actions will appear to come from that house.</p>
+          </div>
+          <div class="hp-zh">
+            <p>手机上网，先接到你家这台电脑，网页由这台电脑去打开。电脑放在你信得过的房子里，上面跑一个小程序，叫 Xray。手机上的 App 只跟这台电脑说话。</p>
+            <p>这里用 VLESS 和 REALITY，端口按 <strong>8443</strong> 来写。有一条 AT&amp;T 家用线路，从外面进不了 443。那是那一家的事，换一户未必如此。别把 443 当成到处都不通，也别把你最后用的端口公开出去。</p>
+            <p><strong>完整链接到了谁手里，谁就能借你家的网上网。</strong>外面看起来，那些访问都是从你家出去的。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-2">
-        <summary>2. Rules before any command</summary>
+        <summary><span class="hp-en">2. Rules before any command</span><span class="hp-zh">2. 下命令之前先记住</span></summary>
         <div class="hp-body">
-          <p><strong>Do not put real values in a handbook, a screenshot, email, or chat.</strong></p>
-          <p><strong>Do not turn off FileVault to get auto-login.</strong> A stolen Mac with FileVault off is an open disk.</p>
-          <p><strong>Do not turn on auto-login.</strong> It skips the password after a reboot.</p>
-          <p><strong>Do not use the daily laptop as a 24 hour server if you can avoid it.</strong> A small always-on box is safer. If you only have the laptop, use the conservative path below.</p>
-          <p><strong>Do not forward a port until the program is installed and the firewall allows only that program.</strong></p>
-          <p><strong>Do not send the private key to the phone.</strong> The phone gets the public key only.</p>
-          <p>Possible ways to stay up all day, from safer to worse:</p>
-          <ul>
-            <li><strong>Recommended:</strong> power plugged in, lid open, sleep set to never, disk sleep off, screen may sleep. Someone can still log in with the password after a reboot.</li>
-            <li>Acceptable if ventilated: lid closed only with power and an external display (clamshell). Heat must be able to leave.</li>
-            <li><strong>Not recommended:</strong> a login item that only keeps the machine awake. Fine as a helper, useless if nobody is logged in.</li>
-            <li><strong>Strongly not recommended:</strong> <code>disablesleep</code> so the closed lid never sleeps. Heat builds up. Do not put that machine in a bag or on a bed.</li>
-            <li><strong>Strongly not recommended:</strong> auto-login, or turning FileVault off so auto-login works. Do not do this for convenience.</li>
-          </ul>
+          <div class="hp-en">
+            <p><strong>Do not put real values in a handbook, a screenshot, email, or chat.</strong></p>
+            <p><strong>Do not turn off FileVault to get auto-login.</strong> A stolen Mac with FileVault off is an open disk.</p>
+            <p><strong>Do not turn on auto-login.</strong> It skips the password after a reboot.</p>
+            <p><strong>Do not use the daily laptop as a 24 hour server if you can avoid it.</strong> A small always-on box is safer. If you only have the laptop, use the conservative path below.</p>
+            <p><strong>Do not forward a port until the program is installed and the firewall allows only that program.</strong></p>
+            <p><strong>Do not send the private key to the phone.</strong> The phone gets the public key only.</p>
+            <p>Possible ways to stay up all day, from safer to worse:</p>
+            <ul>
+              <li><strong>Recommended:</strong> power plugged in, lid open, sleep set to never, disk sleep off, screen may sleep. Someone can still log in with the password after a reboot.</li>
+              <li>Acceptable if ventilated: lid closed only with power and an external display (clamshell). Heat must be able to leave.</li>
+              <li><strong>Not recommended:</strong> a login item that only keeps the machine awake. Fine as a helper, useless if nobody is logged in.</li>
+              <li><strong>Strongly not recommended:</strong> <code>disablesleep</code> so the closed lid never sleeps. Heat builds up. Do not put that machine in a bag or on a bed.</li>
+              <li><strong>Strongly not recommended:</strong> auto-login, or turning FileVault off so auto-login works. Do not do this for convenience.</li>
+            </ul>
+          </div>
+          <div class="hp-zh">
+            <p><strong>真实的地址、钥匙、链接，不要进手册，也不要进截图、邮件和聊天。</strong></p>
+            <p><strong>想自动登录就去关 FileVault，不行。</strong>FileVault 关了，电脑被拿走等于硬盘敞开。</p>
+            <p><strong>自动登录也别开。</strong>重启之后还是要输密码。</p>
+            <p><strong>天天带出门的笔记本，能不用来 24 小时开机就不用。</strong>一台专门开着的小机器更合适。手里只有这台笔记本，就按下面最保守的办法。</p>
+            <p><strong>程序还没装好、防火墙还没限定只放行它，路由器上先别做转发。</strong></p>
+            <p><strong>私钥留在家里这台电脑上。</strong>手机只收公钥。</p>
+            <p>想让它整天开着，从稳妥到不该做，是这样：</p>
+            <ul>
+              <li><strong>就这么做：</strong>插着电，盖子打开，系统不睡眠，硬盘不睡眠，屏幕可以睡。重启以后，人还能用密码登录。</li>
+              <li>散热没问题的话可以合盖，但必须插电，并且接一台外接显示器。热要散得出去。</li>
+              <li><strong>少用：</strong>只靠登录项阻止睡眠。人已经登录时能搭把手，没人登录就没用。</li>
+              <li><strong>别做：</strong>用 <code>disablesleep</code> 让合上的盖子也不睡。机会发烫。别塞进包，也别放在床上。</li>
+              <li><strong>别做：</strong>为了省事开自动登录，或者为了自动登录关掉 FileVault。</li>
+            </ul>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-3">
-        <summary>3. Words you will see</summary>
+        <summary><span class="hp-en">3. Words you will see</span><span class="hp-zh">3. 这几个词什么意思</span></summary>
         <div class="hp-body">
           <div class="hp-scroll">
             <table class="options">
               <thead>
-                <tr><th>Word</th><th>Plain meaning</th></tr>
+                <tr>
+                  <th><span class="hp-en">Word</span><span class="hp-zh">词</span></th>
+                  <th><span class="hp-en">Plain meaning</span><span class="hp-zh">人话</span></th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Xray</td><td>The program on the home computer</td></tr>
-                <tr><td>UUID</td><td>A user id. Treat it like a password</td></tr>
-                <tr><td>Private key</td><td>Stays on the server only</td></tr>
-                <tr><td>Public key</td><td>Goes in the phone app. Labeled <code>Password</code> by newer Xray</td></tr>
-                <tr><td>Short ID</td><td>A second small password. Both sides must match</td></tr>
-                <tr><td>SNI</td><td>The name of a big site the connection pretends to be</td></tr>
-                <tr><td>Port</td><td>The door number. This guide’s example is 8443</td></tr>
+                <tr>
+                  <td>Xray</td>
+                  <td><span class="hp-en">The program on the home computer</span><span class="hp-zh">跑在家里电脑上的那个程序</span></td>
+                </tr>
+                <tr>
+                  <td>UUID</td>
+                  <td><span class="hp-en">A user id. Treat it like a password</span><span class="hp-zh">用户编号。当成密码保管</span></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Private key</span><span class="hp-zh">私钥</span></td>
+                  <td><span class="hp-en">Stays on the server only</span><span class="hp-zh">只放在家里这台电脑上</span></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Public key</span><span class="hp-zh">公钥</span></td>
+                  <td><span class="hp-en">Goes in the phone app. Labeled <code>Password</code> by newer Xray</span><span class="hp-zh">填进手机。新版 Xray 管它叫 <code>Password</code></span></td>
+                </tr>
+                <tr>
+                  <td>Short ID</td>
+                  <td><span class="hp-en">A second small password. Both sides must match</span><span class="hp-zh">另一小段密码。电脑和手机必须一样</span></td>
+                </tr>
+                <tr>
+                  <td>SNI</td>
+                  <td><span class="hp-en">The name of a big site the connection pretends to be</span><span class="hp-zh">连接假装要去的那个大网站的名字</span></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Port</span><span class="hp-zh">端口</span></td>
+                  <td><span class="hp-en">The door number. This guide’s example is 8443</span><span class="hp-zh">门牌。这份说明里的例子是 8443</span></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -177,163 +251,317 @@
       </details>
 
       <details class="hp-chapter" id="ch-4">
-        <summary>4. Prepare</summary>
+        <summary><span class="hp-en">4. Prepare</span><span class="hp-zh">4. 开工前先备齐</span></summary>
         <div class="hp-body">
-          <p>You need the home computer, its login password, the router admin password, and a phone app such as Shadowrocket bought with an App Store account that can see it. Budget one quiet hour. A person at the house must be able to click the router.</p>
-          <p>Fill this table offline. This page stays with the examples.</p>
+          <div class="hp-en">
+            <p>You need the home computer, its login password, the router admin password, and a phone app such as Shadowrocket bought with an App Store account that can see it. Budget one quiet hour. A person at the house must be able to click the router.</p>
+            <p>Fill this table offline. This page stays with the examples.</p>
+          </div>
+          <div class="hp-zh">
+            <p>家里要有这台电脑和登录密码、路由器的管理密码，还有手机上能装的客户端，比如 App Store 里买得到的 Shadowrocket。留出一个不被打扰的小时。路由器得有人在家里能点开。</p>
+            <p>表在纸上填。这一页只保留例子。</p>
+          </div>
           <div class="hp-scroll">
             <table class="options">
               <thead>
-                <tr><th>Item</th><th>Example only</th><th>Your value</th></tr>
+                <tr>
+                  <th><span class="hp-en">Item</span><span class="hp-zh">要填的</span></th>
+                  <th><span class="hp-en">Example only</span><span class="hp-zh">只是例子</span></th>
+                  <th><span class="hp-en">Your value</span><span class="hp-zh">你自己的</span></th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Public IP</td><td><code>203.0.113.10</code></td><td></td></tr>
-                <tr><td>Computer LAN IP</td><td><code>192.168.1.50</code></td><td></td></tr>
-                <tr><td>Port</td><td><code>8443</code></td><td></td></tr>
-                <tr><td>UUID</td><td><code>11111111-2222-4333-8444-555555555555</code></td><td></td></tr>
-                <tr><td>Public key</td><td><code>EXAMPLEPUBLICKEY</code></td><td></td></tr>
-                <tr><td>Short ID</td><td><code>0011223344556677</code></td><td></td></tr>
-                <tr><td>SNI</td><td><code>www.microsoft.com</code></td><td></td></tr>
+                <tr>
+                  <td><span class="hp-en">Public IP</span><span class="hp-zh">公网地址</span></td>
+                  <td><code>203.0.113.10</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Computer LAN IP</span><span class="hp-zh">电脑在家里的地址</span></td>
+                  <td><code>192.168.1.50</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Port</span><span class="hp-zh">端口</span></td>
+                  <td><code>8443</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>UUID</td>
+                  <td><code>11111111-2222-4333-8444-555555555555</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Public key</span><span class="hp-zh">公钥</span></td>
+                  <td><code>EXAMPLEPUBLICKEY</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Short ID</td>
+                  <td><code>0011223344556677</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>SNI</td>
+                  <td><code>www.microsoft.com</code></td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>
-          <p>Check the public address on the home computer:</p>
+          <p>
+            <span class="hp-en">Check the public address on the home computer:</span>
+            <span class="hp-zh">在家里这台电脑上看现在的公网地址：</span>
+          </p>
           <div class="code-block"><pre>curl -4 -s https://ifconfig.me; echo</pre></div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-5">
-        <summary>5. Install on a Mac</summary>
+        <summary><span class="hp-en">5. Install on a Mac</span><span class="hp-zh">5. Mac 上怎么装</span></summary>
         <div class="hp-body">
-          <p>Apple silicon and Intel use the same commands after Homebrew is on the path.</p>
-          <ul>
-            <li>Apple silicon: Homebrew lives in <code>/opt/homebrew</code>.</li>
-            <li>Intel: Homebrew lives in <code>/usr/local</code>. If <code>brew</code> already works, skip the path line.</li>
-          </ul>
-          <p>Install Homebrew from the official Homebrew site if <code>brew --version</code> prints nothing. Then:</p>
+          <div class="hp-en">
+            <p>Apple silicon and Intel use the same commands after Homebrew is on the path.</p>
+            <ul>
+              <li>Apple silicon: Homebrew lives in <code>/opt/homebrew</code>.</li>
+              <li>Intel: Homebrew lives in <code>/usr/local</code>. If <code>brew</code> already works, skip the path line.</li>
+            </ul>
+            <p>Install Homebrew from the official Homebrew site if <code>brew --version</code> prints nothing. Then:</p>
+          </div>
+          <div class="hp-zh">
+            <p>Homebrew 已经能在终端里找到之后，Apple 芯片和 Intel 用同一组命令。</p>
+            <ul>
+              <li>Apple 芯片：Homebrew 在 <code>/opt/homebrew</code>。</li>
+              <li>Intel：在 <code>/usr/local</code>。<code>brew</code> 已经能用，就不用再管路径。</li>
+            </ul>
+            <p><code>brew --version</code> 什么都不打印，就先去 Homebrew 官网把它装上。然后：</p>
+          </div>
           <div class="code-block"><pre>brew install xray &amp;&amp; xray version</pre></div>
-          <p>Make new secrets only if this is a fresh start or the old link leaked. New secrets stop the old link.</p>
+          <div class="hp-en">
+            <p>Make new secrets only if this is a fresh start or the old link leaked. New secrets stop the old link.</p>
+          </div>
+          <div class="hp-zh">
+            <p>只有第一次做，或者旧链接已经被人看到，才重新生成那几样秘密。新的一出来，旧链接就作废。</p>
+          </div>
           <div class="code-block"><pre>echo "UUID: $(uuidgen | tr 'A-Z' 'a-z')"; xray x25519; echo "ShortId: $(openssl rand -hex 8)"</pre></div>
-          <p>Write them down offline. Newer Xray calls the public key <code>Password</code>.</p>
+          <p>
+            <span class="hp-en">Write them down offline. Newer Xray calls the public key <code>Password</code>.</span>
+            <span class="hp-zh">抄在纸上，不要抄回这个网页。新版 Xray 把公钥标成 <code>Password</code>。</span>
+          </p>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-6">
-        <summary>6. Write the config</summary>
+        <summary><span class="hp-en">6. Write the config</span><span class="hp-zh">6. 配置写在哪个文件</span></summary>
         <div class="hp-body">
-          <p>Config path:</p>
-          <ul>
-            <li>Apple silicon: <code>/opt/homebrew/etc/xray/config.json</code></li>
-            <li>Intel: <code>/usr/local/etc/xray/config.json</code></li>
-          </ul>
-          <p>Put your private key only in that file. Use <code>www.microsoft.com</code> as the pretend site unless you already know another large site works. Change the phone SNI if you change this.</p>
-          <p>Test:</p>
+          <div class="hp-en">
+            <p>Config path:</p>
+            <ul>
+              <li>Apple silicon: <code>/opt/homebrew/etc/xray/config.json</code></li>
+              <li>Intel: <code>/usr/local/etc/xray/config.json</code></li>
+            </ul>
+            <p>Put your private key only in that file. Use <code>www.microsoft.com</code> as the pretend site unless you already know another large site works. Change the phone SNI if you change this.</p>
+            <p>Test:</p>
+          </div>
+          <div class="hp-zh">
+            <p>文件在这：</p>
+            <ul>
+              <li>Apple 芯片：<code>/opt/homebrew/etc/xray/config.json</code></li>
+              <li>Intel：<code>/usr/local/etc/xray/config.json</code></li>
+            </ul>
+            <p>私钥只写进这个文件。假装要去的网站用 <code>www.microsoft.com</code>，除非你已经试过另一个大网站能用。这里改了，手机上的 SNI 一起改。</p>
+            <p>先测配置：</p>
+          </div>
           <div class="code-block"><pre>xray run -test -config /opt/homebrew/etc/xray/config.json</pre></div>
-          <p>On Intel, use the <code>/usr/local</code> path in that command. You want <code>Configuration OK.</code></p>
+          <p>
+            <span class="hp-en">On Intel, use the <code>/usr/local</code> path in that command. You want <code>Configuration OK.</code></span>
+            <span class="hp-zh">Intel 把命令里的路径换成 <code>/usr/local</code>。要看到 <code>Configuration OK.</code></span>
+          </p>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-7">
-        <summary>7. Start and test on the Mac</summary>
+        <summary><span class="hp-en">7. Start and test on the Mac</span><span class="hp-zh">7. 先在 Mac 上跑通</span></summary>
         <div class="hp-body">
           <div class="code-block"><pre>brew services restart xray
 sudo lsof -nP -iTCP:8443 -sTCP:LISTEN</pre></div>
-          <p>You want Xray listening on 8443. On macOS an <code>IPv6</code> line with <code>TCP *:8443</code> is normal.</p>
-          <p>Turn the Mac firewall on. Allow only the Xray program. Leave “block all incoming connections” off, or the door stays shut.</p>
+          <div class="hp-en">
+            <p>You want Xray listening on 8443. On macOS an <code>IPv6</code> line with <code>TCP *:8443</code> is normal.</p>
+            <p>Turn the Mac firewall on. Allow only the Xray program. Leave “block all incoming connections” off, or the door stays shut.</p>
+          </div>
+          <div class="hp-zh">
+            <p>要看到 Xray 在听 8443。macOS 上出现一行 <code>IPv6</code>，写着 <code>TCP *:8443</code>，这是正常的。</p>
+            <p>Mac 的防火墙打开，只允许 Xray。不要勾「阻止所有传入连接」，勾了这扇门就关死了。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-8">
-        <summary>8. Keep the Mac available</summary>
+        <summary><span class="hp-en">8. Keep the Mac available</span><span class="hp-zh">8. 别让这台 Mac 睡死</span></summary>
         <div class="hp-body">
-          <p>Conservative settings:</p>
+          <p>
+            <span class="hp-en">Conservative settings:</span>
+            <span class="hp-zh">保守的电源设置：</span>
+          </p>
           <div class="code-block"><pre>sudo pmset -a sleep 0 disksleep 0 displaysleep 10</pre></div>
-          <p>Leave the lid open. Leave FileVault on. Do not enable auto-login.</p>
-          <p>After a macOS update, log in and check that Xray is listening again. Brew services start after login, so a reboot still needs a person once.</p>
+          <div class="hp-en">
+            <p>Leave the lid open. Leave FileVault on. Do not enable auto-login.</p>
+            <p>After a macOS update, log in and check that Xray is listening again. Brew services start after login, so a reboot still needs a person once.</p>
+          </div>
+          <div class="hp-zh">
+            <p>盖子开着。FileVault 开着。自动登录保持关闭。</p>
+            <p>macOS 更新完要有人登录，再看 Xray 是不是还在听。brew services 是登录之后才起来的，所以重启一次，还是得有人来一次。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-9">
-        <summary>9. Router</summary>
+        <summary><span class="hp-en">9. Router</span><span class="hp-zh">9. 路由器只开这一扇门</span></summary>
         <div class="hp-body">
-          <p>Reserve the computer’s LAN address so it does not change. Forward <strong>TCP 8443</strong> to that address. Do not turn on IP passthrough unless a second router sits behind the gateway. If a mesh router is in between, the forward belongs on that second router.</p>
+          <div class="hp-en">
+            <p>Reserve the computer’s LAN address so it does not change. Forward <strong>TCP 8443</strong> to that address. Do not turn on IP passthrough unless a second router sits behind the gateway. If a mesh router is in between, the forward belongs on that second router.</p>
+          </div>
+          <div class="hp-zh">
+            <p>在路由器里把这台电脑的局域网地址固定住，免得它自己变。只把 <strong>TCP 8443</strong> 转到这个地址。光猫后面没有第二台路由，就不要开 IP 直通。中间还隔着一套 mesh，转发做在那一台上面。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-10">
-        <summary>10. Test from outside</summary>
+        <summary><span class="hp-en">10. Test from outside</span><span class="hp-zh">10. 换个网络再测一次</span></summary>
         <div class="hp-body">
-          <p>Use a port check on <strong>8443</strong>, not 80 or 443. From another network:</p>
+          <p>
+            <span class="hp-en">Use a port check on <strong>8443</strong>, not 80 or 443. From another network:</span>
+            <span class="hp-zh">测 <strong>8443</strong>，别去测 80 或 443。手机或另一台电脑要先离开家里的 Wi-Fi：</span>
+          </p>
           <div class="code-block"><pre>nc -vz 203.0.113.10 8443</pre></div>
-          <p>Replace the example address. Success means the door is open. It does not mean the keys are right.</p>
+          <p>
+            <span class="hp-en">Replace the example address. Success means the door is open. It does not mean the keys are right.</span>
+            <span class="hp-zh">把例子里的地址换成你自己的。通了只说明门开了，不说明钥匙是对的。</span>
+          </p>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-11">
-        <summary>11. Phone app</summary>
+        <summary><span class="hp-en">11. Phone app</span><span class="hp-zh">11. 手机上那一行自己拼</span></summary>
         <div class="hp-body">
-          <p>Build the link yourself. Do not copy one from a web page.</p>
+          <p>
+            <span class="hp-en">Build the link yourself. Do not copy one from a web page.</span>
+            <span class="hp-zh">这一行在手机上自己拼。不要从网页里复制一条现成的。</span>
+          </p>
           <div class="code-block"><pre>vless://YOUR_UUID@YOUR_PUBLIC_IP:8443?encryption=none&amp;flow=xtls-rprx-vision&amp;security=reality&amp;sni=www.microsoft.com&amp;fp=chrome&amp;pbk=YOUR_PUBLIC_KEY&amp;sid=YOUR_SHORT_ID&amp;type=tcp</pre></div>
-          <p>The public key in the app must match the server’s public key, never the private key. One line, no spaces. Prefer rule mode so local sites do not all detour through the house.</p>
+          <div class="hp-en">
+            <p>The public key in the app must match the server’s public key, never the private key. One line, no spaces. Prefer rule mode so local sites do not all detour through the house.</p>
+          </div>
+          <div class="hp-zh">
+            <p>App 里填的公钥，必须是电脑上的公钥，不能是私钥。一整行，中间不要空格。用规则模式，家里的网站就不必绕到这台电脑再出去。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-12">
-        <summary>12. If the address changes</summary>
+        <summary><span class="hp-en">12. If the address changes</span><span class="hp-zh">12. 家里的地址变了怎么办</span></summary>
         <div class="hp-body">
-          <p>Home addresses change. On the server:</p>
+          <p>
+            <span class="hp-en">Home addresses change. On the server:</span>
+            <span class="hp-zh">家用的公网地址会变。在这台电脑上再查一次：</span>
+          </p>
           <div class="code-block"><pre>curl -4 -s https://ifconfig.me; echo</pre></div>
-          <p>Update the phone address. A dynamic name is optional. Do not put the token in the handbook.</p>
+          <p>
+            <span class="hp-en">Update the phone address. A dynamic name is optional. Do not put the token in the handbook.</span>
+            <span class="hp-zh">手机里的地址改成新的。动态域名可有可无。那个令牌不要写进手册。</span>
+          </p>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-13">
-        <summary>13. If the link leaks</summary>
+        <summary><span class="hp-en">13. If the link leaks</span><span class="hp-zh">13. 链接被人看到了</span></summary>
         <div class="hp-body">
-          <p>Generate a new UUID, key pair, and short ID. Restart Xray. Update the phone. The old link must die. Do not “just delete the app.”</p>
+          <div class="hp-en">
+            <p>Generate a new UUID, key pair, and short ID. Restart Xray. Update the phone. The old link must die. Do not “just delete the app.”</p>
+          </div>
+          <div class="hp-zh">
+            <p>重新做一套 UUID、一对密钥和 Short ID。重启 Xray，再改手机。旧的那条必须失效。只把 App 删掉不算完。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-14">
-        <summary>14. Windows variant</summary>
+        <summary><span class="hp-en">14. Windows variant</span><span class="hp-zh">14. 如果是 Windows</span></summary>
         <div class="hp-body">
-          <p>Same job, different program install. Use the official Xray Windows build, a config file with the same fields, and a firewall rule that allows only that program on TCP 8443. Forward the port on the router to that PC’s reserved LAN address.</p>
-          <p><strong>Strongly not recommended:</strong> turning off the Windows firewall, enabling auto-logon, or sleeping the PC while calling it a server. A desktop that stays on power, lid not relevant, screen sleep allowed, is the conservative Windows path.</p>
+          <div class="hp-en">
+            <p>Same job, different program install. Use the official Xray Windows build, a config file with the same fields, and a firewall rule that allows only that program on TCP 8443. Forward the port on the router to that PC’s reserved LAN address.</p>
+            <p><strong>Strongly not recommended:</strong> turning off the Windows firewall, enabling auto-logon, or sleeping the PC while calling it a server. A desktop that stays on power, lid not relevant, screen sleep allowed, is the conservative Windows path.</p>
+          </div>
+          <div class="hp-zh">
+            <p>要做的事一样，安装方式不同。用 Xray 官方的 Windows 版本，配置里的字段照旧，防火墙只放行这个程序的 TCP 8443。路由器把端口转到这台电脑已经固定好的局域网地址。</p>
+            <p><strong>别这么干：</strong>关掉 Windows 防火墙，打开自动登录，或者电脑睡了还说它在当服务器。台式机插着电、屏幕可以睡，这是 Windows 上该走的做法。这里没有盖子要操心。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-15">
-        <summary>15. Raspberry Pi with Ubuntu variant</summary>
+        <summary><span class="hp-en">15. Raspberry Pi with Ubuntu variant</span><span class="hp-zh">15. 如果是装 Ubuntu 的树莓派</span></summary>
         <div class="hp-body">
-          <p>A Pi is a better always-on box than a daily laptop, if it is updated and not exposed beyond port 8443. Install Xray from its official release, not a random script. Copy the same config shape to <code>/usr/local/etc/xray/config.json</code>. Open only 8443 in <code>ufw</code>. Reserve the Pi’s address in the router.</p>
-          <p><strong>Strongly not recommended:</strong> running it as root for convenience, leaving SSH open to the world on port 22, or using the default <code>ubuntu</code> password. SSH, if needed, stays on the home network.</p>
+          <div class="hp-en">
+            <p>A Pi is a better always-on box than a daily laptop, if it is updated and not exposed beyond port 8443. Install Xray from its official release, not a random script. Copy the same config shape to <code>/usr/local/etc/xray/config.json</code>. Open only 8443 in <code>ufw</code>. Reserve the Pi’s address in the router.</p>
+            <p><strong>Strongly not recommended:</strong> running it as root for convenience, leaving SSH open to the world on port 22, or using the default <code>ubuntu</code> password. SSH, if needed, stays on the home network.</p>
+          </div>
+          <div class="hp-zh">
+            <p>树莓派比天天带走的笔记本更适合一直开着，前提是系统有在更新，外面也只能碰到 8443。Xray 用官方发布的包，不要用来路不明的脚本。配置同样放到 <code>/usr/local/etc/xray/config.json</code>。<code>ufw</code> 只开 8443。路由器里把树莓派的地址固定住。</p>
+            <p><strong>别图省事：</strong>用 root 跑，把 SSH 的 22 端口暴露到公网，或者继续用默认的 <code>ubuntu</code> 密码。要 SSH，就只在家里的网络里用。</p>
+          </div>
         </div>
       </details>
 
       <details class="hp-chapter" id="ch-16">
-        <summary>16. If it breaks</summary>
+        <summary><span class="hp-en">16. If it breaks</span><span class="hp-zh">16. 连不上时对一下</span></summary>
         <div class="hp-body">
           <div class="hp-scroll">
             <table class="options">
               <thead>
-                <tr><th>What you see</th><th>Likely cause</th></tr>
+                <tr>
+                  <th><span class="hp-en">What you see</span><span class="hp-zh">你看到的</span></th>
+                  <th><span class="hp-en">Likely cause</span><span class="hp-zh">多半是</span></th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Port check closed, but you checked 80</td><td>Wrong door. Check 8443</td></tr>
-                <tr><td>Phone times out, port closed</td><td>Server asleep, not logged in, or router rule missing</td></tr>
-                <tr><td>Port open, phone fails</td><td>Public key, UUID, short ID, or SNI does not match</td></tr>
-                <tr><td>Worked, then died after an update</td><td>Log in again and restart the service</td></tr>
-                <tr><td>Router address and public check differ, or the address is 100.64.x.x</td><td>No real public address. The home line cannot take this job</td></tr>
+                <tr>
+                  <td><span class="hp-en">Port check closed, but you checked 80</span><span class="hp-zh">检测说端口关着，但你测的是 80</span></td>
+                  <td><span class="hp-en">Wrong door. Check 8443</span><span class="hp-zh">门看错了。看 8443</span></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Phone times out, port closed</span><span class="hp-zh">手机一直转，端口也是关的</span></td>
+                  <td><span class="hp-en">Server asleep, not logged in, or router rule missing</span><span class="hp-zh">电脑睡了、没人登录，或者路由器没做转发</span></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Port open, phone fails</span><span class="hp-zh">端口是开的，手机还是失败</span></td>
+                  <td><span class="hp-en">Public key, UUID, short ID, or SNI does not match</span><span class="hp-zh">公钥、UUID、Short ID 或 SNI，有一边对不上</span></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Worked, then died after an update</span><span class="hp-zh">本来能用，系统更新后不行了</span></td>
+                  <td><span class="hp-en">Log in again and restart the service</span><span class="hp-zh">重新登录，再把服务拉起来</span></td>
+                </tr>
+                <tr>
+                  <td><span class="hp-en">Router address and public check differ, or the address is 100.64.x.x</span><span class="hp-zh">路由器上的地址和公网查询对不上，或者地址长得像 100.64.x.x</span></td>
+                  <td><span class="hp-en">No real public address. The home line cannot take this job</span><span class="hp-zh">没有真正的公网地址。这条家用线路做不了这件事</span></td>
+                </tr>
               </tbody>
             </table>
           </div>
-          <p>Do not post the real link while asking for help.</p>
+          <p>
+            <span class="hp-en">Do not post the real link while asking for help.</span>
+            <span class="hp-zh">问人的时候，不要把真实链接贴出去。</span>
+          </p>
         </div>
       </details>
     </main>
 
     <footer class="site-footer wrap">
-      <p class="hp-note">Example addresses and keys on this page are placeholders. Do not publish a filled-in copy.</p>
+      <p class="hp-note">
+        <span class="hp-en">Example addresses and keys on this page are placeholders. Do not publish a filled-in copy.</span>
+        <span class="hp-zh">这一页上的地址和钥匙都是占位例子。填好的那份不要公开。</span>
+      </p>
     </footer>
 
     <script>
@@ -341,25 +569,37 @@ sudo lsof -nP -iTCP:8443 -sTCP:LISTEN</pre></div>
 
       function readLang() {
         try {
+          const params = new URLSearchParams(location.search);
+          const langParam = params.get("lang");
+          if (langParam === "en" || langParam === "zh") {
+            saveLang(langParam);
+            return langParam;
+          }
           const saved = localStorage.getItem(LANG_KEY);
+          if (saved === "en") return "en";
           if (saved === "zh") return "zh";
         } catch {
           /* ignore */
         }
-        return "en";
+        return "zh";
       }
 
-      const chrome = {
-        zh: { home: "首页", skip: "跳到章节" },
-        en: { home: "Home", skip: "Skip to chapters" },
-      };
+      function saveLang(lang) {
+        const value = lang === "en" ? "en" : "zh";
+        try {
+          localStorage.setItem(LANG_KEY, value);
+        } catch {
+          /* ignore */
+        }
+      }
 
-      function applyChrome() {
-        const ui = chrome[readLang()] || chrome.en;
-        const home = document.getElementById("home-link");
-        const skip = document.getElementById("skip-link");
-        if (home) home.textContent = ui.home;
-        if (skip) skip.textContent = ui.skip;
+      function applyLang(lang) {
+        const zh = lang === "zh";
+        document.documentElement.lang = zh ? "zh-CN" : "en";
+        document.title = zh ? "家用代理" : "Home VPN/Proxy";
+        document.querySelectorAll("#lang-toggle [data-lang]").forEach((btn) => {
+          btn.setAttribute("aria-pressed", btn.dataset.lang === (zh ? "zh" : "en") ? "true" : "false");
+        });
       }
 
       function openChapter(chapter) {
@@ -395,7 +635,18 @@ sudo lsof -nP -iTCP:8443 -sTCP:LISTEN</pre></div>
         });
       });
 
-      applyChrome();
+      const langToggle = document.getElementById("lang-toggle");
+      if (langToggle) {
+        langToggle.addEventListener("click", (event) => {
+          const btn = event.target.closest("[data-lang]");
+          if (!btn) return;
+          const lang = btn.dataset.lang === "en" ? "en" : "zh";
+          saveLang(lang);
+          applyLang(lang);
+        });
+      }
+
+      applyLang(readLang());
       const initial = document.getElementById((location.hash || "").slice(1));
       if (initial && initial.classList.contains("hp-chapter")) openChapter(initial);
     </script>
