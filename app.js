@@ -37,6 +37,12 @@ const I18N = {
     juliaHint: "安装到 REPL、数组与字符串（练习另页）",
     rTile: "R 入门",
     rHint: "安装到向量与数据框（练习另页）",
+    slangsTile: "Slangs on X",
+    slangsHint: "说法、中英一行、一条例句",
+    emojiTile: "日常表情",
+    emojiHint: "300 个日常表情",
+    tutorialsTile: "Grok Bot 教程",
+    tutorialsHint: "128 篇 · 铁柱 / Official / 西堂 / 蓝哥 / Posts",
     hubSkip: "跳到主题",
     linuxTile: "Linux 命令手册",
     linuxHint: "打开手册",
@@ -93,6 +99,12 @@ const I18N = {
     juliaHint: "Install, REPL, arrays and strings (practice on a second page)",
     rTile: "R essentials",
     rHint: "Install, vectors, data frames (practice on a second page)",
+    slangsTile: "Slangs on X",
+    slangsHint: "Term, one bilingual line, one sample",
+    emojiTile: "Everyday emoji",
+    emojiHint: "300 everyday emoji",
+    tutorialsTile: "Grok Bot Tutorials",
+    tutorialsHint: "128 articles · 铁柱 / Official / 西堂 / 蓝哥 / Posts",
     hubSkip: "Skip to topics",
     linuxTile: "Linux commands",
     linuxHint: "Open the handbook",
@@ -249,6 +261,9 @@ function hubBookLabel(book) {
   if (book === "grok") return ui.grokTile;
   if (book === "julia") return ui.juliaTile;
   if (book === "r") return ui.rTile;
+  if (book === "slangs") return ui.slangsTile;
+  if (book === "emoji") return ui.emojiTile;
+  if (book === "tutorials") return ui.tutorialsTile;
   return book;
 }
 
@@ -445,6 +460,58 @@ function hubCatalog() {
     };
     addR(rBook.lab, "r.html");
     addR(rBook.practice, "r-practice.html");
+  }
+  const slangs = window.SLANGS_DATA;
+  if (slangs && slangs.cards) {
+    const cats = {};
+    (slangs.categories || []).forEach((cat) => {
+      if (!cat || cat.id === "kinky") return;
+      cats[cat.id] = cat;
+    });
+    slangs.cards.forEach((card) => {
+      if (!card || card.cat === "kinky") return;
+      const cat = cats[card.cat] || {};
+      records.push({
+        names: [card.id, card.term, card.gloss_zh, card.gloss_en],
+        aliases: lookupAliases(card.id, card.term),
+        title: [card.line, card.gloss_zh, card.gloss_en].join(" "),
+        chip: [cat.zh, cat.en, card.cat].join(" "),
+        body: card.sample || "",
+        book: "slangs",
+        href: "slangs.html",
+        hash: card.id,
+        label: card.term,
+        blurb: card.line,
+      });
+    });
+  }
+  const emojiBook = window.EMOJI_DATA;
+  if (emojiBook && emojiBook.cards) {
+    const cats = {};
+    (emojiBook.categories || []).forEach((cat) => {
+      if (!cat || cat.id === "kinky") return;
+      cats[cat.id] = cat;
+    });
+    emojiBook.cards.forEach((card) => {
+      if (!card || card.cat === "kinky") return;
+      const cat = cats[card.cat] || {};
+      const examples = [].concat(card.ex_en || [], card.ex_zh || []).join(" ");
+      records.push({
+        names: [card.id, card.glyph, card.name_en, card.name_zh, card.meaning_zh],
+        aliases: lookupAliases(card.id, card.name_en),
+        title: [card.name_en, card.name_zh, card.meaning_en, card.meaning_zh].join(" "),
+        chip: [cat.zh, cat.en, card.cat].join(" "),
+        body: [examples, card.care || ""].join(" "),
+        book: "emoji",
+        href: "emoji.html",
+        hash: card.id,
+        label: (card.glyph ? card.glyph + " " : "") + (card.name_en || ""),
+        blurb:
+          state.lang === "en"
+            ? card.meaning_en || card.name_zh || ""
+            : [card.name_zh, card.meaning_zh].filter(Boolean).join(" · "),
+      });
+    });
   }
   return records;
 }
@@ -950,6 +1017,28 @@ function applyChrome() {
     const rHint = document.getElementById("tile-r-hint");
     if (rTitle) rTitle.textContent = ui.rTile;
     if (rHint) rHint.textContent = ui.rHint;
+    const tutorialsTitle = document.getElementById("tile-tutorials-title");
+    const tutorialsHint = document.getElementById("tile-tutorials-hint");
+    if (tutorialsTitle) {
+      const zh = tutorialsTitle.querySelector(".hub-zh");
+      const en = tutorialsTitle.querySelector(".hub-en");
+      if (zh && en) {
+        zh.textContent = (I18N.zh && I18N.zh.tutorialsTile) || "Grok Bot 教程";
+        en.textContent = (I18N.en && I18N.en.tutorialsTile) || "Grok Bot Tutorials";
+      } else {
+        tutorialsTitle.textContent = ui.tutorialsTile;
+      }
+    }
+    if (tutorialsHint) {
+      const zh = tutorialsHint.querySelector(".hub-zh");
+      const en = tutorialsHint.querySelector(".hub-en");
+      if (zh && en) {
+        zh.textContent = (I18N.zh && I18N.zh.tutorialsHint) || "";
+        en.textContent = (I18N.en && I18N.en.tutorialsHint) || "";
+      } else {
+        tutorialsHint.textContent = ui.tutorialsHint;
+      }
+    }
     document.querySelectorAll(".tile-soon .soon").forEach((el) => {
       el.textContent = ui.soon;
     });

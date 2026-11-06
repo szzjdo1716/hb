@@ -1,0 +1,46 @@
+/* Grok Bot Tutorials tile — HB-adjacent cream reader (from Big-Rebuild Style Lock) */
+@font-face{font-family:Karma;src:url(fonts/karma-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";src:url(fonts/playfair-display-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Lato;src:url(fonts/lato-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Lato;font-weight:700;src:url(fonts/lato-latin-700-normal.woff2) format("woff2")}
+:root{--ink:#333;--link:#161616;--accent:#C59C20;--muted:#888;--line:#EBEBEB;--well:#F7F4EE;--paper:#FFFEF9;--hb:#0f172a}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:16px/1.8 Karma,"PingFang SC","Noto Serif SC",Georgia,serif}
+a{color:var(--link);text-decoration:none;border-bottom:1px dotted var(--accent)}
+a:hover,a:focus-visible{border-bottom-style:solid}
+header.top{font:400 14px/1.4 system-ui,-apple-system,"PingFang SC","Segoe UI",sans-serif;color:var(--hb);padding:14px 24px;border-bottom:1px solid var(--line);background:#fff}
+header.top a{border:0;color:var(--hb);font-weight:600}
+header.top .sep{color:var(--muted);font-weight:400;margin:0 .35rem}
+header.top .page-title{font-weight:500}
+.shell{display:flex;max-width:1200px;margin:0 auto;min-height:calc(100vh - 52px)}
+nav.shelves{width:220px;flex:none;padding:20px 14px 32px;font:11px Lato,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;border-right:1px solid var(--line)}
+nav.shelves .shelf-label{display:block;color:var(--muted);padding:2px 8px 10px;letter-spacing:.08em;font-size:10px}
+nav.shelves a{display:block;border:0;padding:6px 10px;margin:2px 0;color:var(--muted);border-radius:6px}
+nav.shelves a:hover,nav.shelves a:focus-visible{background:var(--well);color:var(--link)}
+nav.shelves a.current{background:var(--well);color:var(--link);border-left:2px solid var(--accent);padding-left:8px}
+nav.shelves .shelf-gap{height:10px;margin:8px 8px 10px;border-bottom:1px solid var(--line)}
+nav.shelves .shelf-extra{margin-top:4px}
+main{flex:1;min-width:0;padding:24px 40px 48px;background:var(--paper)}
+article{max-width:760px}
+h1,h2,h3{font-family:"Playfair Display",Georgia,"Noto Serif SC",serif;font-weight:400;color:var(--hb)}
+h1{font-size:1.5rem;padding-bottom:8px;border-bottom:2px solid var(--accent);margin-top:0}
+.kicker{font:11px Lato,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 .4rem}
+blockquote{margin:1em 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--well)}
+img{max-width:100%;height:auto;border:1px solid var(--line)}
+pre,code{background:var(--well);font-size:.9em}
+pre{padding:12px;overflow:auto}
+table{border-collapse:collapse;width:100%}
+td,th{border:1px solid var(--line);padding:4px 8px}
+.gloss{color:var(--muted);font-size:.9em}
+.source,.count{color:var(--muted);font-size:.9em}
+.pager{margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line)}
+.pager .off{color:var(--muted);margin-right:16px}
+.listing ol{padding-left:1.25rem}
+.listing li{margin:.35rem 0}
+.hub-blurb{color:var(--muted);margin:.2rem 0 1rem}
+@media(max-width:760px){
+  .shell{display:block}
+  nav.shelves{width:auto;border-right:0;border-bottom:1px solid var(--line);padding-bottom:12px}
+  nav.shelves a{display:inline-block;margin:2px 4px}
+  main{padding:16px}
+}

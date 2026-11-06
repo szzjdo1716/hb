@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>学习手册</title>
-    <link rel="stylesheet" href="style.css?v=17" />
+    <link rel="stylesheet" href="style.css?v=18" />
     <style>
       .hub-en { display: none; }
       html[lang="en"] .hub-en { display: inline; }
@@ -17,7 +17,8 @@
       .tile-r .tile-hint,
       .tile-slangs .tile-hint,
       .tile-emoji .tile-hint,
-      .tile-grokipedia .tile-hint { white-space: normal; }
+      .tile-grokipedia .tile-hint,
+      .tile-tutorials .tile-hint { white-space: normal; }
       .tile-julia { border-top-color: #9558b2; }
       .tile-julia:hover,
       .tile-julia:focus-visible { outline: 1px solid #9558b2; }
@@ -33,6 +34,9 @@
       .tile-grokipedia { border-top-color: #14b8a6; }
       .tile-grokipedia:hover,
       .tile-grokipedia:focus-visible { outline: 1px solid #14b8a6; }
+      .tile-tutorials { border-top-color: #C59C20; }
+      .tile-tutorials:hover,
+      .tile-tutorials:focus-visible { outline: 1px solid #C59C20; }
       .tile-home-proxy { border-top-color: #22d3ee; }
       .tile-home-proxy:hover,
       .tile-home-proxy:focus-visible { outline: 1px solid #22d3ee; }
@@ -94,6 +98,14 @@
         <h2 id="tile-grok-title">Grok</h2>
         <p id="tile-grok-hint" class="tile-hint">Build CLI 与 Bot 入门</p>
       </a>
+      <a class="tile tile-live tile-tutorials" href="tutorials/index.html">
+        <h2 id="tile-tutorials-title">
+          <span class="hub-zh">Grok Bot 教程</span><span class="hub-en">Grok Bot Tutorials</span>
+        </h2>
+        <p id="tile-tutorials-hint" class="tile-hint">
+          <span class="hub-zh">128 篇 · 铁柱 / Official / 西堂 / 蓝哥 / Posts</span><span class="hub-en">128 articles · 铁柱 / Official / 西堂 / 蓝哥 / Posts</span>
+        </p>
+      </a>
       <a class="tile tile-live tile-julia" href="julia.html">
         <h2 id="tile-julia-title">Julia 入门</h2>
         <p id="tile-julia-hint" class="tile-hint">安装到 REPL、数组与字符串（练习另页）</p>
@@ -153,6 +165,6 @@
     <script src="r-data.js"></script>
     <script src="slangs-data.js"></script>
     <script src="emoji-data.js"></script>
-    <script src="app.js?v=20"></script>
+    <script src="app.js?v=21"></script>
   </body>
 </html>
