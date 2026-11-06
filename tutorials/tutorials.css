@@ -44,3 +44,14 @@ td,th{border:1px solid var(--line);padding:4px 8px}
   nav.shelves a{display:inline-block;margin:2px 4px}
   main{padding:16px}
 }
+
+/* Live outbound rows (video / Sawyer course) */
+.live-badge{display:inline-block;margin-left:.4rem;padding:.05rem .4rem;border-radius:999px;background:#C59C20;color:#fff;font:10px/1.4 Lato,system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;border:0;vertical-align:middle}
+a.live-primary{border-bottom-color:#C59C20;font-weight:600}
+a.live-primary:hover{border-bottom-style:solid}
+.offline-secondary{margin-left:.55rem;font-size:.85em;color:var(--muted);border-bottom-style:dotted}
+.offline-secondary:hover{color:var(--link)}
+.live-callout{margin:0 0 1rem;padding:.7rem 1rem;background:var(--well);border-left:3px solid #C59C20;border-radius:0 8px 8px 0}
+.live-callout a{font-weight:650;border-bottom-color:#C59C20}
+.live-callout .offline-note{display:block;margin-top:.35rem;font-size:.85em;color:var(--muted)}
+.live-callout .offline-note a{font-weight:500;color:var(--muted)}
